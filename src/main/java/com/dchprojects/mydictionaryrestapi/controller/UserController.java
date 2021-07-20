@@ -23,9 +23,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> get(@PathVariable Integer id) {
+    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         try {
-            User user = userService.get(id);
+            User user = userService.findById(id);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
@@ -33,8 +33,15 @@ public class UserController {
     }
 
     @PostMapping
-    public void create(@RequestBody User user) {
-        userService.save(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        Boolean isExist = userService.isExist(user.getUsername());
+        if (isExist) {
+            return new ResponseEntity<User>(HttpStatus.CONFLICT);
+        } else {
+            userService.save(user);
+            User savedUser = userService.findByUsername(user.getUsername());
+            return new ResponseEntity<User>(savedUser, HttpStatus.OK);
+        }
     }
 
 }

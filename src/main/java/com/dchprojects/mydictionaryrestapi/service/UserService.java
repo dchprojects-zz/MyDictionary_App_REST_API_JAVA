@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.dchprojects.mydictionaryrestapi.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,11 +19,20 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Boolean isExist(String username) {
+        User user = userRepository.findByUsername(username);
+        return user != null;
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     public void save(User user) {
         userRepository.save(user);
     }
 
-    public User get(Integer id) {
+    public User findById(Integer id) {
         return userRepository.findById(id).get();
     }
 
