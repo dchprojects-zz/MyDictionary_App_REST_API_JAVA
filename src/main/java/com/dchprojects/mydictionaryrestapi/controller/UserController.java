@@ -44,14 +44,19 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody User user,
+    @PutMapping("/{id}/username")
+    public ResponseEntity<User> updateUsername(@RequestBody User user,
                                            @PathVariable Integer id) {
-        Boolean isExist = userService.isExist(id);
-        if (isExist) {
-            userService.save(user);
-            User updatedUser = userService.findById(id);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        Boolean isExistById = userService.isExist(id);
+        if (isExistById) {
+            Boolean isExistByUsername = userService.isExist(user.getUsername());
+            if (isExistByUsername) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            } else {
+                userService.updateUsername(id, user.getUsername());
+                User updatedUser = userService.findById(id);
+                return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+            }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -41,6 +41,12 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
+    public void updateUsername(Integer id, String username) {
+        User user = userRepository.findById(id).get();
+        user.setUsername(username);
+        userRepository.save(user);
+    }
+
     public void delete(Integer id) {
         userRepository.deleteById(id);
     }
