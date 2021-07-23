@@ -31,8 +31,8 @@ public class CourseEntity {
                         String language_name,
                         Timestamp created_at,
                         Timestamp updated_at) {
-        this.id = id;
         this.user_id = user_id;
+        this.id = id;
         this.language_name = language_name;
         this.created_at = created_at;
         this.updated_at = updated_at;
