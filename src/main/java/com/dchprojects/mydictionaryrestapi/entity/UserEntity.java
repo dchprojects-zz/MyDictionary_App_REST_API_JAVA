@@ -9,8 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
-public class User {
+@Entity(name = "user")
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +21,11 @@ public class User {
     @UpdateTimestamp
     private Timestamp updated_at;
 
-    public User() {
+    public UserEntity() {
 
     }
 
-    public User(Integer id, String username, Timestamp created_at, Timestamp updated_at) {
+    public UserEntity(Integer id, String username, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.username = username;
         this.created_at = created_at;

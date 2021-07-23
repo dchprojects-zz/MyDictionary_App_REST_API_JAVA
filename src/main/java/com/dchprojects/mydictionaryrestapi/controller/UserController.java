@@ -1,6 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
-import com.dchprojects.mydictionaryrestapi.entity.User;
+import com.dchprojects.mydictionaryrestapi.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,14 +18,14 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> list() {
+    public List<UserEntity> list() {
         return userService.listAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+    public ResponseEntity<UserEntity> getUserById(@PathVariable Integer id) {
         try {
-            User user = userService.findById(id);
+            UserEntity user = userService.findById(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -33,20 +33,20 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
         Boolean isExist = userService.isExist(user.getUsername());
         if (isExist) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             userService.save(user);
-            User createdUser = userService.findByUsername(user.getUsername());
+            UserEntity createdUser = userService.findByUsername(user.getUsername());
             return new ResponseEntity<>(createdUser, HttpStatus.OK);
         }
     }
 
     @PutMapping("/{id}/username")
-    public ResponseEntity<User> updateUsername(@RequestBody User user,
-                                           @PathVariable Integer id) {
+    public ResponseEntity<UserEntity> updateUsername(@RequestBody UserEntity user,
+                                                     @PathVariable Integer id) {
         Boolean isExistById = userService.isExist(id);
         if (isExistById) {
             Boolean isExistByUsername = userService.isExist(user.getUsername());
@@ -54,7 +54,7 @@ public class UserController {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
                 userService.updateUsername(id, user.getUsername());
-                User updatedUser = userService.findById(id);
+                UserEntity updatedUser = userService.findById(id);
                 return new ResponseEntity<>(updatedUser, HttpStatus.OK);
             }
         } else {

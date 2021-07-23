@@ -4,7 +4,7 @@ import com.dchprojects.mydictionaryrestapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dchprojects.mydictionaryrestapi.entity.User;
+import com.dchprojects.mydictionaryrestapi.entity.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,34 +15,34 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> listAll() {
+    public List<UserEntity> listAll() {
         return userRepository.findAll();
     }
 
     public Boolean isExist(String username) {
-        User user = userRepository.findByUsername(username);
+        UserEntity user = userRepository.findByUsername(username);
         return user != null;
     }
 
     public Boolean isExist(Integer id) {
-        Optional<User> user = userRepository.findById(id);
+        Optional<UserEntity> user = userRepository.findById(id);
         return user.isPresent();
     }
 
-    public User findByUsername(String username) {
+    public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public void save(User user) {
+    public void save(UserEntity user) {
         userRepository.save(user);
     }
 
-    public User findById(Integer id) {
+    public UserEntity findById(Integer id) {
         return userRepository.findById(id).get();
     }
 
     public void updateUsername(Integer id, String username) {
-        User user = userRepository.findById(id).get();
+        UserEntity user = userRepository.findById(id).get();
         user.setUsername(username);
         userRepository.save(user);
     }
