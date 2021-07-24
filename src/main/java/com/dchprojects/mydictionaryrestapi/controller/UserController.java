@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -24,10 +25,10 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserEntity> getUserById(@PathVariable Integer id) {
-        try {
-            UserEntity user = userService.findById(id);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
+        Optional<UserEntity> user = userService.findById(id);
+        if (user.isPresent()) {
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -39,8 +40,12 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             userService.save(user);
-            UserEntity createdUser = userService.findByUsername(user.getUsername());
-            return new ResponseEntity<>(createdUser, HttpStatus.OK);
+            Optional<UserEntity> createdUser = userService.findByUsername(user.getUsername());
+            if (createdUser.isPresent()) {
+                return new ResponseEntity<>(createdUser.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
     }
 
@@ -54,8 +59,12 @@ public class UserController {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
                 userService.updateUsername(id, user.getUsername());
-                UserEntity updatedUser = userService.findById(id);
-                return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+                Optional<UserEntity> updatedUser = userService.findById(id);
+                if (updatedUser.isPresent()) {
+                    return new ResponseEntity<>(updatedUser.get(), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
             }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

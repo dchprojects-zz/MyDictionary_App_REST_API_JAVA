@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/courses")
@@ -26,8 +27,12 @@ public class CourseController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             courseService.save(course);
-            CourseEntity savedCourse = courseService.findByLanguageNameAndUserId(course.getLanguage_name(), course.getUser_id());
-            return new ResponseEntity<>(savedCourse, HttpStatus.OK);
+            Optional<CourseEntity> savedCourse = courseService.findByLanguageNameAndUserId(course.getLanguage_name(), course.getUser_id());
+            if (savedCourse.isPresent()) {
+                return new ResponseEntity<>(savedCourse.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
     }
 

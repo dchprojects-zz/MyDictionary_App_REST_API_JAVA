@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/words")
@@ -25,16 +26,20 @@ public class WordController {
     @PostMapping
     public ResponseEntity<WordEntity> createWord(@RequestBody WordEntity word) {
         wordService.save(word);
-        WordEntity savedWord = wordService.findByUserId(word.getUser_id());
-        return new ResponseEntity<>(savedWord, HttpStatus.OK);
+        Optional<WordEntity> savedWord = wordService.findByUserId(word.getUser_id());
+        if (savedWord.isPresent()) {
+            return new ResponseEntity<>(savedWord.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<WordEntity> getWordById(@PathVariable Integer id) {
-        try {
-            WordEntity word = wordService.findById(id);
-            return new ResponseEntity<>(word, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
+        Optional<WordEntity> word = wordService.findById(id);
+        if (word.isPresent()) {
+            return new ResponseEntity<>(word.get(), HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -45,8 +50,12 @@ public class WordController {
         Boolean isExist = wordService.isExist(id);
         if (isExist) {
             wordService.update(word);
-            WordEntity updatedWord = wordService.findById(id);
-            return new ResponseEntity<>(updatedWord, HttpStatus.OK);
+            Optional<WordEntity> updatedWord = wordService.findById(id);
+            if (updatedWord.isPresent()) {
+                return new ResponseEntity<>(updatedWord.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
