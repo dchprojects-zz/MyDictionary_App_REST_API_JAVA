@@ -3,55 +3,63 @@ package com.dchprojects.mydictionaryrestapi.entity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity(name = "word")
 public class WordEntity {
 
-    private Integer user_id;
+    @Column(name = "user_id")
+    private Integer userId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String word;
-    private String word_description;
-    private String word_language;
+
+    @Column(name = "word_description")
+    private String wordDescription;
+
+    @Column(name = "word_language")
+    private String wordLanguage;
+
+    @Column(name = "created_at")
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
     @UpdateTimestamp
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
 
     public WordEntity() {
 
     }
 
-    public WordEntity(Integer user_id,
+    public WordEntity(Integer userId,
                       Integer id,
                       String word,
-                      String word_description,
-                      String word_language,
-                      Timestamp created_at,
-                      Timestamp updated_at) {
+                      String wordDescription,
+                      String wordLanguage,
+                      Timestamp createdAt,
+                      Timestamp updatedAt) {
 
-        this.user_id = user_id;
+        this.userId = userId;
         this.id = id;
         this.word = word;
-        this.word_description = word_description;
-        this.word_language = word_language;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.wordDescription = wordDescription;
+        this.wordLanguage = wordLanguage;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
 
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -70,36 +78,36 @@ public class WordEntity {
         this.word = word;
     }
 
-    public String getWord_description() {
-        return word_description;
+    public String getWordDescription() {
+        return wordDescription;
     }
 
-    public void setWord_description(String word_description) {
-        this.word_description = word_description;
+    public void setWordDescription(String wordDescription) {
+        this.wordDescription = wordDescription;
     }
 
-    public String getWord_language() {
-        return word_language;
+    public String getWordLanguage() {
+        return wordLanguage;
     }
 
-    public void setWord_language(String word_language) {
-        this.word_language = word_language;
+    public void setWordLanguage(String wordLanguage) {
+        this.wordLanguage = wordLanguage;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

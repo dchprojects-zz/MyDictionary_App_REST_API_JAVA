@@ -16,21 +16,21 @@ public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
 
     @Override
-    public List<CourseEntity> listByUserId(Integer id) { return courseRepository.findAllByUser_id(id); }
+    public List<CourseEntity> listByUserId(Integer id) { return courseRepository.findAllByUserId(id); }
 
     @Override
-    public Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Integer userId) { return courseRepository.findByLanguage_nameAndUser_id(languageName, userId); }
+    public Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Integer userId) { return courseRepository.findByLanguageNameAndUserId(languageName, userId); }
 
     @Override
-    public Boolean isExist(String languageName, Integer userId) { return courseRepository.findByLanguage_nameAndUser_id(languageName, userId) != null; }
+    public Boolean isExist(String languageName, Integer userId) { return courseRepository.findByLanguageNameAndUserId(languageName, userId) != null; }
 
     @Override
-    public Boolean isExist(Integer userId, Integer courseId) { return courseRepository.existsByUser_idAndAndId(userId, courseId); }
+    public Boolean isExist(Integer userId, Integer courseId) { return courseRepository.existsByUserIdAndId(userId, courseId); }
 
     @Override
     public void save(CourseEntity course) { courseRepository.save(course); }
 
     @Override
-    public void deleteByUserIdAndCourseId(Integer userId, Integer courseId) { courseRepository.deleteByUser_idAndAndId(userId, courseId); }
+    public void deleteByUserIdAndCourseId(Integer userId, Integer courseId) { courseRepository.deleteByUserIdAndId(userId, courseId); }
 
 }

@@ -2,10 +2,7 @@ package com.dchprojects.mydictionaryrestapi.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity(name = "language")
@@ -14,9 +11,12 @@ public class LanguageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String language;
+
+    @Column(name = "created_at")
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     public LanguageEntity() {
 
@@ -24,10 +24,10 @@ public class LanguageEntity {
 
     public LanguageEntity(Integer id,
                           String language,
-                          Timestamp created_at) {
+                          Timestamp createdAt) {
         this.id = id;
         this.language = language;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
     }
 
     public Integer getId() {
@@ -46,12 +46,12 @@ public class LanguageEntity {
         this.language = language;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

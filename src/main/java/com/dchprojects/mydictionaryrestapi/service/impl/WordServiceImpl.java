@@ -27,7 +27,7 @@ public class WordServiceImpl implements WordService {
     public Optional<WordEntity> findById(Integer id) { return wordRepository.findById(id); }
 
     @Override
-    public Optional<WordEntity> findByUserId(Integer id) { return wordRepository.findByUser_id(id); }
+    public Optional<WordEntity> findByUserId(Integer id) { return wordRepository.findByUserId(id); }
 
     @Override
     public void save(WordEntity word) { wordRepository.save(word); }
@@ -36,7 +36,7 @@ public class WordServiceImpl implements WordService {
     public void update(WordEntity word) {
         WordEntity wordForUpdate = wordRepository.findById(word.getId()).get();
         wordForUpdate.setWord(word.getWord());
-        wordForUpdate.setWord_description(word.getWord_description());
+        wordForUpdate.setWordDescription(word.getWordDescription());
         wordRepository.save(wordForUpdate);
     }
 

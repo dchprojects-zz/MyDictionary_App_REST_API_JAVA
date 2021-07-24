@@ -3,47 +3,52 @@ package com.dchprojects.mydictionaryrestapi.entity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity(name = "course")
 public class CourseEntity {
 
-    private Integer user_id;
+    @Column(name = "user_id")
+    private Integer userId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String language_name;
+
+    @Column(name = "language_name")
+    private String languageName;
+
+    @Column(name = "created_at")
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
     @UpdateTimestamp
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
 
     public CourseEntity() {
 
     }
 
-    public CourseEntity(Integer user_id,
+    public CourseEntity(Integer userId,
                         Integer id,
                         String language_name,
-                        Timestamp created_at,
-                        Timestamp updated_at) {
-        this.user_id = user_id;
+                        Timestamp createdAt,
+                        Timestamp updatedAt) {
+        this.userId = userId;
         this.id = id;
-        this.language_name = language_name;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.languageName = language_name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -54,28 +59,28 @@ public class CourseEntity {
         this.id = id;
     }
 
-    public String getLanguage_name() {
-        return language_name;
+    public String getLanguageName() {
+        return languageName;
     }
 
-    public void setLanguage_name(String language_name) {
-        this.language_name = language_name;
+    public void setLanguageName(String languageName) {
+        this.languageName = languageName;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

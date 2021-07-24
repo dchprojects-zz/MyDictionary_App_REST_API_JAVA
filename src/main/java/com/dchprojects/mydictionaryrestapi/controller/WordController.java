@@ -25,7 +25,7 @@ public class WordController {
     @PostMapping
     public ResponseEntity<WordEntity> createWord(@RequestBody WordEntity word) {
         wordService.save(word);
-        Optional<WordEntity> savedWord = wordService.findByUserId(word.getUser_id());
+        Optional<WordEntity> savedWord = wordService.findByUserId(word.getUserId());
         if (savedWord.isPresent()) {
             return new ResponseEntity<>(savedWord.get(), HttpStatus.OK);
         } else {

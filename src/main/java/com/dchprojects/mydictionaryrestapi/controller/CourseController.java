@@ -22,12 +22,12 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity<CourseEntity> createCourse(@RequestBody CourseEntity course) {
-        Boolean isExist = courseService.isExist(course.getLanguage_name(), course.getUser_id());
+        Boolean isExist = courseService.isExist(course.getLanguageName(), course.getUserId());
         if (isExist) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             courseService.save(course);
-            Optional<CourseEntity> savedCourse = courseService.findByLanguageNameAndUserId(course.getLanguage_name(), course.getUser_id());
+            Optional<CourseEntity> savedCourse = courseService.findByLanguageNameAndUserId(course.getLanguageName(), course.getUserId());
             if (savedCourse.isPresent()) {
                 return new ResponseEntity<>(savedCourse.get(), HttpStatus.OK);
             } else {

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface WordRepository extends JpaRepository<WordEntity, Integer> {
-    Optional<WordEntity> findByUser_id(Integer id);
+    Optional<WordEntity> findByUserId(Integer id);
 }
