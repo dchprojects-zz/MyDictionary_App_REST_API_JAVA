@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,18 +10,22 @@ import javax.persistence.*;
 @Entity(name = "user")
 public class UserEntity {
 
+    @JsonProperty("id")
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonProperty("username")
     @Column(name = "username")
     private String username;
 
+    @JsonProperty("created_at")
     @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;
 
+    @JsonProperty("updated_at")
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Timestamp updatedAt;
