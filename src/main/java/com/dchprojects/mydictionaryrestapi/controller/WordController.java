@@ -43,13 +43,12 @@ public class WordController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<WordEntity> udpateWord(@RequestBody WordEntity word,
-                                                 @PathVariable Integer id) {
-        Boolean isExist = wordService.isExist(id);
+    @PutMapping
+    public ResponseEntity<WordEntity> udpateWord(@RequestBody WordEntity word) {
+        Boolean isExist = wordService.isExist(word.getId());
         if (isExist) {
             wordService.update(word);
-            Optional<WordEntity> updatedWord = wordService.findById(id);
+            Optional<WordEntity> updatedWord = wordService.findById(word.getId());
             if (updatedWord.isPresent()) {
                 return new ResponseEntity<>(updatedWord.get(), HttpStatus.OK);
             } else {
