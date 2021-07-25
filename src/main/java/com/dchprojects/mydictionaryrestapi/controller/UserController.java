@@ -22,9 +22,9 @@ public class UserController {
         return userService.listAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserEntity> getUserById(@PathVariable Integer id) {
-        Optional<UserEntity> user = userService.findById(id);
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserEntity> getUserById(@PathVariable Long userId) {
+        Optional<UserEntity> user = userService.findById(userId);
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
         } else {
@@ -34,12 +34,12 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
-        Boolean isExist = userService.isExist(user.getUsername());
+        Boolean isExist = userService.isExist(user.getNickname());
         if (isExist) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             userService.save(user);
-            Optional<UserEntity> createdUser = userService.findByUsername(user.getUsername());
+            Optional<UserEntity> createdUser = userService.findByNickname(user.getNickname());
             if (createdUser.isPresent()) {
                 return new ResponseEntity<>(createdUser.get(), HttpStatus.OK);
             } else {
@@ -48,17 +48,17 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}/username")
+    @PutMapping("/{userId}/username")
     public ResponseEntity<UserEntity> updateUsername(@RequestBody UserEntity user,
-                                                     @PathVariable Integer id) {
-        Boolean isExistById = userService.isExist(id);
-        if (isExistById) {
-            Boolean isExistByUsername = userService.isExist(user.getUsername());
+                                                     @PathVariable Long userId) {
+        Boolean isExistByUserId = userService.isExist(userId);
+        if (isExistByUserId) {
+            Boolean isExistByUsername = userService.isExist(user.getNickname());
             if (isExistByUsername) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
-                userService.updateUsername(id, user.getUsername());
-                Optional<UserEntity> updatedUser = userService.findById(id);
+                userService.updateNickname(userId, user.getNickname());
+                Optional<UserEntity> updatedUser = userService.findById(userId);
                 if (updatedUser.isPresent()) {
                     return new ResponseEntity<>(updatedUser.get(), HttpStatus.OK);
                 } else {
@@ -70,11 +70,11 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
-        Boolean isExist = userService.isExist(id);
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
+        Boolean isExist = userService.isExist(userId);
         if (isExist) {
-            userService.delete(id);
+            userService.delete(userId);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

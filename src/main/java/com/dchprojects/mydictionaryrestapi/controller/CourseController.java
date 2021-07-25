@@ -22,7 +22,7 @@ public class CourseController {
     private UserService userService;
 
     @GetMapping("/userId/{userId}")
-    public ResponseEntity<List<CourseEntity>> listByUserId(@PathVariable Integer userId) {
+    public ResponseEntity<List<CourseEntity>> listByUserId(@PathVariable Long userId) {
         Boolean userIsExist = userService.isExist(userId);
         if (userIsExist) {
             return new ResponseEntity<>(courseService.listByUserId(userId), HttpStatus.OK);
@@ -53,7 +53,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/userId/{userId}/courseId/{courseId}")
-    public ResponseEntity<?> deleteCourse(@PathVariable Integer userId, @PathVariable Integer courseId) {
+    public ResponseEntity<?> deleteCourse(@PathVariable Long userId, @PathVariable Long courseId) {
         Boolean userIsExist = userService.isExist(userId);
         if (userIsExist) {
             Boolean courseIsExist = courseService.isExist(userId, courseId);

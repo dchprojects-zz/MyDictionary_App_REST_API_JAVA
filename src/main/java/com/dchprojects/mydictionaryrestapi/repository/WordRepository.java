@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface WordRepository extends JpaRepository<WordEntity, Integer> {
-    Optional<WordEntity> findByUserId(Integer id);
+public interface WordRepository extends JpaRepository<WordEntity, Long> {
+    Optional<WordEntity> findByUserId(Long userId);
 }

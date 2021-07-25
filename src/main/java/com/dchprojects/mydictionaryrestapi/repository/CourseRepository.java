@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CourseRepository extends JpaRepository<CourseEntity, Integer> {
-    List<CourseEntity> findAllByUserId(Integer user_id);
-    Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Integer id);
-    Boolean existsByUserIdAndId(Integer userId, Integer id);
-    Void deleteByUserIdAndId(Integer userId, Integer id);
+public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
+    List<CourseEntity> findAllByUserId(Long userId);
+    Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId);
+    Boolean existsByUserIdAndCourseId(Long userId, Long courseId);
+    Void deleteByUserIdAndCourseId(Long userId, Long courseId);
 }

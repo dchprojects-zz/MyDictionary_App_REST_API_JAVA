@@ -9,18 +9,18 @@ public interface UserService {
 
     public List<UserEntity> listAll();
 
-    public Boolean isExist(String username);
+    public Boolean isExist(String nickname);
 
-    public Boolean isExist(Integer id);
+    public Boolean isExist(Long userId);
 
-    public Optional<UserEntity> findByUsername(String username);
+    public Optional<UserEntity> findByNickname(String nickname);
 
     public void save(UserEntity user);
 
-    public Optional<UserEntity> findById(Integer id);
+    public Optional<UserEntity> findById(Long userId);
 
-    public void updateUsername(Integer id, String username);
+    public void updateNickname(Long userId, String nickname);
 
-    public void delete(Integer id);
+    public void delete(Long userId);
 
 }

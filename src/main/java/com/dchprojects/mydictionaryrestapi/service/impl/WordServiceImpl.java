@@ -21,26 +21,26 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public Boolean isExist(Integer id) { return wordRepository.findById(id).isPresent(); }
+    public Boolean isExist(Long wordId) { return wordRepository.findById(wordId).isPresent(); }
 
     @Override
-    public Optional<WordEntity> findById(Integer id) { return wordRepository.findById(id); }
+    public Optional<WordEntity> findById(Long wordId) { return wordRepository.findById(wordId); }
 
     @Override
-    public Optional<WordEntity> findByUserId(Integer id) { return wordRepository.findByUserId(id); }
+    public Optional<WordEntity> findByUserId(Long userId) { return wordRepository.findByUserId(userId); }
 
     @Override
     public void save(WordEntity word) { wordRepository.save(word); }
 
     @Override
     public void update(WordEntity word) {
-        WordEntity wordForUpdate = wordRepository.findById(word.getId()).get();
-        wordForUpdate.setWord(word.getWord());
+        WordEntity wordForUpdate = wordRepository.findById(word.getWordId()).get();
+        wordForUpdate.setWordText(word.getWordText());
         wordForUpdate.setWordDescription(word.getWordDescription());
         wordRepository.save(wordForUpdate);
     }
 
     @Override
-    public void delete(Integer id) { wordRepository.deleteById(id); }
+    public void delete(Long wordId) { wordRepository.deleteById(wordId); }
 
 }

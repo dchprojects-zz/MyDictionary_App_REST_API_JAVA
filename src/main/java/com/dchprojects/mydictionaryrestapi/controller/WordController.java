@@ -33,9 +33,9 @@ public class WordController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<WordEntity> getWordById(@PathVariable Integer id) {
-        Optional<WordEntity> word = wordService.findById(id);
+    @GetMapping("/{wordId}")
+    public ResponseEntity<WordEntity> getWordById(@PathVariable Long wordId) {
+        Optional<WordEntity> word = wordService.findById(wordId);
         if (word.isPresent()) {
             return new ResponseEntity<>(word.get(), HttpStatus.OK);
         } else {
@@ -45,10 +45,10 @@ public class WordController {
 
     @PutMapping
     public ResponseEntity<WordEntity> udpateWord(@RequestBody WordEntity word) {
-        Boolean isExist = wordService.isExist(word.getId());
+        Boolean isExist = wordService.isExist(word.getWordId());
         if (isExist) {
             wordService.update(word);
-            Optional<WordEntity> updatedWord = wordService.findById(word.getId());
+            Optional<WordEntity> updatedWord = wordService.findById(word.getWordId());
             if (updatedWord.isPresent()) {
                 return new ResponseEntity<>(updatedWord.get(), HttpStatus.OK);
             } else {
@@ -59,11 +59,11 @@ public class WordController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteWord(@PathVariable Integer id) {
-        Boolean isExist = wordService.isExist(id);
+    @DeleteMapping("/{wordId}")
+    public ResponseEntity<?> deleteWord(@PathVariable Long wordId) {
+        Boolean isExist = wordService.isExist(wordId);
         if (isExist) {
-            wordService.delete(id);
+            wordService.delete(wordId);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

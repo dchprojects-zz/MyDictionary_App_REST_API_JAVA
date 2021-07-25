@@ -9,16 +9,16 @@ public interface WordService {
 
     public List<WordEntity> listAll();
 
-    public Boolean isExist(Integer id);
+    public Boolean isExist(Long wordId);
 
-    public Optional<WordEntity> findById(Integer id);
+    public Optional<WordEntity> findById(Long wordId);
 
-    public Optional<WordEntity> findByUserId(Integer id);
+    public Optional<WordEntity> findByUserId(Long userId);
 
     public void save(WordEntity word);
 
     public void update(WordEntity word);
 
-    public void delete(Integer id);
+    public void delete(Long wordId);
 
 }

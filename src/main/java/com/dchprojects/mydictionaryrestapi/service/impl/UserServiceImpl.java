@@ -21,14 +21,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean isExist(String username) {  return userRepository.findByUsername(username).isPresent(); }
+    public Boolean isExist(String nickname) {  return userRepository.findByNickname(nickname).isPresent(); }
 
     @Override
-    public Boolean isExist(Integer id) { return userRepository.findById(id).isPresent(); }
+    public Boolean isExist(Long userId) { return userRepository.findById(userId).isPresent(); }
 
     @Override
-    public Optional<UserEntity> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public Optional<UserEntity> findByNickname(String nickname) {
+        return userRepository.findByNickname(nickname);
     }
 
     @Override
@@ -37,20 +37,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserEntity> findById(Integer id) {
-        return userRepository.findById(id);
+    public Optional<UserEntity> findById(Long userId) {
+        return userRepository.findById(userId);
     }
 
     @Override
-    public void updateUsername(Integer id, String username) {
-        UserEntity user = userRepository.findById(id).get();
-        user.setUsername(username);
+    public void updateNickname(Long userId, String username) {
+        UserEntity user = userRepository.findById(userId).get();
+        user.setNickname(username);
         userRepository.save(user);
     }
 
     @Override
-    public void delete(Integer id) {
-        userRepository.deleteById(id);
+    public void delete(Long userId) {
+        userRepository.deleteById(userId);
     }
 
 }

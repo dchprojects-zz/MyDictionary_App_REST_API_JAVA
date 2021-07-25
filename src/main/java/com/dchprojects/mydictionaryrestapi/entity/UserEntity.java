@@ -7,26 +7,27 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 import javax.persistence.*;
 
-@Entity(name = "user")
+@Entity
+@Table(name = "user")
 public class UserEntity {
 
-    @JsonProperty("id")
-    @Column(name = "id")
+    @JsonProperty("user_id")
+    @Column(name = "user_id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long userId;
 
-    @JsonProperty("username")
-    @Column(name = "username")
-    private String username;
+    @JsonProperty("nickname")
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
 
     @JsonProperty("created_at")
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private Timestamp createdAt;
 
     @JsonProperty("updated_at")
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
     private Timestamp updatedAt;
 
@@ -34,30 +35,32 @@ public class UserEntity {
 
     }
 
-    public UserEntity(Integer id,
-                      String username,
+    public UserEntity(Long userId,
+                      String nickname,
                       Timestamp createdAt,
                       Timestamp updatedAt) {
-        this.id = id;
-        this.username = username;
+
+        this.userId = userId;
+        this.nickname = nickname;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+
     }
 
-    public Integer getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public Timestamp getCreatedAt() {

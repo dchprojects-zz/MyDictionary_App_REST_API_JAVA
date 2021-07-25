@@ -6,21 +6,22 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity(name = "language")
+@Entity
+@Table(name = "language")
 public class LanguageEntity {
 
-    @JsonProperty("id")
-    @Column(name = "id")
+    @JsonProperty("language_id")
+    @Column(name = "language_id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long languageId;
 
-    @JsonProperty("language")
-    @Column(name = "language")
-    private String language;
+    @JsonProperty("language_name")
+    @Column(name = "language_name", nullable = false)
+    private String languageName;
 
     @JsonProperty("created_at")
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private Timestamp createdAt;
 
@@ -28,28 +29,30 @@ public class LanguageEntity {
 
     }
 
-    public LanguageEntity(Integer id,
-                          String language,
+    public LanguageEntity(Long languageId,
+                          String languageName,
                           Timestamp createdAt) {
-        this.id = id;
-        this.language = language;
+
+        this.languageId = languageId;
+        this.languageName = languageName;
         this.createdAt = createdAt;
+
     }
 
-    public Integer getId() {
-        return id;
+    public Long getLanguageId() {
+        return languageId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLanguageId(Long languageId) {
+        this.languageId = languageId;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getLanguageName() {
+        return languageName;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setLanguageName(String languageName) {
+        this.languageName = languageName;
     }
 
     public Timestamp getCreatedAt() {
