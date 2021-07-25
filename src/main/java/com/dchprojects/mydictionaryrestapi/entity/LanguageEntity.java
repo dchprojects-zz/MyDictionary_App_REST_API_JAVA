@@ -8,10 +8,12 @@ import java.sql.Timestamp;
 @Entity(name = "language")
 public class LanguageEntity {
 
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "language")
     private String language;
 
     @Column(name = "created_at")

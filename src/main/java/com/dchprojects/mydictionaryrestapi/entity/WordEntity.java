@@ -12,10 +12,12 @@ public class WordEntity {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "word")
     private String word;
 
     @Column(name = "word_description")

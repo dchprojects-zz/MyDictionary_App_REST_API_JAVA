@@ -9,10 +9,12 @@ import javax.persistence.*;
 @Entity(name = "user")
 public class UserEntity {
 
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "username")
     private String username;
 
     @Column(name = "created_at")

@@ -12,6 +12,7 @@ public class CourseEntity {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
