@@ -15,4 +15,5 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
     Boolean existsByLanguageNameAndUserId(String languageName, Long userId);
     Boolean existsByUserIdAndCourseId(Long userId, Long courseId);
     Void deleteByUserIdAndCourseId(Long userId, Long courseId);
+    Void deleteAllByUserId(Long userId);
 }

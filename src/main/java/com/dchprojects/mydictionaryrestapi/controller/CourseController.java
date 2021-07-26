@@ -69,4 +69,15 @@ public class CourseController {
         }
     }
 
+    @DeleteMapping("/userId/{userId}")
+    public ResponseEntity<?> deleteAllCoursesByUserId(@PathVariable Long userId) {
+        Boolean userIsExist = userService.isExist(userId);
+        if (userIsExist) {
+            courseService.deleteAllByUserId(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

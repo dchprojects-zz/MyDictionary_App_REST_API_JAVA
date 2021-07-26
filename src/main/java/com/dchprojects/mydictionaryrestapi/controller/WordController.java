@@ -102,4 +102,15 @@ public class WordController {
         }
     }
 
+    @DeleteMapping("/userId/{userId}")
+    public ResponseEntity<?> deleteAllWordsByUserId(@PathVariable Long userId) {
+        Boolean userIsExist = userService.isExist(userId);
+        if (userIsExist) {
+            wordService.deleteAllByUserId(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

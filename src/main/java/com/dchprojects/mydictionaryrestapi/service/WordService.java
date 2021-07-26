@@ -21,4 +21,6 @@ public interface WordService {
 
     public void deleteByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId);
 
+    public void deleteAllByUserId(Long userId);
+
 }

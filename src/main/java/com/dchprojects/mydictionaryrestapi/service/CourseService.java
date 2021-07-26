@@ -19,4 +19,6 @@ public interface CourseService {
 
     public void deleteByUserIdAndCourseId(Long userId, Long courseId);
 
+    public void deleteAllByUserId(Long userId);
+
 }
