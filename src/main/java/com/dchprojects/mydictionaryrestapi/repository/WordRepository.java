@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface WordRepository extends JpaRepository<WordEntity, Long> {
     Optional<WordEntity> findByUserId(Long userId);
+    Boolean existsByWordId(Long wordId);
 }

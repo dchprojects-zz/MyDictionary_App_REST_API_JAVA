@@ -21,7 +21,7 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public Boolean isExist(Long wordId) { return wordRepository.findById(wordId).isPresent(); }
+    public Boolean isExist(Long wordId) { return wordRepository.existsByWordId(wordId); }
 
     @Override
     public Optional<WordEntity> findById(Long wordId) { return wordRepository.findById(wordId); }
