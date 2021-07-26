@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -23,10 +22,10 @@ public class LanguageController {
 
     @GetMapping("/{languageId}")
     public ResponseEntity<LanguageEntity> getLanguageById(@PathVariable Long languageId) {
-        try {
-            LanguageEntity language = languageService.findById(languageId);
-            return new ResponseEntity<>(language, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
+        Boolean languageIsExist = languageService.isExist(languageId);
+        if (languageIsExist) {
+            return new ResponseEntity<>(languageService.findById(languageId), HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
