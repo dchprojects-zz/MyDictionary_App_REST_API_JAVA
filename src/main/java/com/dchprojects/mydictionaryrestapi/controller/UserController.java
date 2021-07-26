@@ -1,7 +1,9 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
 import com.dchprojects.mydictionaryrestapi.entity.UserEntity;
+import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
+import com.dchprojects.mydictionaryrestapi.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private WordService wordService;
 
     @GetMapping
     public List<UserEntity> list() {
@@ -75,6 +83,8 @@ public class UserController {
         Boolean isExist = userService.isExist(userId);
         if (isExist) {
             userService.delete(userId);
+            courseService.deleteAllByUserId(userId);
+            wordService.deleteAllByUserId(userId);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
