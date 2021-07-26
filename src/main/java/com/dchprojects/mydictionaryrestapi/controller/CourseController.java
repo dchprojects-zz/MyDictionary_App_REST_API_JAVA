@@ -2,6 +2,7 @@ package com.dchprojects.mydictionaryrestapi.controller;
 
 import com.dchprojects.mydictionaryrestapi.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
+import com.dchprojects.mydictionaryrestapi.service.LanguageService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ public class CourseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LanguageService languageService;
+
     @GetMapping("/userId/{userId}")
     public ResponseEntity<List<CourseEntity>> listByUserId(@PathVariable Long userId) {
         Boolean userIsExist = userService.isExist(userId);
@@ -35,7 +39,8 @@ public class CourseController {
     public ResponseEntity<CourseEntity> createCourse(@RequestBody CourseEntity course) {
         Boolean userIsExist = userService.isExist(course.getUserId());
         Boolean courseIsExist = courseService.isExist(course.getLanguageName(), course.getUserId());
-        if (userIsExist) {
+        Boolean languageIsExist = languageService.isExist(course.getLanguageId(), course.getLanguageName());
+        if (userIsExist && languageIsExist) {
             if (courseIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
