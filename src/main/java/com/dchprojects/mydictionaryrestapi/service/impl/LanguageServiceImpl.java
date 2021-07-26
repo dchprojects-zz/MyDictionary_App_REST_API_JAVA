@@ -25,6 +25,9 @@ public class LanguageServiceImpl implements LanguageService {
     public Boolean isExist(String languageName) { return languageRepository.existsByLanguageName(languageName); }
 
     @Override
+    public Boolean isExist(Long languageId, String languageName) { return languageRepository.existsByLanguageIdAndLanguageName(languageId, languageName); }
+
+    @Override
     public LanguageEntity findById(Long languageId) { return languageRepository.findById(languageId).get(); }
 
     @Override
