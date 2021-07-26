@@ -19,6 +19,6 @@ public interface WordService {
 
     public void update(WordEntity word);
 
-    public void delete(Long wordId);
+    public void deleteByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId);
 
 }

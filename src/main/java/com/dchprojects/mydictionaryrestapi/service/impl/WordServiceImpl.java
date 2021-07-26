@@ -41,6 +41,6 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public void delete(Long wordId) { wordRepository.deleteById(wordId); }
+    public void deleteByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId) { wordRepository.deleteByUserIdAndCourseIdAndWordId(userId, courseId, wordId); }
 
 }

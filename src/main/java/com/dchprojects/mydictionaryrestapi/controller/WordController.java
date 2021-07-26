@@ -85,12 +85,18 @@ public class WordController {
         }
     }
 
-    @DeleteMapping("/{wordId}")
-    public ResponseEntity<?> deleteWord(@PathVariable Long wordId) {
-        Boolean isExist = wordService.isExist(wordId);
-        if (isExist) {
-            wordService.delete(wordId);
-            return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/userId/{userId}/courseId/{courseId}/wordId/{wordId}")
+    public ResponseEntity<?> deleteWord(@PathVariable Long userId, @PathVariable Long courseId, @PathVariable Long wordId) {
+        Boolean userIsExist = userService.isExist(userId);
+        Boolean courseIsExist = courseService.isExist(userId, courseId);
+        Boolean wordIsExist = wordService.isExist(wordId);
+        if (userIsExist && courseIsExist) {
+            if (wordIsExist) {
+                wordService.deleteByUserIdAndCourseIdAndWordId(userId, courseId, wordId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

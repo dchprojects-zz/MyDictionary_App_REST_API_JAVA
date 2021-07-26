@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface WordRepository extends JpaRepository<WordEntity, Long> {
     Optional<WordEntity> findByUserId(Long userId);
     Boolean existsByWordId(Long wordId);
+    void deleteByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId);
 }
