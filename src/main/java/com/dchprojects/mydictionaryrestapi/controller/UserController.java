@@ -48,8 +48,8 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{userId}/username")
-    public ResponseEntity<UserEntity> updateUsername(@RequestBody UserEntity user,
+    @PutMapping("/{userId}/nickname")
+    public ResponseEntity<UserEntity> updateNickname(@RequestBody UserEntity user,
                                                      @PathVariable Long userId) {
         Boolean isExistByUserId = userService.isExist(userId);
         if (isExistByUserId) {
