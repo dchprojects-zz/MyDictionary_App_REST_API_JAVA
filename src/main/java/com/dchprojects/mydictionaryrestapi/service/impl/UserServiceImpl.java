@@ -21,10 +21,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean isExist(String nickname) {  return userRepository.findByNickname(nickname).isPresent(); }
+    public Boolean isExist(String nickname) {  return userRepository.existsByNickname(nickname); }
 
     @Override
-    public Boolean isExist(Long userId) { return userRepository.findById(userId).isPresent(); }
+    public Boolean isExist(Long userId) { return userRepository.existsByUserId(userId); }
 
     @Override
     public Optional<UserEntity> findByNickname(String nickname) {
@@ -32,13 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(UserEntity user) {
-        userRepository.save(user);
+    public Optional<UserEntity> findById(Long userId) {
+        return userRepository.findById(userId);
     }
 
     @Override
-    public Optional<UserEntity> findById(Long userId) {
-        return userRepository.findById(userId);
+    public void save(UserEntity user) {
+        userRepository.save(user);
     }
 
     @Override
