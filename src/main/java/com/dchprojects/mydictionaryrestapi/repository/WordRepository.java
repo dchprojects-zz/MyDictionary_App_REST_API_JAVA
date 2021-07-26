@@ -7,14 +7,29 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Repository
 public interface WordRepository extends JpaRepository<WordEntity, Long> {
 
-    Optional<WordEntity> findByUserId(Long userId);
+    Optional<WordEntity> findByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(Long userId,
+                                                                                                          Long courseId,
+                                                                                                          Long languageId,
+                                                                                                          String wordText,
+                                                                                                          String wordDescription,
+                                                                                                          String languageName);
+
+    Optional<WordEntity> findByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId);
 
     Boolean existsByWordId(Long wordId);
+
+    Boolean existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(Long userId,
+                                                                                               Long courseId,
+                                                                                               Long languageId,
+                                                                                               String wordText,
+                                                                                               String wordDescription,
+                                                                                               String languageName);
 
     @Modifying
     @Transactional

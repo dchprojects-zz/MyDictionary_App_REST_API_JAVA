@@ -2,6 +2,7 @@ package com.dchprojects.mydictionaryrestapi.service;
 
 import com.dchprojects.mydictionaryrestapi.entity.WordEntity;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,9 +12,21 @@ public interface WordService {
 
     public Boolean isExist(Long wordId);
 
-    public Optional<WordEntity> findById(Long wordId);
+    public Boolean existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(Long userId,
+                                                                                                      Long courseId,
+                                                                                                      Long languageId,
+                                                                                                      String wordText,
+                                                                                                      String wordDescription,
+                                                                                                      String languageName);
 
-    public Optional<WordEntity> findByUserId(Long userId);
+    public Optional<WordEntity> findByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(Long userId,
+                                                                                                                 Long courseId,
+                                                                                                                 Long languageId,
+                                                                                                                 String wordText,
+                                                                                                                 String wordDescription,
+                                                                                                                 String languageName);
+
+    public Optional<WordEntity> findByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId);
 
     public void save(WordEntity word);
 

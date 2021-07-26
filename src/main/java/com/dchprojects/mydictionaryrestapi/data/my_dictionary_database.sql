@@ -40,6 +40,7 @@ CREATE TABLE `word` (
                         user_id BIGINT UNSIGNED NOT NULL,
                         word_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                         course_id BIGINT UNSIGNED NOT NULL,
+                        language_id BIGINT UNSIGNED NOT NULL,
                         word_text TEXT NOT NULL,
                         word_description TEXT NOT NULL,
                         language_name TEXT NOT NULL,

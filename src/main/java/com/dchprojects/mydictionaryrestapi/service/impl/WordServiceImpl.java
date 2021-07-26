@@ -6,6 +6,7 @@ import com.dchprojects.mydictionaryrestapi.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +25,41 @@ public class WordServiceImpl implements WordService {
     public Boolean isExist(Long wordId) { return wordRepository.existsByWordId(wordId); }
 
     @Override
-    public Optional<WordEntity> findById(Long wordId) { return wordRepository.findById(wordId); }
+    public Boolean existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(Long userId,
+                                                                                                      Long courseId,
+                                                                                                      Long languageId,
+                                                                                                      String wordText,
+                                                                                                      String wordDescription,
+                                                                                                      String languageName) {
+        return wordRepository.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
+                userId,
+                courseId,
+                languageId,
+                wordText,
+                wordDescription,
+                languageName);
+    }
 
     @Override
-    public Optional<WordEntity> findByUserId(Long userId) { return wordRepository.findByUserId(userId); }
+    public Optional<WordEntity> findByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(Long userId,
+                                                                                                                 Long courseId,
+                                                                                                                 Long languageId,
+                                                                                                                 String wordText,
+                                                                                                                 String wordDescription,
+                                                                                                                 String languageName) {
+        return wordRepository.findByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
+                userId,
+                courseId,
+                languageId,
+                wordText,
+                wordDescription,
+                languageName);
+    }
+
+    @Override
+    public Optional<WordEntity> findByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId) {
+        return wordRepository.findByUserIdAndCourseIdAndWordId(userId, courseId, wordId);
+    }
 
     @Override
     public void save(WordEntity word) { wordRepository.save(word); }

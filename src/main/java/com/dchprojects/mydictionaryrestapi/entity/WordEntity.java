@@ -25,6 +25,10 @@ public class WordEntity {
     @Column(name = "course_id", nullable = false)
     private Long courseId;
 
+    @JsonProperty("language_id")
+    @Column(name = "language_id", nullable = false)
+    private Long languageId;
+
     @JsonProperty("word_text")
     @Column(name = "word_text", nullable = false)
     private String wordText;
@@ -54,6 +58,7 @@ public class WordEntity {
     public WordEntity(Long userId,
                       Long wordId,
                       Long courseId,
+                      Long languageId,
                       String wordText,
                       String wordDescription,
                       String languageName,
@@ -63,6 +68,7 @@ public class WordEntity {
         this.userId = userId;
         this.wordId = wordId;
         this.courseId = courseId;
+        this.languageId = languageId;
         this.wordText = wordText;
         this.wordDescription = wordDescription;
         this.languageName = languageName;
@@ -90,6 +96,10 @@ public class WordEntity {
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
+
+    public Long getLanguageId() { return languageId; }
+
+    public void setLanguageId(Long languageId) {  this.languageId = languageId; }
 
     public String getWordText() {
         return wordText;

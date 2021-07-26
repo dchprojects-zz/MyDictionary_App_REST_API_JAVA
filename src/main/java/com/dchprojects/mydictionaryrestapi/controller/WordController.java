@@ -38,25 +38,33 @@ public class WordController {
     public ResponseEntity<WordEntity> createWord(@RequestBody WordEntity word) {
         Boolean userIsExist = userService.isExist(word.getUserId());
         Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
-        Boolean languageIsExist = languageService.isExist(word.getLanguageName());
+        Boolean languageIsExist = languageService.isExist(word.getLanguageId(), word.getLanguageName());
+        Boolean wordIsExist = wordService.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
+                word.getUserId(),
+                word.getCourseId(),
+                word.getLanguageId(),
+                word.getWordText(),
+                word.getWordDescription(),
+                word.getLanguageName()
+        );
         if (userIsExist && courseIsExist && languageIsExist) {
-            wordService.save(word);
-            Optional<WordEntity> savedWord = wordService.findByUserId(word.getUserId());
-            if (savedWord.isPresent()) {
-                return new ResponseEntity<>(savedWord.get(), HttpStatus.OK);
+            if (wordIsExist) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                wordService.save(word);
+                Optional<WordEntity> savedWord = wordService.findByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
+                        word.getUserId(),
+                        word.getCourseId(),
+                        word.getLanguageId(),
+                        word.getWordText(),
+                        word.getWordDescription(),
+                        word.getLanguageName());
+                if (savedWord.isPresent()) {
+                    return new ResponseEntity<>(savedWord.get(), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
             }
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/{wordId}")
-    public ResponseEntity<WordEntity> getWordById(@PathVariable Long wordId) {
-        Boolean isExist = wordService.isExist(wordId);
-        if (isExist) {
-            return new ResponseEntity<>(wordService.findById(wordId).get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -66,19 +74,26 @@ public class WordController {
     public ResponseEntity<WordEntity> udpateWord(@RequestBody WordEntity word) {
         Boolean userIsExist = userService.isExist(word.getUserId());
         Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
-        Boolean languageIsExist = languageService.isExist(word.getLanguageName());
-        Boolean wordIsExist = wordService.isExist(word.getWordId());
+        Boolean languageIsExist = languageService.isExist(word.getLanguageId(), word.getLanguageName());
+        Boolean wordIsExist = wordService.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
+                word.getUserId(),
+                word.getCourseId(),
+                word.getLanguageId(),
+                word.getWordText(),
+                word.getWordDescription(),
+                word.getLanguageName()
+        );
         if (userIsExist && courseIsExist && languageIsExist) {
             if (wordIsExist) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            } else {
                 wordService.update(word);
-                Optional<WordEntity> updatedWord = wordService.findById(word.getWordId());
+                Optional<WordEntity> updatedWord = wordService.findByUserIdAndCourseIdAndWordId(word.getUserId(), word.getCourseId(), word.getWordId());
                 if (updatedWord.isPresent()) {
                     return new ResponseEntity<>(updatedWord.get(), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
