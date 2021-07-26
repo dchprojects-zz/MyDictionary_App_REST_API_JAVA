@@ -1,6 +1,9 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
 import com.dchprojects.mydictionaryrestapi.entity.WordEntity;
+import com.dchprojects.mydictionaryrestapi.service.CourseService;
+import com.dchprojects.mydictionaryrestapi.service.LanguageService;
+import com.dchprojects.mydictionaryrestapi.service.UserService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,15 @@ public class WordController {
     @Autowired
     private WordService wordService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private LanguageService languageService;
+
     @GetMapping
     public List<WordEntity> list() {
         return wordService.listAll();
@@ -24,10 +36,17 @@ public class WordController {
 
     @PostMapping
     public ResponseEntity<WordEntity> createWord(@RequestBody WordEntity word) {
-        wordService.save(word);
-        Optional<WordEntity> savedWord = wordService.findByUserId(word.getUserId());
-        if (savedWord.isPresent()) {
-            return new ResponseEntity<>(savedWord.get(), HttpStatus.OK);
+        Boolean userIsExist = userService.isExist(word.getUserId());
+        Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
+        Boolean languageIsExist = languageService.isExist(word.getLanguageName());
+        if (userIsExist && courseIsExist && languageIsExist) {
+            wordService.save(word);
+            Optional<WordEntity> savedWord = wordService.findByUserId(word.getUserId());
+            if (savedWord.isPresent()) {
+                return new ResponseEntity<>(savedWord.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -45,12 +64,19 @@ public class WordController {
 
     @PutMapping
     public ResponseEntity<WordEntity> udpateWord(@RequestBody WordEntity word) {
-        Boolean isExist = wordService.isExist(word.getWordId());
-        if (isExist) {
-            wordService.update(word);
-            Optional<WordEntity> updatedWord = wordService.findById(word.getWordId());
-            if (updatedWord.isPresent()) {
-                return new ResponseEntity<>(updatedWord.get(), HttpStatus.OK);
+        Boolean userIsExist = userService.isExist(word.getUserId());
+        Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
+        Boolean languageIsExist = languageService.isExist(word.getLanguageName());
+        Boolean wordIsExist = wordService.isExist(word.getWordId());
+        if (userIsExist && courseIsExist && languageIsExist) {
+            if (wordIsExist) {
+                wordService.update(word);
+                Optional<WordEntity> updatedWord = wordService.findById(word.getWordId());
+                if (updatedWord.isPresent()) {
+                    return new ResponseEntity<>(updatedWord.get(), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
