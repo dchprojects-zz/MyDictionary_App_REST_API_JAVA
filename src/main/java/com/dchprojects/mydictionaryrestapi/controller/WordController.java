@@ -35,9 +35,9 @@ public class WordController {
 
     @GetMapping("/{wordId}")
     public ResponseEntity<WordEntity> getWordById(@PathVariable Long wordId) {
-        Optional<WordEntity> word = wordService.findById(wordId);
-        if (word.isPresent()) {
-            return new ResponseEntity<>(word.get(), HttpStatus.OK);
+        Boolean isExist = wordService.isExist(wordId);
+        if (isExist) {
+            return new ResponseEntity<>(wordService.findById(wordId).get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
