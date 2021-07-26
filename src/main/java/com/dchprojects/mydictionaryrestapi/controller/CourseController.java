@@ -60,14 +60,10 @@ public class CourseController {
     @DeleteMapping("/userId/{userId}/courseId/{courseId}")
     public ResponseEntity<?> deleteCourse(@PathVariable Long userId, @PathVariable Long courseId) {
         Boolean userIsExist = userService.isExist(userId);
-        if (userIsExist) {
-            Boolean courseIsExist = courseService.isExist(userId, courseId);
-            if (courseIsExist) {
-                courseService.deleteByUserIdAndCourseId(userId, courseId);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+        Boolean courseIsExist = courseService.isExist(userId, courseId);
+        if (userIsExist && courseIsExist) {
+            courseService.deleteByUserIdAndCourseId(userId, courseId);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
