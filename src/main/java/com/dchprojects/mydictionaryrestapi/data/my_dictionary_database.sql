@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS `my_dictionary_database`;
+
 CREATE DATABASE my_dictionary_database;
 
 USE my_dictionary_database;
