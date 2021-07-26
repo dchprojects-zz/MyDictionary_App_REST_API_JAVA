@@ -22,7 +22,7 @@ public class CourseServiceImpl implements CourseService {
     public Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId) { return courseRepository.findByLanguageNameAndUserId(languageName, userId); }
 
     @Override
-    public Boolean isExist(String languageName, Long userId) { return courseRepository.findByLanguageNameAndUserId(languageName, userId) != null; }
+    public Boolean isExist(String languageName, Long userId) { return courseRepository.existsByLanguageNameAndUserId(languageName, userId); }
 
     @Override
     public Boolean isExist(Long userId, Long courseId) { return courseRepository.existsByUserIdAndCourseId(userId, courseId); }

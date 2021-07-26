@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
     List<CourseEntity> findAllByUserId(Long userId);
     Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId);
+    Boolean existsByLanguageNameAndUserId(String languageName, Long userId);
     Boolean existsByUserIdAndCourseId(Long userId, Long courseId);
     Void deleteByUserIdAndCourseId(Long userId, Long courseId);
 }
