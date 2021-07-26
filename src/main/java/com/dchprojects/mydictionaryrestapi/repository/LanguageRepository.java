@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface LanguageRepository extends JpaRepository<LanguageEntity, Long> {
     Optional<LanguageEntity> findByLanguageName(String languageName);
+    Boolean existsByLanguageId(Long languageId);
+    Boolean existsByLanguageName(String languageName);
 }

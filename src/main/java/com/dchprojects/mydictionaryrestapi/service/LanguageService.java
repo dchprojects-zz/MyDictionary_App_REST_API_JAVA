@@ -9,10 +9,14 @@ public interface LanguageService {
 
     public List<LanguageEntity> listAll();
 
-    public void save(LanguageEntity language);
+    public Boolean isExist(Long languageId);
+
+    public Boolean isExist(String languageName);
 
     public LanguageEntity findById(Long languageId);
 
     public Optional<LanguageEntity> findByLanguageName(String languageName);
+
+    public void save(LanguageEntity language);
 
 }

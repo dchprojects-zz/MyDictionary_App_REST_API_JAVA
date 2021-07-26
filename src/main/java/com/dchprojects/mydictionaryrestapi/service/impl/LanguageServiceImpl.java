@@ -19,12 +19,18 @@ public class LanguageServiceImpl implements LanguageService {
     public List<LanguageEntity> listAll() { return languageRepository.findAll(); }
 
     @Override
-    public void save(LanguageEntity language) { languageRepository.save(language); }
+    public Boolean isExist(Long languageId) { return languageRepository.existsByLanguageId(languageId); }
+
+    @Override
+    public Boolean isExist(String languageName) { return languageRepository.existsByLanguageName(languageName); }
 
     @Override
     public LanguageEntity findById(Long languageId) { return languageRepository.findById(languageId).get(); }
 
     @Override
     public Optional<LanguageEntity> findByLanguageName(String languageName) { return languageRepository.findByLanguageName(languageName); }
+
+    @Override
+    public void save(LanguageEntity language) { languageRepository.save(language); }
 
 }
