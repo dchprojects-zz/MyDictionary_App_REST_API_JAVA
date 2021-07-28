@@ -49,6 +49,22 @@ CREATE TABLE `word` (
                         PRIMARY KEY (word_id)
 );
 
+CREATE TABLE `roles` (
+                        role_id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
+                        role_name varchar(255) NOT NULL,
+                        PRIMARY KEY (role_id)
+)
+
+CREATE TABLE `user_role` (
+                        user_role_id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
+                        user_id BIGINT(19) UNSIGNED NOT NULL,
+                        role_id BIGINT(19) UNSIGNED NOT NULL,
+                        PRIMARY KEY (user_role_id),
+                        KEY fk_security_user_id (user_id),
+                        KEY fk_security_role_id (role_id),
+                        CONSTRAINT fk_security_role_id FOREIGN KEY (role_id) REFERENCES roles (role_id)
+)
+
 LOCK TABLES `language` WRITE;
 INSERT INTO `language` (language_name) VALUES ('Spanish'),
                                               ('English'),
@@ -149,4 +165,8 @@ INSERT INTO `language` (language_name) VALUES ('Spanish'),
                                               ('Belarusian'),
                                               ('Balochi'),
                                               ('Konkani');
+UNLOCK TABLES;
+
+LOCK TABLES `roles` WRITE;
+INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
 UNLOCK TABLES;
