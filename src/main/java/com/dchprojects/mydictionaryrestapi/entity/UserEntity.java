@@ -1,10 +1,12 @@
 package com.dchprojects.mydictionaryrestapi.entity;
 
+import com.dchprojects.mydictionaryrestapi.entity.role.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -30,6 +32,11 @@ public class UserEntity {
     @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
     private Timestamp updatedAt;
+
+    @JsonProperty("roles")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
+    private List<Role> roles;
 
     public UserEntity() {
 
