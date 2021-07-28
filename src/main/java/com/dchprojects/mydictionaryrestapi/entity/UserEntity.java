@@ -1,6 +1,7 @@
 package com.dchprojects.mydictionaryrestapi.entity;
 
 import com.dchprojects.mydictionaryrestapi.entity.role.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,6 +24,10 @@ public class UserEntity {
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
+    @JsonProperty("password")
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @JsonProperty("created_at")
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
@@ -33,7 +38,7 @@ public class UserEntity {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @JsonProperty("roles")
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private List<Role> roles;
@@ -44,11 +49,13 @@ public class UserEntity {
 
     public UserEntity(Long userId,
                       String nickname,
+                      String password,
                       Timestamp createdAt,
                       Timestamp updatedAt) {
 
         this.userId = userId;
         this.nickname = nickname;
+        this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
 
@@ -66,9 +73,11 @@ public class UserEntity {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+    public void setNickname(String nickname) { this.nickname = nickname; }
+
+    public String getPassword() { return password; }
+
+    public void setPassword(String password) { this.password = password; }
 
     public Timestamp getCreatedAt() {
         return createdAt;
