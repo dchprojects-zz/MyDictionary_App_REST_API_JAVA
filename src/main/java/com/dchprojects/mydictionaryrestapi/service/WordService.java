@@ -2,7 +2,6 @@ package com.dchprojects.mydictionaryrestapi.service;
 
 import com.dchprojects.mydictionaryrestapi.entity.WordEntity;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 

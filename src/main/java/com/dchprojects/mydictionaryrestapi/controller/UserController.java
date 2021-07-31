@@ -5,8 +5,11 @@ import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +27,12 @@ public class UserController {
 
     @Autowired
     private WordService wordService;
+
+    @Bean
+    private PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
 
     @GetMapping
     public List<UserEntity> list() {
@@ -46,7 +55,10 @@ public class UserController {
         if (isExist) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
+
+            user.setPassword(passwordEncoder().encode(user.getPassword()));
             userService.save(user);
+
             Optional<UserEntity> createdUser = userService.findByNickname(user.getNickname());
             if (createdUser.isPresent()) {
                 return new ResponseEntity<>(createdUser.get(), HttpStatus.OK);

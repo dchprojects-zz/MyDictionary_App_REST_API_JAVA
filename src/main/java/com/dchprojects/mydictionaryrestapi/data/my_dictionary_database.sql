@@ -10,13 +10,11 @@ DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `language`;
 DROP TABLE IF EXISTS `course`;
 DROP TABLE IF EXISTS `word`;
-DROP TABLE IF EXISTS `roles`;
-DROP TABLE IF EXISTS `user_role`;
 
 CREATE TABLE `user` (
                         user_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                        nickname TEXT NOT NULL,
-                        password TEXT NOT NULL,
+                        nickname VARCHAR(255) NOT NULL,
+                        password VARCHAR(255) NOT NULL,
                         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         PRIMARY KEY (user_id)
@@ -24,7 +22,7 @@ CREATE TABLE `user` (
 
 CREATE TABLE `language` (
                             language_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                            language_name TEXT NOT NULL,
+                            language_name VARCHAR(255) NOT NULL,
                             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                             PRIMARY KEY (language_id)
 );
@@ -33,7 +31,7 @@ CREATE TABLE `course` (
                           user_id BIGINT UNSIGNED NOT NULL,
                           course_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                           language_id BIGINT UNSIGNED NOT NULL,
-                          language_name TEXT NOT NULL,
+                          language_name VARCHAR(255) NOT NULL,
                           created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                           updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                           PRIMARY KEY (course_id)
@@ -46,26 +44,10 @@ CREATE TABLE `word` (
                         language_id BIGINT UNSIGNED NOT NULL,
                         word_text TEXT NOT NULL,
                         word_description TEXT NOT NULL,
-                        language_name TEXT NOT NULL,
+                        language_name VARCHAR(255) NOT NULL,
                         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         PRIMARY KEY (word_id)
-);
-
-CREATE TABLE `roles` (
-                        role_id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
-                        role_name varchar(255) NOT NULL,
-                        PRIMARY KEY (role_id)
-);
-
-CREATE TABLE `user_role` (
-                        id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
-                        user_id BIGINT(19) UNSIGNED NOT NULL,
-                        role_id BIGINT(19) UNSIGNED NOT NULL,
-                        PRIMARY KEY (id),
-                        KEY fk_security_user_id (user_id),
-                        KEY fk_security_role_id (role_id),
-                        CONSTRAINT fk_security_role_id FOREIGN KEY (role_id) REFERENCES roles (role_id)
 );
 
 LOCK TABLES `language` WRITE;
@@ -168,8 +150,4 @@ INSERT INTO `language` (language_name) VALUES ('Spanish'),
                                               ('Belarusian'),
                                               ('Balochi'),
                                               ('Konkani');
-UNLOCK TABLES;
-
-LOCK TABLES `roles` WRITE;
-INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
 UNLOCK TABLES;

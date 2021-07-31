@@ -1,13 +1,10 @@
 package com.dchprojects.mydictionaryrestapi.entity;
 
-import com.dchprojects.mydictionaryrestapi.entity.role.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -38,11 +35,6 @@ public class UserEntity {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
-    private List<Role> roles;
-
     public UserEntity() {
 
     }
@@ -51,15 +43,13 @@ public class UserEntity {
                       String nickname,
                       String password,
                       Timestamp createdAt,
-                      Timestamp updatedAt,
-                      List<Role> roles) {
+                      Timestamp updatedAt) {
 
         this.userId = userId;
         this.nickname = nickname;
         this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.roles = roles;
 
     }
 
@@ -95,14 +85,6 @@ public class UserEntity {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 
 }
