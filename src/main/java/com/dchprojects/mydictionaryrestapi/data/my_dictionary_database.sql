@@ -10,10 +10,13 @@ DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `language`;
 DROP TABLE IF EXISTS `course`;
 DROP TABLE IF EXISTS `word`;
+DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `user_role`;
 
 CREATE TABLE `user` (
                         user_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                         nickname TEXT NOT NULL,
+                        password TEXT NOT NULL,
                         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         PRIMARY KEY (user_id)
@@ -53,17 +56,17 @@ CREATE TABLE `roles` (
                         role_id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
                         role_name varchar(255) NOT NULL,
                         PRIMARY KEY (role_id)
-)
+);
 
 CREATE TABLE `user_role` (
-                        user_role_id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
+                        id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
                         user_id BIGINT(19) UNSIGNED NOT NULL,
                         role_id BIGINT(19) UNSIGNED NOT NULL,
-                        PRIMARY KEY (user_role_id),
+                        PRIMARY KEY (id),
                         KEY fk_security_user_id (user_id),
                         KEY fk_security_role_id (role_id),
                         CONSTRAINT fk_security_role_id FOREIGN KEY (role_id) REFERENCES roles (role_id)
-)
+);
 
 LOCK TABLES `language` WRITE;
 INSERT INTO `language` (language_name) VALUES ('Spanish'),

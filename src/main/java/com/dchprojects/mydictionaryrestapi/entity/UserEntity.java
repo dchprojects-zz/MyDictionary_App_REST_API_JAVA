@@ -51,13 +51,15 @@ public class UserEntity {
                       String nickname,
                       String password,
                       Timestamp createdAt,
-                      Timestamp updatedAt) {
+                      Timestamp updatedAt,
+                      List<Role> roles) {
 
         this.userId = userId;
         this.nickname = nickname;
         this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.roles = roles;
 
     }
 
@@ -93,6 +95,14 @@ public class UserEntity {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
 }
