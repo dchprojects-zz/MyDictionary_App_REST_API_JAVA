@@ -6,12 +6,12 @@ USE my_dictionary_database;
 
 UNLOCK TABLES;
 
-DROP TABLE IF EXISTS `user`;
-DROP TABLE IF EXISTS `language`;
-DROP TABLE IF EXISTS `course`;
-DROP TABLE IF EXISTS `word`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `languages`;
+DROP TABLE IF EXISTS `courses`;
+DROP TABLE IF EXISTS `words`;
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
                         user_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                         nickname VARCHAR(255) NOT NULL,
                         password VARCHAR(255) NOT NULL,
@@ -20,14 +20,31 @@ CREATE TABLE `user` (
                         PRIMARY KEY (user_id)
 );
 
-CREATE TABLE `language` (
+CREATE TABLE `roles` (
+                         `id` BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
+                         `name` VARCHAR(255) NOT NULL,
+                         PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `user_role` (
+                             `id` BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
+                             `user_id` BIGINT(19) UNSIGNED NOT NULL,
+                             `role_id` BIGINT(19) UNSIGNED NOT NULL,
+                             PRIMARY KEY (`id`),
+                             KEY `fk_security_user_id` (`user_id`),
+                             KEY `fk_security_role_id` (`role_id`),
+                             CONSTRAINT `fk_security_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+                             CONSTRAINT `fk_security_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
+);
+
+CREATE TABLE `languages` (
                             language_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                             language_name VARCHAR(255) NOT NULL,
                             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                             PRIMARY KEY (language_id)
 );
 
-CREATE TABLE `course` (
+CREATE TABLE `courses` (
                           user_id BIGINT UNSIGNED NOT NULL,
                           course_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                           language_id BIGINT UNSIGNED NOT NULL,
@@ -37,7 +54,7 @@ CREATE TABLE `course` (
                           PRIMARY KEY (course_id)
 );
 
-CREATE TABLE `word` (
+CREATE TABLE `words` (
                         user_id BIGINT UNSIGNED NOT NULL,
                         word_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                         course_id BIGINT UNSIGNED NOT NULL,
@@ -50,8 +67,8 @@ CREATE TABLE `word` (
                         PRIMARY KEY (word_id)
 );
 
-LOCK TABLES `language` WRITE;
-INSERT INTO `language` (language_name) VALUES ('Spanish'),
+LOCK TABLES `languages` WRITE;
+INSERT INTO `languages` (language_name) VALUES ('Spanish'),
                                               ('English'),
                                               ('Hindi'),
                                               ('Arabic'),
@@ -150,4 +167,8 @@ INSERT INTO `language` (language_name) VALUES ('Spanish'),
                                               ('Belarusian'),
                                               ('Balochi'),
                                               ('Konkani');
+UNLOCK TABLES;
+
+LOCK TABLES `roles` WRITE;
+INSERT INTO `roles` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER');
 UNLOCK TABLES;

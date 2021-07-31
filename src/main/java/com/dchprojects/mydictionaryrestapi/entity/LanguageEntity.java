@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "language")
+@Table(name = "languages")
 public class LanguageEntity {
 
     @JsonProperty("language_id")

@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "word")
+@Table(name = "words")
 public class WordEntity {
 
     @JsonProperty("user_id")

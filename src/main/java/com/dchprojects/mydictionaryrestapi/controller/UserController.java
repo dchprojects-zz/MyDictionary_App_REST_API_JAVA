@@ -1,6 +1,10 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
 import com.dchprojects.mydictionaryrestapi.entity.UserEntity;
+import com.dchprojects.mydictionaryrestapi.entity.role.Role;
+import com.dchprojects.mydictionaryrestapi.entity.role.RoleName;
+import com.dchprojects.mydictionaryrestapi.exception.AppException;
+import com.dchprojects.mydictionaryrestapi.repository.RoleRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
@@ -12,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +32,9 @@ public class UserController {
 
     @Autowired
     private WordService wordService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Bean
     private PasswordEncoder passwordEncoder()
@@ -56,6 +64,9 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
 
+            List<Role> roles = new ArrayList<>();
+            roles.add(roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new AppException("User role not set")));
+            user.setRoles(roles);
             user.setPassword(passwordEncoder().encode(user.getPassword()));
             userService.save(user);
 
@@ -65,6 +76,7 @@ public class UserController {
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+
         }
     }
 
