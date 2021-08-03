@@ -1,4 +1,4 @@
-package com.dchprojects.mydictionaryrestapi.controller;
+package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/courses")
 @RequiredArgsConstructor
-public class CourseController {
+public class CourseApi {
 
     private final CourseService courseService;
     private final UserService userService;

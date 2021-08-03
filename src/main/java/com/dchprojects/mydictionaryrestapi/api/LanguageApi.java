@@ -1,4 +1,4 @@
-package com.dchprojects.mydictionaryrestapi.controller;
+package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/languages")
 @RequiredArgsConstructor
-public class LanguageController {
+public class LanguageApi {
 
     private final LanguageService languageService;
 

@@ -1,5 +1,7 @@
 package com.dchprojects.mydictionaryrestapi.service;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
+import com.dchprojects.mydictionaryrestapi.domain.dto.UpdateNicknameRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 
 import java.util.List;
@@ -15,12 +17,12 @@ public interface UserService {
 
     public Optional<UserEntity> findByNickname(String nickname);
 
-    public UserEntity createUser(UserEntity user);
+    public UserEntity createUser(CreateUserRequest createUserRequest);
     public UserEntity createAdmin(UserEntity user);
 
     public Optional<UserEntity> findById(Long userId);
 
-    public UserEntity updateNickname(Long userId, String nickname);
+    public UserEntity updateNickname(Long userId, UpdateNicknameRequest updateNicknameRequest);
 
     public void delete(Long userId);
 

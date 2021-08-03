@@ -1,4 +1,4 @@
-package com.dchprojects.mydictionaryrestapi.controller;
+package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/words")
 @RequiredArgsConstructor
-public class WordController {
+public class WordApi {
 
     private final WordService wordService;
     private final UserService userService;

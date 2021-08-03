@@ -1,8 +1,9 @@
-package com.dchprojects.mydictionaryrestapi.controller;
+package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.configuration.security.JwtTokenUtil;
 import com.dchprojects.mydictionaryrestapi.domain.dto.AuthRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.AuthResponse;
+import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.JwtTokenResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
@@ -21,13 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 @Tag(name = "Authentication")
 @RestController @RequestMapping(path = "/api/v1/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthApi {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
@@ -55,10 +57,13 @@ public class AuthController {
         }
     }
 
-//    @PostMapping("/register")
-//    public UserView register(@RequestBody @Valid CreateUserRequest request) {
-//        return userService.create(request);
-//    }
-
+    @PostMapping("/register")
+    public ResponseEntity<UserEntity> register(@RequestBody @Valid CreateUserRequest createUserRequest) {
+        try {
+            return new ResponseEntity<>(userService.createUser(createUserRequest), HttpStatus.OK);
+        } catch (ValidationException validationException) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
+import com.dchprojects.mydictionaryrestapi.domain.dto.UpdateNicknameRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.Role;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleName;
@@ -52,18 +54,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity createUser(UserEntity user) {
-        Boolean existsByNickname = userRepository.existsByNickname(user.getNickname());
+    public UserEntity createUser(CreateUserRequest createUserRequest) {
+        Boolean existsByNickname = userRepository.existsByNickname(createUserRequest.getNickname());
         if (existsByNickname) {
             throw new ValidationException("Nickname exists!");
         } else {
+            UserEntity userEntity = new UserEntity();
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findByName(RoleName.ROLE_USER).get());
 
-            user.setRoles(roles);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userEntity.setNickname(createUserRequest.getNickname());
+            userEntity.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
+            userEntity.setRoles(roles);
 
-            UserEntity createdUser = userRepository.save(user);
+            UserEntity createdUser = userRepository.save(userEntity);
             return createdUser;
         }
     }
@@ -86,20 +90,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateNickname(Long userId, String nickname) {
+    public UserEntity updateNickname(Long userId, UpdateNicknameRequest updateNicknameRequest) {
         Boolean existsByUserId = userRepository.existsByUserId(userId);
         if (existsByUserId) {
-            Boolean existsByNickname = userRepository.existsByNickname(nickname);
+            Boolean existsByNickname = userRepository.existsByNickname(updateNicknameRequest.getNickname());
             if (existsByNickname) {
                 throw new ValidationException("Nickname exists!");
             } else {
                 UserEntity userForUpdate = userRepository.findById(userId).get();
-                userForUpdate.setNickname(nickname);
+                userForUpdate.setNickname(updateNicknameRequest.getNickname());
                 UserEntity updatedUser = userRepository.save(userForUpdate);
                 return updatedUser;
             }
         } else {
-            throw new UsernameNotFoundException(format("User with nickname - %s, not found", nickname));
+            throw new UsernameNotFoundException(format("User with nickname - %s, not found", updateNicknameRequest.getNickname()));
         }
     }
 
