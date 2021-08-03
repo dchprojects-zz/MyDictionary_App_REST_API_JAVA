@@ -1,8 +1,9 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
-import com.dchprojects.mydictionaryrestapi.entity.LanguageEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Languages")
 @RestController
 @RequestMapping("/api/v1/languages")
+@RequiredArgsConstructor
 public class LanguageController {
 
-    @Autowired
-    private LanguageService languageService;
+    private final LanguageService languageService;
 
     @GetMapping
     public List<LanguageEntity> list() { return languageService.listAll(); }

@@ -1,6 +1,6 @@
-package com.dchprojects.mydictionaryrestapi.entity;
+package com.dchprojects.mydictionaryrestapi.domain.entity;
 
-import com.dchprojects.mydictionaryrestapi.entity.role.Role;
+import com.dchprojects.mydictionaryrestapi.domain.entity.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;

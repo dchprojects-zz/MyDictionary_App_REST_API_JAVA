@@ -1,6 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
-import com.dchprojects.mydictionaryrestapi.entity.CourseEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.repository.CourseRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
-import com.dchprojects.mydictionaryrestapi.entity.WordEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 import com.dchprojects.mydictionaryrestapi.repository.WordRepository;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;

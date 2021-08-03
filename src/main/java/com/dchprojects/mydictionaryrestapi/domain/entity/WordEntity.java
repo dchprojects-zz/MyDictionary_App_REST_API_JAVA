@@ -1,4 +1,4 @@
-package com.dchprojects.mydictionaryrestapi.entity;
+package com.dchprojects.mydictionaryrestapi.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;

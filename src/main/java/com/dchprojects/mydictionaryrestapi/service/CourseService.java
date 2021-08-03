@@ -1,6 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.service;
 
-import com.dchprojects.mydictionaryrestapi.entity.CourseEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,11 +1,12 @@
 package com.dchprojects.mydictionaryrestapi.service;
 
-import com.dchprojects.mydictionaryrestapi.entity.UserEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     public List<UserEntity> listAll();
 

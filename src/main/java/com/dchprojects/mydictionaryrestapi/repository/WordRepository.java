@@ -1,7 +1,7 @@
 package com.dchprojects.mydictionaryrestapi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.dchprojects.mydictionaryrestapi.entity.WordEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

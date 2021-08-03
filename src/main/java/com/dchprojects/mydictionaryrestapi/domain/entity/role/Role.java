@@ -1,4 +1,4 @@
-package com.dchprojects.mydictionaryrestapi.entity.role;
+package com.dchprojects.mydictionaryrestapi.domain.entity.role;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

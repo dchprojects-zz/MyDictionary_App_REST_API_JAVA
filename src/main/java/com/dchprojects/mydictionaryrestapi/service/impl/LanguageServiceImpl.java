@@ -1,6 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
-import com.dchprojects.mydictionaryrestapi.entity.LanguageEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.repository.LanguageRepository;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;

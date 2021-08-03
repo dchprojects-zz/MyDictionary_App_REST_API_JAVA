@@ -1,6 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.service;
 
-import com.dchprojects.mydictionaryrestapi.entity.WordEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 
 import java.util.List;
 import java.util.Optional;

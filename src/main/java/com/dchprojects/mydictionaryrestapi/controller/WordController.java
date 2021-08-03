@@ -1,11 +1,12 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
-import com.dchprojects.mydictionaryrestapi.entity.WordEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,21 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Words")
 @RestController
 @RequestMapping("/api/v1/words")
+@RequiredArgsConstructor
 public class WordController {
 
-    @Autowired
-    private WordService wordService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private CourseService courseService;
-
-    @Autowired
-    private LanguageService languageService;
+    private final WordService wordService;
+    private final UserService userService;
+    private final CourseService courseService;
+    private final LanguageService languageService;
 
     @GetMapping
     public List<WordEntity> list() {

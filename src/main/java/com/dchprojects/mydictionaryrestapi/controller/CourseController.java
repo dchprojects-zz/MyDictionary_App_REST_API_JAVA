@@ -1,10 +1,11 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
-import com.dchprojects.mydictionaryrestapi.entity.CourseEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,18 +13,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Courses")
 @RestController
 @RequestMapping("/api/v1/courses")
+@RequiredArgsConstructor
 public class CourseController {
 
-    @Autowired
-    private CourseService courseService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private LanguageService languageService;
+    private final CourseService courseService;
+    private final UserService userService;
+    private final LanguageService languageService;
 
     @GetMapping("/userId/{userId}")
     public ResponseEntity<List<CourseEntity>> listByUserId(@PathVariable Long userId) {

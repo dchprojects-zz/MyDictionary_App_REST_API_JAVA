@@ -1,18 +1,16 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
-import com.dchprojects.mydictionaryrestapi.entity.UserEntity;
-import com.dchprojects.mydictionaryrestapi.entity.role.Role;
-import com.dchprojects.mydictionaryrestapi.entity.role.RoleName;
-import com.dchprojects.mydictionaryrestapi.exception.AppException;
+import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.role.Role;
+import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleName;
 import com.dchprojects.mydictionaryrestapi.repository.RoleRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,27 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Users")
 @RestController
 @RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private CourseService courseService;
-
-    @Autowired
-    private WordService wordService;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Bean
-    private PasswordEncoder passwordEncoder()
-    {
-        return new BCryptPasswordEncoder();
-    }
+    private final UserService userService;
+    private final CourseService courseService;
+    private final WordService wordService;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<UserEntity> list() {
@@ -65,9 +53,9 @@ public class UserController {
         } else {
 
             List<Role> roles = new ArrayList<>();
-            roles.add(roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new AppException("User role not set")));
+            roles.add(roleRepository.findByName(RoleName.ROLE_USER).get());
             user.setRoles(roles);
-            user.setPassword(passwordEncoder().encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userService.save(user);
 
             Optional<UserEntity> createdUser = userService.findByNickname(user.getNickname());
