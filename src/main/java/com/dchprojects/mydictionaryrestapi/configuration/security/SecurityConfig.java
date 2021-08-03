@@ -1,20 +1,17 @@
 package com.dchprojects.mydictionaryrestapi.configuration.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dchprojects.mydictionaryrestapi.service.impl.MDUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,7 +29,7 @@ import static java.lang.String.format;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final MDUserDetailsService mdUserDetailsService;
     private final JwtTokenFilter jwtTokenFilter;
 
     @Value("${springdoc.api-docs.path}")
@@ -40,16 +37,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${springdoc.swagger-ui.path}")
     private String swaggerPath;
 
-    @Autowired
-    public SecurityConfig(UserService userService,
+    public SecurityConfig(MDUserDetailsService mdUserDetailsService,
                           JwtTokenFilter jwtTokenFilter) {
-        this.userService = userService;
+        this.mdUserDetailsService = mdUserDetailsService;
         this.jwtTokenFilter = jwtTokenFilter;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+        auth.userDetailsService(mdUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -104,19 +100,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-    }
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(userService);
-        return daoAuthenticationProvider;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     // Expose authentication manager bean

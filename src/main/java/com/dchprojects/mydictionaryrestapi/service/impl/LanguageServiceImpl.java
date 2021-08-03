@@ -3,17 +3,17 @@ package com.dchprojects.mydictionaryrestapi.service.impl;
 import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.repository.LanguageRepository;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class LanguageServiceImpl implements LanguageService {
 
-    @Autowired
-    private LanguageRepository languageRepository;
+    private final LanguageRepository languageRepository;
 
     @Override
     public List<LanguageEntity> listAll() { return languageRepository.findAll(); }

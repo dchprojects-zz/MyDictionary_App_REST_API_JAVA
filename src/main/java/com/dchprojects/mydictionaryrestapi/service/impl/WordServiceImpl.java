@@ -3,17 +3,17 @@ package com.dchprojects.mydictionaryrestapi.service.impl;
 import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 import com.dchprojects.mydictionaryrestapi.repository.WordRepository;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class WordServiceImpl implements WordService {
 
-    @Autowired
-    private WordRepository wordRepository;
+    private final WordRepository wordRepository;
 
     @Override
     public List<WordEntity> listAll() {

@@ -3,17 +3,17 @@ package com.dchprojects.mydictionaryrestapi.service.impl;
 import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.repository.CourseRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
     @Override
     public List<CourseEntity> listByUserId(Long userId) { return courseRepository.findAllByUserId(userId); }

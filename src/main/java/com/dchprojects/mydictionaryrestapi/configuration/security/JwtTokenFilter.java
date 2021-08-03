@@ -1,6 +1,7 @@
 package com.dchprojects.mydictionaryrestapi.configuration.security;
 
 import com.dchprojects.mydictionaryrestapi.service.UserService;
+import com.dchprojects.mydictionaryrestapi.service.impl.MDUserDetailsService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +23,12 @@ import static org.apache.logging.log4j.util.Strings.isEmpty;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserService userService;
+    private final MDUserDetailsService mdUserDetailsService;
 
     public JwtTokenFilter(JwtTokenUtil jwtTokenUtil,
-                          UserService userService) {
+                          MDUserDetailsService mdUserDetailsService) {
         this.jwtTokenUtil = jwtTokenUtil;
-        this.userService = userService;
+        this.mdUserDetailsService = mdUserDetailsService;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
 
         // Get user identity and set it on the spring security context
-        UserDetails userDetails = userService
+        UserDetails userDetails = mdUserDetailsService
                 .loadUserByUsername(jwtTokenUtil.getNickname(token));
 
         UsernamePasswordAuthenticationToken

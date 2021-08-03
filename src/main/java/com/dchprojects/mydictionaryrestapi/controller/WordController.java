@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "Words")
+@Tag(name = "Word")
 @RestController
 @RequestMapping("/api/v1/words")
 @RequiredArgsConstructor
