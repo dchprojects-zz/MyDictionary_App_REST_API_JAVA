@@ -12,10 +12,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,9 +37,9 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserEntity> getUserById(@PathVariable Long userId) {
-        Optional<UserEntity> user = userService.findById(userId);
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        Boolean existsByUserId = userService.existsByUserId(userId);
+        if (existsByUserId) {
+            return new ResponseEntity<>(userService.findById(userId).get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -46,13 +48,24 @@ public class UserController {
     @PutMapping("/{userId}/nickname")
     public ResponseEntity<UserEntity> updateNickname(@RequestBody UpdateNicknameRequest user,
                                                      @PathVariable Long userId) {
-        return new ResponseEntity<>(userService.updateNickname(userId, user.getNickname()), HttpStatus.OK);
+        try {
+            UserEntity updatedUser = userService.updateNickname(userId, user.getNickname());
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (ValidationException validationException) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (UsernameNotFoundException usernameNotFoundException) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
-        userService.delete(userId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            userService.delete(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (UsernameNotFoundException usernameNotFoundException) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

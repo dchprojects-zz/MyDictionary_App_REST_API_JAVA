@@ -8,12 +8,8 @@ import com.dchprojects.mydictionaryrestapi.repository.UserRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
