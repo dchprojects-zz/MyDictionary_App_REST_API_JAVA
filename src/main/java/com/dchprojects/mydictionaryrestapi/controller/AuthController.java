@@ -41,7 +41,7 @@ public class AuthController {
 
             User user = (User) authenticate.getPrincipal();
 
-            if (userService.isExist(user.getUsername())) {
+            if (userService.existsByNickname(user.getUsername())) {
                 UserEntity userEntity = userService.findByNickname(user.getUsername()).get();
                 JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(userEntity);
                 Timestamp timestamp = new Timestamp(jwtTokenResponse.getExpirationDate().getTime());

@@ -32,7 +32,7 @@ public class WordController {
 
     @PostMapping
     public ResponseEntity<WordEntity> createWord(@RequestBody WordEntity word) {
-        Boolean userIsExist = userService.isExist(word.getUserId());
+        Boolean existsByUserId = userService.existsByUserId(word.getUserId());
         Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
         Boolean languageIsExist = languageService.isExist(word.getLanguageId(), word.getLanguageName());
         Boolean wordIsExist = wordService.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
@@ -43,7 +43,7 @@ public class WordController {
                 word.getWordDescription(),
                 word.getLanguageName()
         );
-        if (userIsExist && courseIsExist && languageIsExist) {
+        if (existsByUserId && courseIsExist && languageIsExist) {
             if (wordIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
@@ -68,7 +68,7 @@ public class WordController {
 
     @PutMapping
     public ResponseEntity<WordEntity> udpateWord(@RequestBody WordEntity word) {
-        Boolean userIsExist = userService.isExist(word.getUserId());
+        Boolean existsByUserId = userService.existsByUserId(word.getUserId());
         Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
         Boolean languageIsExist = languageService.isExist(word.getLanguageId(), word.getLanguageName());
         Boolean wordIsExist = wordService.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
@@ -79,7 +79,7 @@ public class WordController {
                 word.getWordDescription(),
                 word.getLanguageName()
         );
-        if (userIsExist && courseIsExist && languageIsExist) {
+        if (existsByUserId && courseIsExist && languageIsExist) {
             if (wordIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
@@ -98,10 +98,10 @@ public class WordController {
 
     @DeleteMapping("/userId/{userId}/courseId/{courseId}/wordId/{wordId}")
     public ResponseEntity<?> deleteWord(@PathVariable Long userId, @PathVariable Long courseId, @PathVariable Long wordId) {
-        Boolean userIsExist = userService.isExist(userId);
+        Boolean existsByUserId = userService.existsByUserId(userId);
         Boolean courseIsExist = courseService.isExist(userId, courseId);
         Boolean wordIsExist = wordService.isExist(wordId);
-        if (userIsExist && courseIsExist) {
+        if (existsByUserId && courseIsExist) {
             if (wordIsExist) {
                 wordService.deleteByUserIdAndCourseIdAndWordId(userId, courseId, wordId);
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -115,8 +115,8 @@ public class WordController {
 
     @DeleteMapping("/userId/{userId}")
     public ResponseEntity<?> deleteAllWordsByUserId(@PathVariable Long userId) {
-        Boolean userIsExist = userService.isExist(userId);
-        if (userIsExist) {
+        Boolean existsByUserId = userService.existsByUserId(userId);
+        if (existsByUserId) {
             wordService.deleteAllByUserId(userId);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

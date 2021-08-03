@@ -25,8 +25,8 @@ public class CourseController {
 
     @GetMapping("/userId/{userId}")
     public ResponseEntity<List<CourseEntity>> listByUserId(@PathVariable Long userId) {
-        Boolean userIsExist = userService.isExist(userId);
-        if (userIsExist) {
+        Boolean existsByUserId = userService.existsByUserId(userId);
+        if (existsByUserId) {
             return new ResponseEntity<>(courseService.listByUserId(userId), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -35,10 +35,10 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity<CourseEntity> createCourse(@RequestBody CourseEntity course) {
-        Boolean userIsExist = userService.isExist(course.getUserId());
+        Boolean existsByUserId = userService.existsByUserId(course.getUserId());
         Boolean courseIsExist = courseService.isExist(course.getLanguageName(), course.getUserId());
         Boolean languageIsExist = languageService.isExist(course.getLanguageId(), course.getLanguageName());
-        if (userIsExist && languageIsExist) {
+        if (existsByUserId && languageIsExist) {
             if (courseIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
@@ -57,9 +57,9 @@ public class CourseController {
 
     @DeleteMapping("/userId/{userId}/courseId/{courseId}")
     public ResponseEntity<?> deleteCourse(@PathVariable Long userId, @PathVariable Long courseId) {
-        Boolean userIsExist = userService.isExist(userId);
+        Boolean existsByUserId = userService.existsByUserId(userId);
         Boolean courseIsExist = courseService.isExist(userId, courseId);
-        if (userIsExist && courseIsExist) {
+        if (existsByUserId && courseIsExist) {
             courseService.deleteByUserIdAndCourseId(userId, courseId);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
@@ -69,7 +69,7 @@ public class CourseController {
 
     @DeleteMapping("/userId/{userId}")
     public ResponseEntity<?> deleteAllCoursesByUserId(@PathVariable Long userId) {
-        Boolean userIsExist = userService.isExist(userId);
+        Boolean userIsExist = userService.existsByUserId(userId);
         if (userIsExist) {
             courseService.deleteAllByUserId(userId);
             return new ResponseEntity<>(HttpStatus.OK);
