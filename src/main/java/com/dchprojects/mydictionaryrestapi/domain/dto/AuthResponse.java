@@ -7,12 +7,18 @@ public class AuthResponse {
     @JsonProperty("access_token")
     private String accessToken;
 
-    public AuthResponse(String accessToken) {
+    @JsonProperty("expiration_date")
+    private String expirationDate;
+
+    public AuthResponse(String accessToken, String expirationDate) {
         this.accessToken = accessToken;
+        this.expirationDate = expirationDate;
     }
 
     public String getAccessToken() {
         return accessToken;
     }
+
+    public String getExpirationDate() { return expirationDate; }
 
 }

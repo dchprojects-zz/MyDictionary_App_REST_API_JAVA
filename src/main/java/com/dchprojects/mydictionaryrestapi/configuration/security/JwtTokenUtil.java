@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.configuration.security;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.JwtTokenResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -26,14 +27,19 @@ public class JwtTokenUtil {
     // Expiration in milliseconds - 1 Hour
     private static Integer jwtExpirationInMs = 3600000;
 
-    public String generateAccessToken(UserEntity userEntity) {
-        return Jwts.builder()
+    public JwtTokenResponse generateAccessToken(UserEntity userEntity) {
+
+        Date accessTokenExpirationDate = new Date(System.currentTimeMillis() + jwtExpirationInMs);
+
+        String accessToken = Jwts.builder()
                 .setSubject(format("%s,%s", userEntity.getUserId(), userEntity.getNickname()))
                 .setIssuer(jwtIssuer)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs)) // 1 week
+                .setExpiration(accessTokenExpirationDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+
+        return new JwtTokenResponse(accessToken, accessTokenExpirationDate);
     }
 
     public String getNickname(String token) {

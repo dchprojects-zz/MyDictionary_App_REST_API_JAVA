@@ -3,6 +3,7 @@ package com.dchprojects.mydictionaryrestapi.controller;
 import com.dchprojects.mydictionaryrestapi.configuration.security.JwtTokenUtil;
 import com.dchprojects.mydictionaryrestapi.domain.dto.AuthRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.AuthResponse;
+import com.dchprojects.mydictionaryrestapi.domain.dto.JwtTokenResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Tag(name = "Authentication")
 @RestController @RequestMapping(path = "/api/v1/auth")
@@ -40,12 +43,15 @@ public class AuthController {
 
             if (userService.isExist(user.getUsername())) {
                 UserEntity userEntity = userService.findByNickname(user.getUsername()).get();
-                return ResponseEntity.ok(new AuthResponse(jwtTokenUtil.generateAccessToken(userEntity)));
+                JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(userEntity);
+                Timestamp timestamp = new Timestamp(jwtTokenResponse.getExpirationDate().getTime());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                return ResponseEntity.ok(new AuthResponse(jwtTokenResponse.getAccessToken(), simpleDateFormat.format(timestamp)));
             } else {
-                return new ResponseEntity(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (BadCredentialsException ex) {
-            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
