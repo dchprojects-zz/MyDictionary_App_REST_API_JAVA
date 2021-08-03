@@ -25,12 +25,12 @@ public class AdminApi {
     private final UserService userService;
     private final LanguageService languageService;
 
-    @GetMapping
+    @GetMapping("/users")
     public List<UserEntity> list() {
         return userService.listAll();
     }
 
-    @PostMapping
+    @PostMapping("/createLanguage")
     public ResponseEntity<LanguageEntity> createLanguage(@RequestBody LanguageEntity language) {
         Boolean isExistLanguageName = languageService.isExist(language.getLanguageName());
         if (isExistLanguageName) {
