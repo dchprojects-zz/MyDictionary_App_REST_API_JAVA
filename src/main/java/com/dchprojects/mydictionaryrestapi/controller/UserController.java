@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,6 @@ public class UserController {
     private final CourseService courseService;
     private final WordService wordService;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<UserEntity> list() {
@@ -55,7 +55,7 @@ public class UserController {
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findByName(RoleName.ROLE_USER).get());
             user.setRoles(roles);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             userService.save(user);
 
             Optional<UserEntity> createdUser = userService.findByNickname(user.getNickname());
