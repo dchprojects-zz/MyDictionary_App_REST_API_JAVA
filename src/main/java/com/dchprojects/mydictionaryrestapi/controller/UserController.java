@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.controller;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.UpdateNicknameRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.Role;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleName;
@@ -26,9 +27,6 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final CourseService courseService;
-    private final WordService wordService;
-    private final RoleRepository roleRepository;
 
     @GetMapping
     public List<UserEntity> list() {
@@ -45,62 +43,16 @@ public class UserController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
-        Boolean isExist = userService.isExist(user.getNickname());
-        if (isExist) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-
-            List<Role> roles = new ArrayList<>();
-            roles.add(roleRepository.findByName(RoleName.ROLE_USER).get());
-            user.setRoles(roles);
-            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-            userService.save(user);
-
-            Optional<UserEntity> createdUser = userService.findByNickname(user.getNickname());
-            if (createdUser.isPresent()) {
-                return new ResponseEntity<>(createdUser.get(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
-        }
-    }
-
     @PutMapping("/{userId}/nickname")
-    public ResponseEntity<UserEntity> updateNickname(@RequestBody UserEntity user,
+    public ResponseEntity<UserEntity> updateNickname(@RequestBody UpdateNicknameRequest user,
                                                      @PathVariable Long userId) {
-        Boolean isExistByUserId = userService.isExist(userId);
-        if (isExistByUserId) {
-            Boolean isExistByUsername = userService.isExist(user.getNickname());
-            if (isExistByUsername) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            } else {
-                userService.updateNickname(userId, user.getNickname());
-                Optional<UserEntity> updatedUser = userService.findById(userId);
-                if (updatedUser.isPresent()) {
-                    return new ResponseEntity<>(updatedUser.get(), HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
-            }
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(userService.updateNickname(userId, user.getNickname()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
-        Boolean isExist = userService.isExist(userId);
-        if (isExist) {
-            userService.delete(userId);
-            courseService.deleteAllByUserId(userId);
-            wordService.deleteAllByUserId(userId);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        userService.delete(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
