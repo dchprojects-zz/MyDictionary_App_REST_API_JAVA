@@ -6,6 +6,7 @@ import com.dchprojects.mydictionaryrestapi.domain.dto.AuthResponse;
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.JwtTokenResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.sql.Timestamp;
@@ -28,6 +30,7 @@ import java.text.SimpleDateFormat;
 
 @Tag(name = "Authentication")
 @RestController @RequestMapping(path = "/api/v1/auth")
+@RolesAllowed({RoleNameString.ROLE_USER, RoleNameString.ROLE_ADMIN})
 @RequiredArgsConstructor
 public class AuthApi {
 

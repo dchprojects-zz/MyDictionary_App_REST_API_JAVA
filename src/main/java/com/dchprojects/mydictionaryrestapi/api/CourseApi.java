@@ -1,6 +1,7 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
@@ -10,12 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "Course")
 @RestController
 @RequestMapping("/api/v1/courses")
+@RolesAllowed({RoleNameString.ROLE_USER, RoleNameString.ROLE_ADMIN})
 @RequiredArgsConstructor
 public class CourseApi {
 
