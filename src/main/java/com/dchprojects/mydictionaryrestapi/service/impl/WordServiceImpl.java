@@ -120,8 +120,10 @@ public class WordServiceImpl implements WordService {
                 throw new ValidationException("Word exists!");
             } else {
                 WordEntity wordForUpdate = wordRepository.findById(updateWordRequest.getWordId()).get();
+
                 wordForUpdate.setWordText(updateWordRequest.getWordText());
                 wordForUpdate.setWordDescription(updateWordRequest.getWordDescription());
+
                 WordEntity updatedWord = wordRepository.save(wordForUpdate);
                 return updatedWord;
             }
