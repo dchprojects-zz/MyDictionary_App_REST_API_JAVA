@@ -86,8 +86,16 @@ public class WordServiceImpl implements WordService {
             if (wordIsExist) {
                 throw new ValidationException("Word exists!");
             } else {
-                WordEntity createdWord = new WordEntity();
-                wordRepository.save(createdWord);
+                WordEntity newWord = new WordEntity();
+
+                newWord.setUserId(createWordRequest.getUserId());
+                newWord.setCourseId(createWordRequest.getCourseId());
+                newWord.setLanguageId(createWordRequest.getLanguageId());
+                newWord.setWordText(createWordRequest.getWordText());
+                newWord.setWordDescription(createWordRequest.getWordDescription());
+                newWord.setLanguageName(createWordRequest.getLanguageName());
+
+                WordEntity createdWord = wordRepository.save(newWord);
                 return createdWord;
             }
         } else {
