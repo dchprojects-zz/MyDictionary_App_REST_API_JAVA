@@ -100,7 +100,9 @@ public class UserServiceImpl implements UserService {
                 throw new ValidationException("Nickname exists!");
             } else {
                 UserEntity userForUpdate = userRepository.findById(userId).get();
+
                 userForUpdate.setNickname(updateNicknameRequest.getNickname());
+
                 UserEntity updatedUser = userRepository.save(userForUpdate);
                 return updatedUser;
             }
