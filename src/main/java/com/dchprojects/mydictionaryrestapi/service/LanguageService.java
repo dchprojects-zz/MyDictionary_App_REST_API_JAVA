@@ -13,7 +13,7 @@ public interface LanguageService {
 
     public Boolean existsByLanguageName(String languageName);
 
-    public Boolean existByLanguageIdAndLanguageName(Long languageId, String languageName);
+    public Boolean existsByLanguageIdAndLanguageName(Long languageId, String languageName);
 
     public LanguageEntity findById(Long languageId);
 

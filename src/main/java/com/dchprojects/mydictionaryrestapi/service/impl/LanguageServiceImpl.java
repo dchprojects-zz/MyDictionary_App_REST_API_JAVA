@@ -30,7 +30,7 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public Boolean existByLanguageIdAndLanguageName(Long languageId, String languageName) {
+    public Boolean existsByLanguageIdAndLanguageName(Long languageId, String languageName) {
         return languageRepository.existsByLanguageIdAndLanguageName(languageId, languageName);
     }
 

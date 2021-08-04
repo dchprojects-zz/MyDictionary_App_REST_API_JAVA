@@ -11,14 +11,12 @@ public interface CourseService {
 
     public Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId);
 
-    public Boolean isExist(String languageName, Long userId);
+    public Boolean existsByLanguageNameAndUserId(String languageName, Long userId);
 
-    public Boolean isExist(Long userId, Long courseId);
+    public Boolean existsByUserIdAndCourseId(Long userId, Long courseId);
 
-    public void save(CourseEntity course);
+    public CourseEntity create(CourseEntity course);
 
     public void deleteByUserIdAndCourseId(Long userId, Long courseId);
-
-    public void deleteAllByUserId(Long userId);
 
 }

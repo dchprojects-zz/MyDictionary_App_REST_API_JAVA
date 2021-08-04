@@ -7,7 +7,7 @@ import com.dchprojects.mydictionaryrestapi.domain.entity.role.Role;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleName;
 import com.dchprojects.mydictionaryrestapi.repository.RoleRepository;
 import com.dchprojects.mydictionaryrestapi.repository.UserRepository;
-import com.dchprojects.mydictionaryrestapi.service.CourseService;
+import com.dchprojects.mydictionaryrestapi.service.CourseServiceForUser;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private final CourseService courseService;
+    private final CourseServiceForUser courseInterfaceServiceForUser;
     private final WordService wordService;
 
     @Override
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
     public void delete(Long userId) {
         Boolean existsByUserId = userRepository.existsByUserId(userId);
         if (existsByUserId) {
-            courseService.deleteAllByUserId(userId);
+            courseInterfaceServiceForUser.deleteAllByUserId(userId);
             wordService.deleteAllByUserId(userId);
             userRepository.deleteById(userId);
         } else {

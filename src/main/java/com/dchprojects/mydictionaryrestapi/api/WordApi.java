@@ -36,8 +36,8 @@ public class WordApi {
     @PostMapping
     public ResponseEntity<WordEntity> createWord(@RequestBody WordEntity word) {
         Boolean existsByUserId = userService.existsByUserId(word.getUserId());
-        Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
-        Boolean existByLanguageIdAndLanguageName = languageService.existByLanguageIdAndLanguageName(word.getLanguageId(), word.getLanguageName());
+        Boolean existsByUserIdAndCourseId = courseService.existsByUserIdAndCourseId(word.getUserId(), word.getCourseId());
+        Boolean existsByLanguageIdAndLanguageName = languageService.existsByLanguageIdAndLanguageName(word.getLanguageId(), word.getLanguageName());
         Boolean wordIsExist = wordService.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
                 word.getUserId(),
                 word.getCourseId(),
@@ -46,7 +46,7 @@ public class WordApi {
                 word.getWordDescription(),
                 word.getLanguageName()
         );
-        if (existsByUserId && courseIsExist && existByLanguageIdAndLanguageName) {
+        if (existsByUserId && existsByUserIdAndCourseId && existsByLanguageIdAndLanguageName) {
             if (wordIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
@@ -72,8 +72,8 @@ public class WordApi {
     @PutMapping
     public ResponseEntity<WordEntity> udpateWord(@RequestBody WordEntity word) {
         Boolean existsByUserId = userService.existsByUserId(word.getUserId());
-        Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
-        Boolean existByLanguageIdAndLanguageName = languageService.existByLanguageIdAndLanguageName(word.getLanguageId(), word.getLanguageName());
+        Boolean existsByUserIdAndCourseId = courseService.existsByUserIdAndCourseId(word.getUserId(), word.getCourseId());
+        Boolean existsByLanguageIdAndLanguageName = languageService.existsByLanguageIdAndLanguageName(word.getLanguageId(), word.getLanguageName());
         Boolean wordIsExist = wordService.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
                 word.getUserId(),
                 word.getCourseId(),
@@ -82,7 +82,7 @@ public class WordApi {
                 word.getWordDescription(),
                 word.getLanguageName()
         );
-        if (existsByUserId && courseIsExist && existByLanguageIdAndLanguageName) {
+        if (existsByUserId && existsByUserIdAndCourseId && existsByLanguageIdAndLanguageName) {
             if (wordIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
@@ -102,9 +102,9 @@ public class WordApi {
     @DeleteMapping("/userId/{userId}/courseId/{courseId}/wordId/{wordId}")
     public ResponseEntity<?> deleteWord(@PathVariable Long userId, @PathVariable Long courseId, @PathVariable Long wordId) {
         Boolean existsByUserId = userService.existsByUserId(userId);
-        Boolean courseIsExist = courseService.isExist(userId, courseId);
+        Boolean existsByUserIdAndCourseId = courseService.existsByUserIdAndCourseId(userId, courseId);
         Boolean wordIsExist = wordService.isExist(wordId);
-        if (existsByUserId && courseIsExist) {
+        if (existsByUserId && existsByUserIdAndCourseId) {
             if (wordIsExist) {
                 wordService.deleteByUserIdAndCourseIdAndWordId(userId, courseId, wordId);
                 return new ResponseEntity<>(HttpStatus.OK);
