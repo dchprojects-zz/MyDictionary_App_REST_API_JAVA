@@ -6,7 +6,6 @@ import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 import com.dchprojects.mydictionaryrestapi.repository.WordRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
-import com.dchprojects.mydictionaryrestapi.service.UserService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -115,8 +114,8 @@ public class WordServiceImpl implements WordService {
                 WordEntity wordForUpdate = wordRepository.findById(updateWordRequest.getWordId()).get();
                 wordForUpdate.setWordText(updateWordRequest.getWordText());
                 wordForUpdate.setWordDescription(updateWordRequest.getWordDescription());
-                wordForUpdate = wordRepository.save(wordForUpdate);
-                return wordForUpdate;
+                WordEntity updatedWord = wordRepository.save(wordForUpdate);
+                return updatedWord;
             }
         } else {
             throw new NoSuchElementException("Course not found!");
