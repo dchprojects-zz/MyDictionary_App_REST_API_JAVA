@@ -18,6 +18,7 @@ public interface UserService {
     public Optional<UserEntity> findByNickname(String nickname);
 
     public UserEntity createUser(CreateUserRequest createUserRequest);
+
     public UserEntity createAdmin(UserEntity user);
 
     public Optional<UserEntity> findById(Long userId);
