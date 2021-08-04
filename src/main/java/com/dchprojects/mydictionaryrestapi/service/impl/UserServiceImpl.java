@@ -9,7 +9,7 @@ import com.dchprojects.mydictionaryrestapi.repository.RoleRepository;
 import com.dchprojects.mydictionaryrestapi.repository.UserRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseServiceForUser;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
-import com.dchprojects.mydictionaryrestapi.service.WordService;
+import com.dchprojects.mydictionaryrestapi.service.WordServiceForUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final CourseServiceForUser courseInterfaceServiceForUser;
-    private final WordService wordService;
+    private final WordServiceForUser wordServiceForUser;
 
     @Override
     public List<UserEntity> listAll() {
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
         Boolean existsByUserId = userRepository.existsByUserId(userId);
         if (existsByUserId) {
             courseInterfaceServiceForUser.deleteAllByUserId(userId);
-            wordService.deleteAllByUserId(userId);
+            wordServiceForUser.deleteAllByUserId(userId);
             userRepository.deleteById(userId);
         } else {
             throw new UsernameNotFoundException(format("User with userId - %d, not found", userId));
