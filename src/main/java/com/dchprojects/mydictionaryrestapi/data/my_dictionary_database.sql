@@ -7,6 +7,8 @@ USE my_dictionary_database;
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `user_role`;
 DROP TABLE IF EXISTS `languages`;
 DROP TABLE IF EXISTS `courses`;
 DROP TABLE IF EXISTS `words`;
