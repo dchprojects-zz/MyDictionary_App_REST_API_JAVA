@@ -19,7 +19,7 @@ public interface UserService {
 
     public UserEntity createUser(CreateUserRequest createUserRequest);
 
-    public UserEntity createAdmin(UserEntity user);
+    public UserEntity createAdmin(CreateUserRequest createUserRequest);
 
     public Optional<UserEntity> findById(Long userId);
 

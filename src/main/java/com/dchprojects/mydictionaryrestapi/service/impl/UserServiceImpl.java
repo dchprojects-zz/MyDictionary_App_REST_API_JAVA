@@ -59,33 +59,35 @@ public class UserServiceImpl implements UserService {
         if (existsByNickname) {
             throw new ValidationException("Nickname exists!");
         } else {
-            UserEntity userEntity = new UserEntity();
+            UserEntity newUser = new UserEntity();
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findByName(RoleName.ROLE_USER).get());
 
-            userEntity.setNickname(createUserRequest.getNickname());
-            userEntity.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
-            userEntity.setRoles(roles);
+            newUser.setNickname(createUserRequest.getNickname());
+            newUser.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
+            newUser.setRoles(roles);
 
-            UserEntity createdUser = userRepository.save(userEntity);
+            UserEntity createdUser = userRepository.save(newUser);
             return createdUser;
         }
     }
 
     @Override
-    public UserEntity createAdmin(UserEntity user) {
-        Boolean existsByNickname = userRepository.existsByNickname(user.getNickname());
+    public UserEntity createAdmin(CreateUserRequest createUserRequest) {
+        Boolean existsByNickname = userRepository.existsByNickname(createUserRequest.getNickname());
         if (existsByNickname) {
             throw new ValidationException("Nickname exists!");
         } else {
+            UserEntity newUser = new UserEntity();
             List<Role> roles = new ArrayList<>();
             roles.add(roleRepository.findByName(RoleName.ROLE_ADMIN).get());
 
-            user.setRoles(roles);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            newUser.setNickname(createUserRequest.getNickname());
+            newUser.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
+            newUser.setRoles(roles);
 
-            UserEntity createdAdmin = userRepository.save(user);
-            return createdAdmin;
+            UserEntity createdUser = userRepository.save(newUser);
+            return createdUser;
         }
     }
 
