@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.CreateCourseRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.repository.CourseRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
@@ -38,15 +39,21 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseEntity create(CourseEntity course) {
-        Boolean existsByUserId = userService.existsByUserId(course.getUserId());
-        Boolean existsByLanguageNameAndUserId = courseRepository.existsByLanguageNameAndUserId(course.getLanguageName(), course.getUserId());
-        Boolean existsByLanguageIdAndLanguageName = languageService.existsByLanguageIdAndLanguageName(course.getLanguageId(), course.getLanguageName());
+    public CourseEntity create(CreateCourseRequest createCourseRequest) {
+        Boolean existsByUserId = userService.existsByUserId(createCourseRequest.getUserId());
+        Boolean existsByLanguageNameAndUserId = courseRepository.existsByLanguageNameAndUserId(createCourseRequest.getLanguageName(), createCourseRequest.getUserId());
+        Boolean existsByLanguageIdAndLanguageName = languageService.existsByLanguageIdAndLanguageName(createCourseRequest.getLanguageId(), createCourseRequest.getLanguageName());
         if (existsByUserId && existsByLanguageIdAndLanguageName) {
             if (existsByLanguageNameAndUserId) {
                 throw new ValidationException("Course exists!");
             } else {
-                CourseEntity createdCourse = courseRepository.save(course);
+                CourseEntity newCourse = new CourseEntity();
+
+                newCourse.setUserId(createCourseRequest.getUserId());
+                newCourse.setLanguageId(createCourseRequest.getLanguageId());
+                newCourse.setLanguageName(createCourseRequest.getLanguageName());
+
+                CourseEntity createdCourse = courseRepository.save(newCourse);
                 return createdCourse;
             }
         } else {

@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.CreateLanguageRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.repository.LanguageRepository;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
@@ -41,12 +42,16 @@ public class LanguageServiceImpl implements LanguageService {
     public Optional<LanguageEntity> findByLanguageName(String languageName) { return languageRepository.findByLanguageName(languageName); }
 
     @Override
-    public LanguageEntity create(LanguageEntity language) {
-        Boolean existsByLanguageName = languageRepository.existsByLanguageName(language.getLanguageName());
+    public LanguageEntity create(CreateLanguageRequest createLanguageRequest) {
+        Boolean existsByLanguageName = languageRepository.existsByLanguageName(createLanguageRequest.getLanguageName());
         if (existsByLanguageName) {
             throw new ValidationException("Language name exists!");
         } else {
-            LanguageEntity createdLanguage = languageRepository.save(language);
+            LanguageEntity newLanguage = new LanguageEntity();
+
+            newLanguage.setLanguageName(createLanguageRequest.getLanguageName());
+
+            LanguageEntity createdLanguage = languageRepository.save(newLanguage);
             return createdLanguage;
         }
     }

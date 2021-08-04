@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.CreateCourseRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -36,9 +38,9 @@ public class CourseApi {
     }
 
     @PostMapping
-    public ResponseEntity<CourseEntity> createCourse(@RequestBody CourseEntity course) {
+    public ResponseEntity<CourseEntity> createCourse(@RequestBody @Valid CreateCourseRequest createCourseRequest) {
         try {
-            return new ResponseEntity<>(courseService.create(course), HttpStatus.OK);
+            return new ResponseEntity<>(courseService.create(createCourseRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (NoSuchElementException noSuchElementException) {

@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.CreateLanguageRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.List;
 
@@ -31,9 +33,9 @@ public class AdminApi {
     }
 
     @PostMapping("/createLanguage")
-    public ResponseEntity<LanguageEntity> createLanguage(@RequestBody LanguageEntity language) {
+    public ResponseEntity<LanguageEntity> createLanguage(@RequestBody @Valid CreateLanguageRequest createLanguageRequest) {
         try {
-            return new ResponseEntity<>(languageService.create(language), HttpStatus.OK);
+            return new ResponseEntity<>(languageService.create(createLanguageRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }

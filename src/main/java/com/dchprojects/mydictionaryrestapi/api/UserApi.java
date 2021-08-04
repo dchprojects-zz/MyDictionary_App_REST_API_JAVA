@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 @Tag(name = "User")
@@ -34,7 +35,7 @@ public class UserApi {
     }
 
     @PutMapping("/{userId}/nickname")
-    public ResponseEntity<UserEntity> updateNickname(@RequestBody UpdateNicknameRequest updateNicknameRequest,
+    public ResponseEntity<UserEntity> updateNickname(@RequestBody @Valid UpdateNicknameRequest updateNicknameRequest,
                                                      @PathVariable Long userId) {
         try {
             UserEntity updatedUser = userService.updateNickname(userId, updateNicknameRequest);
