@@ -37,7 +37,7 @@ public class WordApi {
     public ResponseEntity<WordEntity> createWord(@RequestBody WordEntity word) {
         Boolean existsByUserId = userService.existsByUserId(word.getUserId());
         Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
-        Boolean languageIsExist = languageService.isExist(word.getLanguageId(), word.getLanguageName());
+        Boolean existByLanguageIdAndLanguageName = languageService.existByLanguageIdAndLanguageName(word.getLanguageId(), word.getLanguageName());
         Boolean wordIsExist = wordService.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
                 word.getUserId(),
                 word.getCourseId(),
@@ -46,7 +46,7 @@ public class WordApi {
                 word.getWordDescription(),
                 word.getLanguageName()
         );
-        if (existsByUserId && courseIsExist && languageIsExist) {
+        if (existsByUserId && courseIsExist && existByLanguageIdAndLanguageName) {
             if (wordIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
@@ -73,7 +73,7 @@ public class WordApi {
     public ResponseEntity<WordEntity> udpateWord(@RequestBody WordEntity word) {
         Boolean existsByUserId = userService.existsByUserId(word.getUserId());
         Boolean courseIsExist = courseService.isExist(word.getUserId(), word.getCourseId());
-        Boolean languageIsExist = languageService.isExist(word.getLanguageId(), word.getLanguageName());
+        Boolean existByLanguageIdAndLanguageName = languageService.existByLanguageIdAndLanguageName(word.getLanguageId(), word.getLanguageName());
         Boolean wordIsExist = wordService.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
                 word.getUserId(),
                 word.getCourseId(),
@@ -82,7 +82,7 @@ public class WordApi {
                 word.getWordDescription(),
                 word.getLanguageName()
         );
-        if (existsByUserId && courseIsExist && languageIsExist) {
+        if (existsByUserId && courseIsExist && existByLanguageIdAndLanguageName) {
             if (wordIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {

@@ -6,6 +6,7 @@ import com.dchprojects.mydictionaryrestapi.service.LanguageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,13 +20,19 @@ public class LanguageServiceImpl implements LanguageService {
     public List<LanguageEntity> listAll() { return languageRepository.findAll(); }
 
     @Override
-    public Boolean isExist(Long languageId) { return languageRepository.existsByLanguageId(languageId); }
+    public Boolean existsByLanguageId(Long languageId) {
+        return languageRepository.existsByLanguageId(languageId);
+    }
 
     @Override
-    public Boolean isExist(String languageName) { return languageRepository.existsByLanguageName(languageName); }
+    public Boolean existsByLanguageName(String languageName) {
+        return languageRepository.existsByLanguageName(languageName);
+    }
 
     @Override
-    public Boolean isExist(Long languageId, String languageName) { return languageRepository.existsByLanguageIdAndLanguageName(languageId, languageName); }
+    public Boolean existByLanguageIdAndLanguageName(Long languageId, String languageName) {
+        return languageRepository.existsByLanguageIdAndLanguageName(languageId, languageName);
+    }
 
     @Override
     public LanguageEntity findById(Long languageId) { return languageRepository.findById(languageId).get(); }
@@ -34,6 +41,14 @@ public class LanguageServiceImpl implements LanguageService {
     public Optional<LanguageEntity> findByLanguageName(String languageName) { return languageRepository.findByLanguageName(languageName); }
 
     @Override
-    public void save(LanguageEntity language) { languageRepository.save(language); }
+    public LanguageEntity create(LanguageEntity language) {
+        Boolean existsByLanguageName = languageRepository.existsByLanguageName(language.getLanguageName());
+        if (existsByLanguageName) {
+            throw new ValidationException("Language name exists!");
+        } else {
+            LanguageEntity createdLanguage = languageRepository.save(language);
+            return createdLanguage;
+        }
+    }
 
 }

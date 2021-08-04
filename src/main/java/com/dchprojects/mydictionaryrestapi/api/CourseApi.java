@@ -40,8 +40,8 @@ public class CourseApi {
     public ResponseEntity<CourseEntity> createCourse(@RequestBody CourseEntity course) {
         Boolean existsByUserId = userService.existsByUserId(course.getUserId());
         Boolean courseIsExist = courseService.isExist(course.getLanguageName(), course.getUserId());
-        Boolean languageIsExist = languageService.isExist(course.getLanguageId(), course.getLanguageName());
-        if (existsByUserId && languageIsExist) {
+        Boolean existByLanguageIdAndLanguageName = languageService.existByLanguageIdAndLanguageName(course.getLanguageId(), course.getLanguageName());
+        if (existsByUserId && existByLanguageIdAndLanguageName) {
             if (courseIsExist) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {

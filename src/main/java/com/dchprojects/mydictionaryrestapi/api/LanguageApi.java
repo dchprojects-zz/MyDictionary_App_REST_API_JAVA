@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Language")
 @RestController
@@ -27,8 +26,8 @@ public class LanguageApi {
 
     @GetMapping("/{languageId}")
     public ResponseEntity<LanguageEntity> getLanguageById(@PathVariable Long languageId) {
-        Boolean languageIsExist = languageService.isExist(languageId);
-        if (languageIsExist) {
+        Boolean existsByLanguageId = languageService.existsByLanguageId(languageId);
+        if (existsByLanguageId) {
             return new ResponseEntity<>(languageService.findById(languageId), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -9,16 +9,16 @@ public interface LanguageService {
 
     public List<LanguageEntity> listAll();
 
-    public Boolean isExist(Long languageId);
+    public Boolean existsByLanguageId(Long languageId);
 
-    public Boolean isExist(String languageName);
+    public Boolean existsByLanguageName(String languageName);
 
-    public Boolean isExist(Long languageId, String languageName);
+    public Boolean existByLanguageIdAndLanguageName(Long languageId, String languageName);
 
     public LanguageEntity findById(Long languageId);
 
     public Optional<LanguageEntity> findByLanguageName(String languageName);
 
-    public void save(LanguageEntity language);
+    public LanguageEntity create(LanguageEntity language);
 
 }

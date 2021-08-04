@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.ValidationException;
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Admin")
 @RestController
@@ -32,17 +32,10 @@ public class AdminApi {
 
     @PostMapping("/createLanguage")
     public ResponseEntity<LanguageEntity> createLanguage(@RequestBody LanguageEntity language) {
-        Boolean isExistLanguageName = languageService.isExist(language.getLanguageName());
-        if (isExistLanguageName) {
+        try {
+            return new ResponseEntity<>(languageService.create(language), HttpStatus.OK);
+        } catch (ValidationException validationException) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-            languageService.save(language);
-            Optional<LanguageEntity> savedLanguage = languageService.findByLanguageName(language.getLanguageName());
-            if (savedLanguage.isPresent()) {
-                return new ResponseEntity<>(savedLanguage.get(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
         }
     }
 
