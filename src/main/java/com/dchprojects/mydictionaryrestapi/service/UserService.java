@@ -12,8 +12,6 @@ public interface UserService {
 
     UserEntity findByNickname(String nickname);
 
-    Boolean existsByNickname(String nickname);
-
     public UserEntity createUser(CreateUserRequest createUserRequest);
 
     public UserEntity createAdmin(CreateUserRequest createUserRequest);
