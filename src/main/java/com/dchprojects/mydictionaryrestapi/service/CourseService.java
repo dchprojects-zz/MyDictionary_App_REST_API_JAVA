@@ -4,7 +4,6 @@ import com.dchprojects.mydictionaryrestapi.domain.dto.CreateCourseRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CourseService {
 

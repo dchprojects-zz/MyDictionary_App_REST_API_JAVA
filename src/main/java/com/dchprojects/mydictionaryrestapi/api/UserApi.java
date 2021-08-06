@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.util.NoSuchElementException;
 
 @Tag(name = "User")
 @RestController
@@ -26,10 +27,9 @@ public class UserApi {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserEntity> getUserById(@PathVariable Long userId) {
-        Boolean existsByUserId = userService.existsByUserId(userId);
-        if (existsByUserId) {
-            return new ResponseEntity<>(userService.findById(userId).get(), HttpStatus.OK);
-        } else {
+        try {
+            return new ResponseEntity<>(userService.findById(userId), HttpStatus.OK);
+        } catch (NoSuchElementException noSuchElementException) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

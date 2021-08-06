@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 import static java.lang.String.format;
 
@@ -38,19 +38,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean existsByNickname(String nickname) {  return userRepository.existsByNickname(nickname); }
-
-    @Override
-    public Boolean existsByUserId(Long userId) { return userRepository.existsByUserId(userId); }
-
-    @Override
-    public Optional<UserEntity> findByNickname(String nickname) {
-        return userRepository.findByNickname(nickname);
-    }
-
-    @Override
-    public Optional<UserEntity> findById(Long userId) {
-        return userRepository.findById(userId);
+    public UserEntity findById(Long userId) {
+        Boolean userExists = userRepository.existsByUserId(userId);
+        if (userExists) {
+            return userRepository.findById(userId).get();
+        } else {
+            throw new NoSuchElementException("User not found");
+        }
     }
 
     @Override
