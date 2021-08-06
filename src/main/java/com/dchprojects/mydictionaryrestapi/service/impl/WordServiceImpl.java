@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.validation.ValidationException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,106 +24,51 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public Boolean existsByWordId(Long wordId) {
-        return wordRepository.existsByWordId(wordId);
-    }
-
-    @Override
-    public Boolean existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(Long userId,
-                                                                                                      Long courseId,
-                                                                                                      Long languageId,
-                                                                                                      String wordText,
-                                                                                                      String wordDescription,
-                                                                                                      String languageName) {
-        return wordRepository.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
-                userId,
-                courseId,
-                languageId,
-                wordText,
-                wordDescription,
-                languageName);
-    }
-
-    @Override
-    public Optional<WordEntity> findByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(Long userId,
-                                                                                                                 Long courseId,
-                                                                                                                 Long languageId,
-                                                                                                                 String wordText,
-                                                                                                                 String wordDescription,
-                                                                                                                 String languageName) {
-        return wordRepository.findByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
-                userId,
-                courseId,
-                languageId,
-                wordText,
-                wordDescription,
-                languageName);
-    }
-
-    @Override
-    public Optional<WordEntity> findByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId) {
-        return wordRepository.findByUserIdAndCourseIdAndWordId(userId, courseId, wordId);
-    }
-
-    @Override
     public WordEntity create(CreateWordRequest createWordRequest) {
-        Boolean existsByUserIdAndCourseId = courseService.existsByUserIdAndCourseId(createWordRequest.getUserId(), createWordRequest.getCourseId());
-        Boolean existsByLanguageIdAndLanguageName = languageService.existsByLanguageIdAndLanguageName(createWordRequest.getLanguageId(), createWordRequest.getLanguageName());
-        Boolean wordIsExist = wordRepository.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
+        Boolean wordIsExist = wordRepository.existsByUserIdAndCourseIdAndLanguageIdAndLanguageNameAndWordText(
                 createWordRequest.getUserId(),
                 createWordRequest.getCourseId(),
                 createWordRequest.getLanguageId(),
-                createWordRequest.getWordText(),
-                createWordRequest.getWordDescription(),
-                createWordRequest.getLanguageName()
+                createWordRequest.getLanguageName(),
+                createWordRequest.getWordText()
         );
-        if (existsByUserIdAndCourseId && existsByLanguageIdAndLanguageName) {
-            if (wordIsExist) {
-                throw new ValidationException("Word exists!");
-            } else {
-                WordEntity newWord = new WordEntity();
-
-                newWord.setUserId(createWordRequest.getUserId());
-                newWord.setCourseId(createWordRequest.getCourseId());
-                newWord.setLanguageId(createWordRequest.getLanguageId());
-                newWord.setWordText(createWordRequest.getWordText());
-                newWord.setWordDescription(createWordRequest.getWordDescription());
-                newWord.setLanguageName(createWordRequest.getLanguageName());
-
-                WordEntity createdWord = wordRepository.save(newWord);
-                return createdWord;
-            }
+        if (wordIsExist) {
+            throw new ValidationException("Word exists!");
         } else {
-            throw new NoSuchElementException("Course not found!");
+            WordEntity newWord = new WordEntity();
+
+            newWord.setUserId(createWordRequest.getUserId());
+            newWord.setCourseId(createWordRequest.getCourseId());
+            newWord.setLanguageId(createWordRequest.getLanguageId());
+            newWord.setWordText(createWordRequest.getWordText());
+            newWord.setWordDescription(createWordRequest.getWordDescription());
+            newWord.setLanguageName(createWordRequest.getLanguageName());
+
+            WordEntity createdWord = wordRepository.save(newWord);
+            return createdWord;
         }
     }
 
     @Override
     public WordEntity update(UpdateWordRequest updateWordRequest) {
-        Boolean existsByUserIdAndCourseId = courseService.existsByUserIdAndCourseId(updateWordRequest.getUserId(), updateWordRequest.getCourseId());
-        Boolean existsByLanguageIdAndLanguageName = languageService.existsByLanguageIdAndLanguageName(updateWordRequest.getLanguageId(), updateWordRequest.getLanguageName());
-        Boolean wordIsExist = wordRepository.existsByUserIdAndCourseIdAndLanguageIdAndWordTextAndWordDescriptionAndLanguageName(
+        Boolean wordIsExist = wordRepository.existsByUserIdAndCourseIdAndLanguageIdAndLanguageNameAndWordText(
                 updateWordRequest.getUserId(),
                 updateWordRequest.getCourseId(),
                 updateWordRequest.getLanguageId(),
-                updateWordRequest.getWordText(),
-                updateWordRequest.getWordDescription(),
-                updateWordRequest.getLanguageName()
+                updateWordRequest.getLanguageName(),
+                updateWordRequest.getWordText()
         );
-        if (existsByUserIdAndCourseId && existsByLanguageIdAndLanguageName) {
-            if (wordIsExist) {
-                throw new ValidationException("Word exists!");
-            } else {
-                WordEntity wordForUpdate = wordRepository.findById(updateWordRequest.getWordId()).get();
 
-                wordForUpdate.setWordText(updateWordRequest.getWordText());
-                wordForUpdate.setWordDescription(updateWordRequest.getWordDescription());
-
-                WordEntity updatedWord = wordRepository.save(wordForUpdate);
-                return updatedWord;
-            }
+        if (wordIsExist) {
+            throw new ValidationException("Word exists!");
         } else {
-            throw new NoSuchElementException("Course not found!");
+            WordEntity wordForUpdate = wordRepository.findById(updateWordRequest.getWordId()).get();
+
+            wordForUpdate.setWordText(updateWordRequest.getWordText());
+            wordForUpdate.setWordDescription(updateWordRequest.getWordDescription());
+
+            WordEntity updatedWord = wordRepository.save(wordForUpdate);
+            return updatedWord;
         }
     }
 

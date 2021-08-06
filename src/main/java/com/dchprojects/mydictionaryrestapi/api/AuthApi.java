@@ -20,7 +20,8 @@ import javax.validation.ValidationException;
 import java.util.NoSuchElementException;
 
 @Tag(name = "Authentication")
-@RestController @RequestMapping(path = "/api/v1/auth")
+@RestController
+@RequestMapping(path = "/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthApi {
 
