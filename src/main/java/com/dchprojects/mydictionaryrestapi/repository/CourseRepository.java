@@ -21,11 +21,11 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     @Modifying
     @Transactional
-    @Query(value="delete from CourseEntity course where course.userId = ?1 and course.courseId = ?1")
+    @Query(value = "delete from CourseEntity course where course.userId = ?1 and course.courseId = ?1")
     void deleteByUserIdAndCourseId(Long userId, Long courseId);
 
     @Modifying
     @Transactional
-    @Query(value="delete from CourseEntity course where course.userId = ?1")
+    @Query(value = "delete from CourseEntity course where course.userId = ?1")
     void deleteAllByUserId(Long userId);
 }
