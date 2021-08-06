@@ -23,7 +23,9 @@ public class LanguageApi {
     private final LanguageService languageService;
 
     @GetMapping
-    public List<LanguageEntity> list() { return languageService.listAll(); }
+    public List<LanguageEntity> list() {
+        return languageService.listAll();
+    }
 
     @GetMapping("/{languageId}")
     public ResponseEntity<LanguageEntity> getLanguageById(@PathVariable Long languageId) {
