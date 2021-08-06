@@ -4,8 +4,6 @@ import com.dchprojects.mydictionaryrestapi.domain.dto.CreateWordRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.UpdateWordRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 import com.dchprojects.mydictionaryrestapi.repository.WordRepository;
-import com.dchprojects.mydictionaryrestapi.service.CourseService;
-import com.dchprojects.mydictionaryrestapi.service.LanguageService;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +18,6 @@ import java.util.Optional;
 public class WordServiceImpl implements WordService {
 
     private final WordRepository wordRepository;
-    private final CourseService courseService;
-    private final LanguageService languageService;
 
     @Override
     public List<WordEntity> listAll() {

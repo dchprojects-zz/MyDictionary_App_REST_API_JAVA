@@ -18,7 +18,7 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId);
 
-    Boolean existsByLanguageNameAndUserId(String languageName, Long userId);
+    Boolean existsByUserIdAndLanguageNameAndLanguageId(Long userId, String languageName, Long languageId);
 
     Boolean existsByUserIdAndCourseId(Long userId, Long courseId);
 

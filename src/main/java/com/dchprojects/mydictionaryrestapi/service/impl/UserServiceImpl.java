@@ -5,11 +5,11 @@ import com.dchprojects.mydictionaryrestapi.domain.dto.UpdateNicknameRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.Role;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleName;
+import com.dchprojects.mydictionaryrestapi.repository.CourseRepository;
 import com.dchprojects.mydictionaryrestapi.repository.RoleRepository;
 import com.dchprojects.mydictionaryrestapi.repository.UserRepository;
-import com.dchprojects.mydictionaryrestapi.service.CourseServiceForUser;
+import com.dchprojects.mydictionaryrestapi.repository.WordRepository;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
-import com.dchprojects.mydictionaryrestapi.service.WordServiceForUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private final CourseServiceForUser courseInterfaceServiceForUser;
-    private final WordServiceForUser wordServiceForUser;
+    private final CourseRepository courseRepository;
+    private final WordRepository wordRepository;
 
     @Override
     public List<UserEntity> listAll() {
@@ -115,8 +115,8 @@ public class UserServiceImpl implements UserService {
     public void delete(Long userId) {
         Boolean existsByUserId = userRepository.existsByUserId(userId);
         if (existsByUserId) {
-            courseInterfaceServiceForUser.deleteAllByUserId(userId);
-            wordServiceForUser.deleteAllByUserId(userId);
+            courseRepository.deleteAllByUserId(userId);
+            wordRepository.deleteAllByUserId(userId);
             userRepository.deleteById(userId);
         } else {
             throw new UsernameNotFoundException(format("User with userId - %d, not found", userId));

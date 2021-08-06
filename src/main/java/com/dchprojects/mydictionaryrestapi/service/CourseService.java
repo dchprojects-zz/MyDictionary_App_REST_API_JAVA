@@ -12,10 +12,6 @@ public interface CourseService {
 
     public Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId);
 
-    public Boolean existsByLanguageNameAndUserId(String languageName, Long userId);
-
-    public Boolean existsByUserIdAndCourseId(Long userId, Long courseId);
-
     public CourseEntity create(CreateCourseRequest createCourseRequest);
 
     public void deleteByUserIdAndCourseId(Long userId, Long courseId);
