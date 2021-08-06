@@ -18,7 +18,9 @@ public class LanguageServiceImpl implements LanguageService {
     private final LanguageRepository languageRepository;
 
     @Override
-    public List<LanguageEntity> listAll() { return languageRepository.findAll(); }
+    public List<LanguageEntity> listAll() {
+        return languageRepository.findAll();
+    }
 
     @Override
     public LanguageEntity findById(Long languageId) {
