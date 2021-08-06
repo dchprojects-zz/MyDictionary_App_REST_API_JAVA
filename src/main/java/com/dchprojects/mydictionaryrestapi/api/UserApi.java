@@ -38,8 +38,7 @@ public class UserApi {
     public ResponseEntity<UserEntity> updateNickname(@RequestBody @Valid UpdateNicknameRequest updateNicknameRequest,
                                                      @PathVariable Long userId) {
         try {
-            UserEntity updatedUser = userService.updateNickname(userId, updateNicknameRequest);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+            return new ResponseEntity<>(userService.updateNickname(userId, updateNicknameRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (UsernameNotFoundException usernameNotFoundException) {
