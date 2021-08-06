@@ -34,8 +34,7 @@ public class WordApi {
     @PostMapping
     public ResponseEntity<WordEntity> createWord(@RequestBody @Valid CreateWordRequest createWordRequest) {
         try {
-            WordEntity createdWord = wordService.create(createWordRequest);
-            return new ResponseEntity<>(createdWord, HttpStatus.OK);
+            return new ResponseEntity<>(wordService.create(createWordRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (NoSuchElementException noSuchElementException) {
@@ -46,8 +45,7 @@ public class WordApi {
     @PutMapping
     public ResponseEntity<WordEntity> udpateWord(@RequestBody @Valid UpdateWordRequest updateWordRequest) {
         try {
-            WordEntity updatedWord = wordService.update(updateWordRequest);
-            return new ResponseEntity<>(updatedWord, HttpStatus.OK);
+            return new ResponseEntity<>(wordService.update(updateWordRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (NoSuchElementException noSuchElementException) {
