@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.validation.ValidationException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +19,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseEntity> listByUserId(Long userId) { return courseRepository.findAllByUserId(userId); }
-
-    @Override
-    public Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId) {
-        return courseRepository.findByLanguageNameAndUserId(languageName, userId);
-    }
 
     @Override
     public CourseEntity create(CreateCourseRequest createCourseRequest) {

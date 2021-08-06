@@ -10,8 +10,6 @@ public interface CourseService {
 
     public List<CourseEntity> listByUserId(Long userId);
 
-    public Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId);
-
     public CourseEntity create(CreateCourseRequest createCourseRequest);
 
     public void deleteByUserIdAndCourseId(Long userId, Long courseId);
