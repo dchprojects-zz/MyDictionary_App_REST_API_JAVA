@@ -10,6 +10,10 @@ public interface UserService {
 
     public List<UserEntity> listAll();
 
+    UserEntity findByNickname(String nickname);
+
+    Boolean existsByNickname(String nickname);
+
     public UserEntity createUser(CreateUserRequest createUserRequest);
 
     public UserEntity createAdmin(CreateUserRequest createUserRequest);

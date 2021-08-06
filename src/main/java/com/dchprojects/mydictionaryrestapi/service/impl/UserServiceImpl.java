@@ -48,6 +48,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean existsByNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    @Override
+    public UserEntity findByNickname(String nickname) {
+        Boolean userExists = userRepository.existsByNickname(nickname);
+        if (userExists) {
+            return userRepository.findByNickname(nickname).get();
+        } else {
+            throw new NoSuchElementException("User not found!");
+        }
+    }
+
+    @Override
     public UserEntity createUser(CreateUserRequest createUserRequest) {
         Boolean existsByNickname = userRepository.existsByNickname(createUserRequest.getNickname());
         if (existsByNickname) {
