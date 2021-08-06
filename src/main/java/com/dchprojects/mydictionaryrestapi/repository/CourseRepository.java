@@ -9,14 +9,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     List<CourseEntity> findAllByUserId(Long userId);
-
-    Optional<CourseEntity> findByLanguageNameAndUserId(String languageName, Long userId);
 
     Boolean existsByUserIdAndLanguageNameAndLanguageId(Long userId, String languageName, Long languageId);
 
