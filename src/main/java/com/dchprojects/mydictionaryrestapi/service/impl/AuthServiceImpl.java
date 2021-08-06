@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
             return new AuthResponse(jwtTokenResponse.getAccessToken(),
-                        simpleDateFormat.format(timestamp));
+                    simpleDateFormat.format(timestamp));
 
         } catch (BadCredentialsException badCredentialsException) {
             throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());
