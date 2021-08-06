@@ -18,14 +18,16 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
 
     @Override
-    public List<CourseEntity> listByUserId(Long userId) { return courseRepository.findAllByUserId(userId); }
+    public List<CourseEntity> listByUserId(Long userId) {
+        return courseRepository.findAllByUserId(userId);
+    }
 
     @Override
     public CourseEntity create(CreateCourseRequest createCourseRequest) {
         Boolean courseExists = courseRepository
                 .existsByUserIdAndLanguageNameAndLanguageId(createCourseRequest.getUserId(),
-                                                            createCourseRequest.getLanguageName(),
-                                                            createCourseRequest.getLanguageId());
+                        createCourseRequest.getLanguageName(),
+                        createCourseRequest.getLanguageId());
 
         if (courseExists) {
             throw new ValidationException("Course exists!");
