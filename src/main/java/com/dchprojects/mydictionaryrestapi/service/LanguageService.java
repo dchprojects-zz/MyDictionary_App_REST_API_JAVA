@@ -10,15 +10,7 @@ public interface LanguageService {
 
     public List<LanguageEntity> listAll();
 
-    public Boolean existsByLanguageId(Long languageId);
-
-    public Boolean existsByLanguageName(String languageName);
-
-    public Boolean existsByLanguageIdAndLanguageName(Long languageId, String languageName);
-
     public LanguageEntity findById(Long languageId);
-
-    public Optional<LanguageEntity> findByLanguageName(String languageName);
 
     public LanguageEntity create(CreateLanguageRequest createLanguageRequest);
 

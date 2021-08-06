@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -21,25 +21,14 @@ public class LanguageServiceImpl implements LanguageService {
     public List<LanguageEntity> listAll() { return languageRepository.findAll(); }
 
     @Override
-    public Boolean existsByLanguageId(Long languageId) {
-        return languageRepository.existsByLanguageId(languageId);
+    public LanguageEntity findById(Long languageId) {
+        Boolean languageExists = languageRepository.existsByLanguageId(languageId);
+        if (languageExists) {
+            return languageRepository.findById(languageId).get();
+        } else {
+            throw new NoSuchElementException("Language not found");
+        }
     }
-
-    @Override
-    public Boolean existsByLanguageName(String languageName) {
-        return languageRepository.existsByLanguageName(languageName);
-    }
-
-    @Override
-    public Boolean existsByLanguageIdAndLanguageName(Long languageId, String languageName) {
-        return languageRepository.existsByLanguageIdAndLanguageName(languageId, languageName);
-    }
-
-    @Override
-    public LanguageEntity findById(Long languageId) { return languageRepository.findById(languageId).get(); }
-
-    @Override
-    public Optional<LanguageEntity> findByLanguageName(String languageName) { return languageRepository.findByLanguageName(languageName); }
 
     @Override
     public LanguageEntity create(CreateLanguageRequest createLanguageRequest) {

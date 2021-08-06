@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Tag(name = "Language")
 @RestController
@@ -26,10 +27,9 @@ public class LanguageApi {
 
     @GetMapping("/{languageId}")
     public ResponseEntity<LanguageEntity> getLanguageById(@PathVariable Long languageId) {
-        Boolean existsByLanguageId = languageService.existsByLanguageId(languageId);
-        if (existsByLanguageId) {
+        try {
             return new ResponseEntity<>(languageService.findById(languageId), HttpStatus.OK);
-        } else {
+        } catch (NoSuchElementException noSuchElementException) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
