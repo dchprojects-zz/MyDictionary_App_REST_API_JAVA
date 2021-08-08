@@ -18,8 +18,11 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.NoSuchElementException;
+import java.util.TimeZone;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserService userService;
+    private final static String datePattern = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Override
     public AuthResponse login(AuthRequest request) {
@@ -42,12 +46,10 @@ public class AuthServiceImpl implements AuthService {
 
             JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(userEntity);
 
-            Timestamp timestamp = new Timestamp(jwtTokenResponse.getExpirationDate().getTime());
-
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
 
             return new AuthResponse(jwtTokenResponse.getAccessToken(),
-                    simpleDateFormat.format(timestamp));
+                    simpleDateFormat.format(jwtTokenResponse.getExpirationDate()));
 
         } catch (BadCredentialsException badCredentialsException) {
             throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());
@@ -73,4 +75,5 @@ public class AuthServiceImpl implements AuthService {
             throw new ValidationException(validationException.getLocalizedMessage());
         }
     }
+
 }
