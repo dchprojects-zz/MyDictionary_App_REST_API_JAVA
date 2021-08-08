@@ -11,6 +11,4 @@ public interface AuthService {
 
     public UserEntity register(CreateUserRequest createUserRequest);
 
-    public UserEntity registerAdmin(CreateUserRequest createUserRequest);
-
 }

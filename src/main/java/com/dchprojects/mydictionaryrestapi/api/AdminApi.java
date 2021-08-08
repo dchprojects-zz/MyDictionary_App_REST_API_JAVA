@@ -1,11 +1,11 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateLanguageRequest;
+import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
-import com.dchprojects.mydictionaryrestapi.service.LanguageService;
-import com.dchprojects.mydictionaryrestapi.service.UserService;
+import com.dchprojects.mydictionaryrestapi.service.AdminService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,18 +24,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminApi {
 
-    private final UserService userService;
-    private final LanguageService languageService;
+    private final AdminService adminService;
 
     @GetMapping("/users")
     public List<UserEntity> list() {
-        return userService.listAll();
+        return adminService.userList();
     }
 
     @PostMapping("/createLanguage")
     public ResponseEntity<LanguageEntity> createLanguage(@RequestBody @Valid CreateLanguageRequest createLanguageRequest) {
         try {
-            return new ResponseEntity<>(languageService.create(createLanguageRequest), HttpStatus.OK);
+            return new ResponseEntity<>(adminService.createLanguage(createLanguageRequest), HttpStatus.OK);
+        } catch (ValidationException validationException) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+
+    @PostMapping("/register/admin")
+    public ResponseEntity<UserEntity> registerAdmin(@RequestBody @Valid CreateUserRequest createUserRequest) {
+        try {
+            return new ResponseEntity<>(adminService.registerAdmin(createUserRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }

@@ -47,13 +47,4 @@ public class AuthApi {
         }
     }
 
-    @PostMapping("/register/admin")
-    public ResponseEntity<UserEntity> registerAdmin(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        try {
-            return new ResponseEntity<>(authService.registerAdmin(createUserRequest), HttpStatus.OK);
-        } catch (ValidationException validationException) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-    }
-
 }

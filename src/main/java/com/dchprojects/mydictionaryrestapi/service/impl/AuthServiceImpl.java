@@ -63,13 +63,4 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    @Override
-    public UserEntity registerAdmin(CreateUserRequest createUserRequest) {
-        try {
-            return userService.createAdmin(createUserRequest);
-        } catch (ValidationException validationException) {
-            throw new ValidationException(validationException.getLocalizedMessage());
-        }
-    }
-
 }
