@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
-import java.text.SimpleDateFormat;
 import java.util.NoSuchElementException;
 
 @Service
@@ -27,7 +26,6 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserService userService;
-    private final static String datePattern = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Override
     public AuthResponse login(AuthRequest request) {
@@ -42,10 +40,7 @@ public class AuthServiceImpl implements AuthService {
 
             JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(userEntity);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
-
-            return new AuthResponse(jwtTokenResponse.getAccessToken(),
-                    simpleDateFormat.format(jwtTokenResponse.getExpirationDate()));
+            return new AuthResponse(jwtTokenResponse.getAccessToken(), jwtTokenResponse.getExpirationDate().toString());
 
         } catch (BadCredentialsException badCredentialsException) {
             throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());

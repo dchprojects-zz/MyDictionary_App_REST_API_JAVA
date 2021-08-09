@@ -1,14 +1,14 @@
 package com.dchprojects.mydictionaryrestapi.domain.dto;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class JwtTokenResponse {
 
     private String accessToken;
-    private Date expirationDate;
+    private DateTime expirationDate;
 
     public JwtTokenResponse(String accessToken,
-                            Date expirationDate) {
+                            DateTime expirationDate) {
         this.accessToken = accessToken;
         this.expirationDate = expirationDate;
     }
@@ -17,7 +17,7 @@ public class JwtTokenResponse {
         return accessToken;
     }
 
-    public Date getExpirationDate() {
+    public DateTime getExpirationDate() {
         return expirationDate;
     }
 

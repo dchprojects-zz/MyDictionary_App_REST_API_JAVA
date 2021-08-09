@@ -11,6 +11,8 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -24,18 +26,18 @@ public class JwtTokenUtil {
 
     private final String jwtSecret = "jwtSecretKey.app$8089_jwtExpirationInMs_3600000";
     private final String jwtIssuer = "com.dchprojects.mydictionaryrestapi";
-    // Expiration in milliseconds - 1 Hour
-    private static Integer jwtExpirationInMs = 3600000;
 
     public JwtTokenResponse generateAccessToken(UserEntity userEntity) {
 
-        Date accessTokenExpirationDate = new Date(System.currentTimeMillis() + jwtExpirationInMs);
+        DateTime currentDateTime = new DateTime(DateTimeZone.UTC);
+        // JWT Expiration - 1 Hour
+        DateTime accessTokenExpirationDate = currentDateTime.plusHours(1);
 
         String accessToken = Jwts.builder()
                 .setSubject(format("%s,%s", userEntity.getUserId(), userEntity.getNickname()))
                 .setIssuer(jwtIssuer)
-                .setIssuedAt(new Date())
-                .setExpiration(accessTokenExpirationDate)
+                .setIssuedAt(currentDateTime.toDate())
+                .setExpiration(accessTokenExpirationDate.toDate())
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
 
