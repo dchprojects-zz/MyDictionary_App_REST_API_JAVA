@@ -1,4 +1,4 @@
-REST API Service for Dictionary App.
+REST API Service for [Dictionary App](https://github.com/dchprojects/Dictionary_App_Swift) Dictionary App.
 
 ## Features
 - JWT authentication
