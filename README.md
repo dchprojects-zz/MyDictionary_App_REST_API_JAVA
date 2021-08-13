@@ -3,5 +3,6 @@ REST API Service for [Dictionary App](https://github.com/dchprojects/Dictionary_
 ## Features
 - JWT authentication
 - GCP Cloud SQL
+- GCP Cloud Run
 - Swagger
 - Docker
