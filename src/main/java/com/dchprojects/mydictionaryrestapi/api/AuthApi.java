@@ -3,7 +3,6 @@ package com.dchprojects.mydictionaryrestapi.api;
 import com.dchprojects.mydictionaryrestapi.domain.dto.AuthRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.AuthResponse;
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
-import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +38,7 @@ public class AuthApi {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserEntity> register(@RequestBody @Valid CreateUserRequest createUserRequest) {
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid CreateUserRequest createUserRequest) {
         try {
             return new ResponseEntity<>(authService.register(createUserRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {

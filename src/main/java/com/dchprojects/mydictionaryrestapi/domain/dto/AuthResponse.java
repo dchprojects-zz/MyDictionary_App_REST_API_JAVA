@@ -1,24 +1,27 @@
 package com.dchprojects.mydictionaryrestapi.domain.dto;
 
+import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AuthResponse {
 
-    @JsonProperty("access_token")
-    private String accessToken;
+    @JsonProperty("user_entity")
+    private UserEntity userEntity;
 
-    @JsonProperty("expiration_date")
-    private String expirationDate;
+    @JsonProperty("jwt")
+    private JWTResponse jwtResponse;
 
-    public AuthResponse(String accessToken, String expirationDate) {
-        this.accessToken = accessToken;
-        this.expirationDate = expirationDate;
+    public AuthResponse(UserEntity userEntity,
+                        JWTResponse jwtResponse) {
+
+        this.userEntity = userEntity;
+        this.jwtResponse = jwtResponse;
+
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
+    public UserEntity getUserEntity() { return userEntity; }
 
-    public String getExpirationDate() { return expirationDate; }
+    public JWTResponse getJwtResponse() { return jwtResponse; }
 
 }

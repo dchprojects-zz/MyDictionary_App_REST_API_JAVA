@@ -1,10 +1,7 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
 import com.dchprojects.mydictionaryrestapi.configuration.security.JwtTokenUtil;
-import com.dchprojects.mydictionaryrestapi.domain.dto.AuthRequest;
-import com.dchprojects.mydictionaryrestapi.domain.dto.AuthResponse;
-import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
-import com.dchprojects.mydictionaryrestapi.domain.dto.JwtTokenResponse;
+import com.dchprojects.mydictionaryrestapi.domain.dto.*;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.service.AuthService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
@@ -30,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse login(AuthRequest request) {
         try {
+
             Authentication authenticate = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(request.getNickname(),
                             request.getPassword()));
@@ -40,8 +38,11 @@ public class AuthServiceImpl implements AuthService {
 
             JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(userEntity);
 
-            return new AuthResponse(jwtTokenResponse.getAccessToken(), jwtTokenResponse.getExpirationDate().toString());
+            JWTResponse jwtResponse = new JWTResponse(jwtTokenResponse.getAccessToken(),
+                    jwtTokenResponse.getExpirationDate().toString());
 
+            return new AuthResponse(userEntity, jwtResponse);
+            
         } catch (BadCredentialsException badCredentialsException) {
             throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());
         } catch (NoSuchElementException noSuchElementException) {
@@ -50,9 +51,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserEntity register(CreateUserRequest createUserRequest) {
+    public AuthResponse register(CreateUserRequest createUserRequest) {
         try {
-            return userService.createUser(createUserRequest);
+
+            UserEntity savedUser = userService.createUser(createUserRequest);
+
+            JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(savedUser);
+            JWTResponse jwtResponse = new JWTResponse(jwtTokenResponse.getAccessToken(),
+                    jwtTokenResponse.getExpirationDate().toString());
+
+            return new AuthResponse(savedUser, jwtResponse);
+
+        } catch (BadCredentialsException badCredentialsException) {
+            throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());
         } catch (ValidationException validationException) {
             throw new ValidationException(validationException.getLocalizedMessage());
         }
