@@ -29,8 +29,8 @@ CREATE TABLE `roles` (
 );
 
 CREATE TABLE `user_role` (
-                             `id` BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
-                             `user_id` BIGINT(19) UNSIGNED NOT NULL,
+                             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                             `user_id` BIGINT UNSIGNED NOT NULL,
                              `role_id` BIGINT(19) UNSIGNED NOT NULL,
                              PRIMARY KEY (`id`),
                              KEY `fk_security_user_id` (`user_id`),
@@ -40,7 +40,7 @@ CREATE TABLE `user_role` (
 );
 
 CREATE TABLE `languages` (
-                            language_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                            language_id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
                             language_name VARCHAR(255) NOT NULL,
                             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                             PRIMARY KEY (language_id)
@@ -48,8 +48,8 @@ CREATE TABLE `languages` (
 
 CREATE TABLE `courses` (
                           user_id BIGINT UNSIGNED NOT NULL,
-                          course_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                          language_id BIGINT UNSIGNED NOT NULL,
+                          course_id BIGINT(19) UNSIGNED NOT NULL AUTO_INCREMENT,
+                          language_id BIGINT(19) UNSIGNED NOT NULL,
                           language_name VARCHAR(255) NOT NULL,
                           created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                           updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -59,10 +59,10 @@ CREATE TABLE `courses` (
 CREATE TABLE `words` (
                         user_id BIGINT UNSIGNED NOT NULL,
                         word_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                        course_id BIGINT UNSIGNED NOT NULL,
-                        language_id BIGINT UNSIGNED NOT NULL,
-                        word_text TEXT NOT NULL,
-                        word_description TEXT NOT NULL,
+                        course_id BIGINT(19) UNSIGNED NOT NULL,
+                        language_id BIGINT(19) UNSIGNED NOT NULL,
+                        word_text VARCHAR(500) NOT NULL,
+                        word_description VARCHAR(500) NOT NULL,
                         language_name VARCHAR(255) NOT NULL,
                         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
