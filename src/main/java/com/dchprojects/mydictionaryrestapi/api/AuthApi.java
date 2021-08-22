@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +29,6 @@ public class AuthApi {
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest authRequest) {
         try {
             return new ResponseEntity<>(authService.login(authRequest), HttpStatus.OK);
-        } catch (BadCredentialsException badCredentialsException) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (NoSuchElementException noSuchElementException) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

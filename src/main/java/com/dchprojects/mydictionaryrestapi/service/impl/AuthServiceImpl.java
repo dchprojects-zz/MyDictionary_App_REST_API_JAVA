@@ -6,7 +6,6 @@ import com.dchprojects.mydictionaryrestapi.service.AuthService;
 import com.dchprojects.mydictionaryrestapi.service.JWTService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
@@ -30,9 +29,7 @@ public class AuthServiceImpl implements AuthService {
                     userEntity.getPassword());
 
             return new AuthResponse(userEntity, jwtService.jwtResponse(jwtRequest));
-            
-        } catch (BadCredentialsException badCredentialsException) {
-            throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());
+
         } catch (NoSuchElementException noSuchElementException) {
             throw new NoSuchElementException(noSuchElementException.getLocalizedMessage());
         }
@@ -49,9 +46,7 @@ public class AuthServiceImpl implements AuthService {
                     savedUser.getPassword());
 
             return new AuthResponse(savedUser, jwtService.jwtResponse(jwtRequest));
-
-        } catch (BadCredentialsException badCredentialsException) {
-            throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());
+            
         } catch (ValidationException validationException) {
             throw new ValidationException(validationException.getLocalizedMessage());
         }
