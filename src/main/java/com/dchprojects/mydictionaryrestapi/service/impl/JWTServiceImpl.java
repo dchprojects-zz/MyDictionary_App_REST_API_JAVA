@@ -8,9 +8,6 @@ import com.dchprojects.mydictionaryrestapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -27,14 +24,8 @@ public class JWTServiceImpl implements JWTService {
     public JWTResponse jwtResponse(JWTRequest jwtRequest) {
         try {
 
-            Authentication authenticate = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getNickname(),
-                            jwtRequest.getPassword()));
-
-            User user = (User) authenticate.getPrincipal();
-
             JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(jwtRequest.getUserId(),
-                    user.getUsername());
+                    jwtRequest.getNickname());
 
             return new JWTResponse(jwtTokenResponse.getAccessToken(),
                     jwtTokenResponse.getExpirationDate().toString());
@@ -49,16 +40,10 @@ public class JWTServiceImpl implements JWTService {
     public JWTResponse jwtResponse(AccessTokenRequest accessTokenRequest) {
         try {
 
-            Authentication authenticate = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(accessTokenRequest.getNickname(),
-                            accessTokenRequest.getPassword()));
-
-            User user = (User) authenticate.getPrincipal();
-
             UserEntity userEntity = userService.findByNickname(accessTokenRequest.getNickname());
 
             JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(userEntity.getUserId(),
-                    user.getUsername());
+                    userEntity.getNickname());
 
             return new JWTResponse(jwtTokenResponse.getAccessToken(),
                     jwtTokenResponse.getExpirationDate().toString());

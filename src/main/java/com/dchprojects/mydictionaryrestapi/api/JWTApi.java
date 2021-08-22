@@ -21,7 +21,6 @@ import java.util.NoSuchElementException;
 @Tag(name = "JWT")
 @RestController
 @RequestMapping("/api/v1/jwt")
-@RolesAllowed({RoleNameString.ROLE_USER, RoleNameString.ROLE_ADMIN})
 @RequiredArgsConstructor
 public class JWTApi {
 
