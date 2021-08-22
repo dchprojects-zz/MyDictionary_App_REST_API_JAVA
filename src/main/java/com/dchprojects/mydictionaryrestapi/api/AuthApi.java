@@ -27,9 +27,9 @@ public class AuthApi {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest request) {
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest authRequest) {
         try {
-            return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
+            return new ResponseEntity<>(authService.login(authRequest), HttpStatus.OK);
         } catch (BadCredentialsException badCredentialsException) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (NoSuchElementException noSuchElementException) {

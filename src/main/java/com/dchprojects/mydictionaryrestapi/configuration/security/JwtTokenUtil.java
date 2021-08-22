@@ -27,14 +27,14 @@ public class JwtTokenUtil {
     private final String jwtSecret = "jwtSecretKey.app$8089_jwtExpirationInMs_3600000";
     private final String jwtIssuer = "com.dchprojects.mydictionaryrestapi";
 
-    public JwtTokenResponse generateAccessToken(UserEntity userEntity) {
+    public JwtTokenResponse generateAccessToken(Long userId, String nickname) {
 
         DateTime currentDateTime = new DateTime(DateTimeZone.UTC);
         // JWT Expiration - 1 Hour
         DateTime accessTokenExpirationDate = currentDateTime.plusHours(1);
 
         String accessToken = Jwts.builder()
-                .setSubject(format("%s,%s", userEntity.getUserId(), userEntity.getNickname()))
+                .setSubject(format("%s,%s", userId, nickname))
                 .setIssuer(jwtIssuer)
                 .setIssuedAt(currentDateTime.toDate())
                 .setExpiration(accessTokenExpirationDate.toDate())

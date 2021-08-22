@@ -1,16 +1,12 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
-import com.dchprojects.mydictionaryrestapi.configuration.security.JwtTokenUtil;
 import com.dchprojects.mydictionaryrestapi.domain.dto.*;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.service.AuthService;
+import com.dchprojects.mydictionaryrestapi.service.JWTService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
@@ -20,28 +16,20 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JWTService jwtService;
     private final UserService userService;
 
     @Override
-    public AuthResponse login(AuthRequest request) {
+    public AuthResponse login(AuthRequest authRequest) {
         try {
 
-            Authentication authenticate = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(request.getNickname(),
-                            request.getPassword()));
+            UserEntity userEntity = userService.findByNickname(authRequest.getNickname());
 
-            User user = (User) authenticate.getPrincipal();
+            JWTRequest jwtRequest = new JWTRequest(userEntity.getUserId(),
+                    userEntity.getNickname(),
+                    userEntity.getPassword());
 
-            UserEntity userEntity = userService.findByNickname(user.getUsername());
-
-            JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(userEntity);
-
-            JWTResponse jwtResponse = new JWTResponse(jwtTokenResponse.getAccessToken(),
-                    jwtTokenResponse.getExpirationDate().toString());
-
-            return new AuthResponse(userEntity, jwtResponse);
+            return new AuthResponse(userEntity, jwtService.jwtResponse(jwtRequest));
             
         } catch (BadCredentialsException badCredentialsException) {
             throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());
@@ -56,11 +44,11 @@ public class AuthServiceImpl implements AuthService {
 
             UserEntity savedUser = userService.createUser(createUserRequest);
 
-            JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(savedUser);
-            JWTResponse jwtResponse = new JWTResponse(jwtTokenResponse.getAccessToken(),
-                    jwtTokenResponse.getExpirationDate().toString());
+            JWTRequest jwtRequest = new JWTRequest(savedUser.getUserId(),
+                    savedUser.getNickname(),
+                    savedUser.getPassword());
 
-            return new AuthResponse(savedUser, jwtResponse);
+            return new AuthResponse(savedUser, jwtService.jwtResponse(jwtRequest));
 
         } catch (BadCredentialsException badCredentialsException) {
             throw new BadCredentialsException(badCredentialsException.getLocalizedMessage());
