@@ -1,4 +1,4 @@
-package com.dchprojects.mydictionaryrestapi.service.impl;
+package com.dchprojects.mydictionaryrestapi.domain.dto;
 
 import lombok.Data;
 

@@ -3,7 +3,7 @@ package com.dchprojects.mydictionaryrestapi.api;
 import com.dchprojects.mydictionaryrestapi.domain.dto.JWTResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.JWTService;
-import com.dchprojects.mydictionaryrestapi.service.impl.AccessTokenRequest;
+import com.dchprojects.mydictionaryrestapi.domain.dto.AccessTokenRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
