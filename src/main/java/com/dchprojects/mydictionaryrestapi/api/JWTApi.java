@@ -1,9 +1,9 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
-import com.dchprojects.mydictionaryrestapi.domain.dto.JWTRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.JWTResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.JWTService;
+import com.dchprojects.mydictionaryrestapi.service.impl.AccessTokenRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,9 +28,9 @@ public class JWTApi {
     private final JWTService jwtService;
 
     @PostMapping("/accessToken")
-    public ResponseEntity<JWTResponse> login(@RequestBody @Valid JWTRequest jwtRequest) {
+    public ResponseEntity<JWTResponse> accessToken(@RequestBody @Valid AccessTokenRequest accessTokenRequest) {
         try {
-            return new ResponseEntity<>(jwtService.jwtResponse(jwtRequest), HttpStatus.OK);
+            return new ResponseEntity<>(jwtService.jwtResponse(accessTokenRequest), HttpStatus.OK);
         } catch (BadCredentialsException badCredentialsException) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } catch (NoSuchElementException noSuchElementException) {
