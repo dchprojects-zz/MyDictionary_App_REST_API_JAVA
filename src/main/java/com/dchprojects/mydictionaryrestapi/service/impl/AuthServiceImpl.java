@@ -26,6 +26,7 @@ public class AuthServiceImpl implements AuthService {
 
             JWTInternalRequest jwtRequest = new JWTInternalRequest(userEntity.getUserId(),
                     userEntity.getNickname(),
+                    authRequest.getPassword(),
                     userEntity.getPassword());
 
             return new AuthResponse(userEntity, jwtService.jwtResponse(jwtRequest));
@@ -43,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
             JWTInternalRequest jwtRequest = new JWTInternalRequest(savedUser.getUserId(),
                     savedUser.getNickname(),
+                    createUserRequest.getPassword(),
                     savedUser.getPassword());
 
             return new AuthResponse(savedUser, jwtService.jwtResponse(jwtRequest));
