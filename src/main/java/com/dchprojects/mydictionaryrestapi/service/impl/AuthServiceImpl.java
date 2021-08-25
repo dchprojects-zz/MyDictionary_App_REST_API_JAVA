@@ -24,7 +24,7 @@ public class AuthServiceImpl implements AuthService {
 
             UserEntity userEntity = userService.findByNickname(authRequest.getNickname());
 
-            JWTRequest jwtRequest = new JWTRequest(userEntity.getUserId(),
+            JWTInternalRequest jwtRequest = new JWTInternalRequest(userEntity.getUserId(),
                     userEntity.getNickname(),
                     userEntity.getPassword());
 
@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
 
             UserEntity savedUser = userService.createUser(createUserRequest);
 
-            JWTRequest jwtRequest = new JWTRequest(savedUser.getUserId(),
+            JWTInternalRequest jwtRequest = new JWTInternalRequest(savedUser.getUserId(),
                     savedUser.getNickname(),
                     savedUser.getPassword());
 

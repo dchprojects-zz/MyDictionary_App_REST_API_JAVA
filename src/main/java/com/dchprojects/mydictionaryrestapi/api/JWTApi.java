@@ -2,7 +2,7 @@ package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.domain.dto.JWTResponse;
 import com.dchprojects.mydictionaryrestapi.service.JWTService;
-import com.dchprojects.mydictionaryrestapi.domain.dto.AccessTokenRequest;
+import com.dchprojects.mydictionaryrestapi.domain.dto.JWTApiRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,10 +24,10 @@ public class JWTApi {
     private final JWTService jwtService;
 
     @PostMapping("/accessToken")
-    public ResponseEntity<JWTResponse> accessToken(@RequestBody @Valid AccessTokenRequest accessTokenRequest) {
+    public ResponseEntity<JWTResponse> accessToken(@RequestBody @Valid JWTApiRequest jwtApiRequest) {
         try {
-            return new ResponseEntity<>(jwtService.jwtResponse(accessTokenRequest), HttpStatus.OK);
-        } catch (NoSuchElementException noSuchElementException) {
+            return new ResponseEntity<>(jwtService.jwtResponse(jwtApiRequest), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

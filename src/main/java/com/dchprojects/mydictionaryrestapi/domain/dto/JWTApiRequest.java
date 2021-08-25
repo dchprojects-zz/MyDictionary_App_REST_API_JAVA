@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class AccessTokenRequest {
+public class JWTApiRequest {
 
     @NotNull
     private String nickname;

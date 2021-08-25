@@ -13,8 +13,8 @@ public class JWTResponse {
     public JWTResponse(String accessToken,
                        String expirationDate) {
 
-        this.accessToken = accessToken;
-        this.expirationDate = expirationDate;
+        this.setAccessToken(accessToken);
+        this.setExpirationDate(expirationDate);
 
     }
 
@@ -24,4 +24,11 @@ public class JWTResponse {
 
     public String getExpirationDate() { return expirationDate; }
 
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 }
