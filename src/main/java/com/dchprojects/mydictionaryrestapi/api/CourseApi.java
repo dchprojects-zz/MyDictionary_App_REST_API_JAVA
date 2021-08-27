@@ -1,7 +1,7 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.CourseResponse;
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateCourseRequest;
-import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,12 +26,12 @@ public class CourseApi {
     private final CourseService courseService;
 
     @GetMapping("/userId/{userId}")
-    public ResponseEntity<List<CourseEntity>> listByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<CourseResponse>> listByUserId(@PathVariable Long userId) {
         return new ResponseEntity<>(courseService.listByUserId(userId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<CourseEntity> createCourse(@RequestBody @Valid CreateCourseRequest createCourseRequest) {
+    public ResponseEntity<CourseResponse> createCourse(@RequestBody @Valid CreateCourseRequest createCourseRequest) {
         try {
             return new ResponseEntity<>(courseService.create(createCourseRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {

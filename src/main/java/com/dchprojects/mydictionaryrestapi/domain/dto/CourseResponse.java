@@ -16,6 +16,10 @@ public class CourseResponse {
     @JsonProperty("language_name")
     private String languageName;
 
+    public CourseResponse() {
+
+    }
+
     public CourseResponse(Long userId,
                           Long courseId,
                           Long languageId,
