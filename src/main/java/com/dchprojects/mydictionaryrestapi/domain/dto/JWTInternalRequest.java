@@ -6,19 +6,15 @@ public class JWTInternalRequest {
 
     private String nickname;
 
-    private String passwordFromRequest;
-
-    private String databasePassword;
+    private String password;
 
     public JWTInternalRequest(Long userId,
                               String nickname,
-                              String passwordFromRequest,
-                              String databasePassword) {
+                              String password) {
 
         this.setUserId(userId);
         this.setNickname(nickname);
-        this.setPasswordFromRequest(passwordFromRequest);
-        this.setDatabasePassword(databasePassword);
+        this.setPassword(password);
 
     }
 
@@ -26,12 +22,8 @@ public class JWTInternalRequest {
         return userId;
     }
 
-    public String getPasswordFromRequest() {
-        return passwordFromRequest;
-    }
-
-    public String getDatabasePassword() {
-        return databasePassword;
+    public String getPassword() {
+        return password;
     }
 
     public String getNickname() {
@@ -42,12 +34,8 @@ public class JWTInternalRequest {
         this.userId = userId;
     }
 
-    public void setPasswordFromRequest(String passwordFromRequest) {
-        this.passwordFromRequest = passwordFromRequest;
-    }
-
-    public void setDatabasePassword(String databasePassword) {
-        this.databasePassword = databasePassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setNickname(String nickname) {

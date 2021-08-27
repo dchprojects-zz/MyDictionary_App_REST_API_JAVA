@@ -1,7 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
 import com.dchprojects.mydictionaryrestapi.domain.dto.*;
-import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.service.AuthService;
 import com.dchprojects.mydictionaryrestapi.service.JWTService;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
@@ -22,14 +21,13 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse login(AuthRequest authRequest) {
         try {
 
-            UserEntity userEntity = userService.findByNickname(authRequest.getNickname());
+            UserResponse userResponse = userService.findByNickname(authRequest.getNickname());
 
-            JWTInternalRequest jwtRequest = new JWTInternalRequest(userEntity.getUserId(),
-                    userEntity.getNickname(),
-                    authRequest.getPassword(),
-                    userEntity.getPassword());
+            JWTInternalRequest jwtRequest = new JWTInternalRequest(userResponse.getUserId(),
+                    authRequest.getNickname(),
+                    authRequest.getPassword());
 
-            return new AuthResponse(userEntity, jwtService.jwtResponse(jwtRequest));
+            return new AuthResponse(userResponse, jwtService.jwtResponse(jwtRequest));
 
         } catch (NoSuchElementException noSuchElementException) {
             throw new NoSuchElementException(noSuchElementException.getLocalizedMessage());
@@ -40,12 +38,11 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse register(CreateUserRequest createUserRequest) {
         try {
 
-            UserEntity savedUser = userService.createUser(createUserRequest);
+            UserResponse savedUser = userService.createUser(createUserRequest);
 
             JWTInternalRequest jwtRequest = new JWTInternalRequest(savedUser.getUserId(),
-                    savedUser.getNickname(),
-                    createUserRequest.getPassword(),
-                    savedUser.getPassword());
+                    createUserRequest.getNickname(),
+                    createUserRequest.getPassword());
 
             return new AuthResponse(savedUser, jwtService.jwtResponse(jwtRequest));
             

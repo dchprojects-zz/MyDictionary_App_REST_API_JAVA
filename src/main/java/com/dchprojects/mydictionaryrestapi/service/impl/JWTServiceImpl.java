@@ -2,9 +2,7 @@ package com.dchprojects.mydictionaryrestapi.service.impl;
 
 import com.dchprojects.mydictionaryrestapi.configuration.security.JwtTokenUtil;
 import com.dchprojects.mydictionaryrestapi.domain.dto.*;
-import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.service.JWTService;
-import com.dchprojects.mydictionaryrestapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,16 +19,15 @@ public class JWTServiceImpl implements JWTService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserService userService;
 
     @Override
     public JWTResponse jwtResponse(JWTInternalRequest jwtRequest) {
 
-        authenticate(jwtRequest.getNickname(), jwtRequest.getPasswordFromRequest());
+        authenticate(jwtRequest.getNickname(), jwtRequest.getPassword());
 
         JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(jwtRequest.getUserId(),
                 jwtRequest.getNickname(),
-                jwtRequest.getDatabasePassword());
+                jwtRequest.getPassword());
 
         return new JWTResponse(jwtTokenResponse.getAccessToken(),
                 jwtTokenResponse.getExpirationDate().toString());
@@ -44,11 +41,9 @@ public class JWTServiceImpl implements JWTService {
 
             authenticate(jwtApiRequest.getNickname(), jwtApiRequest.getPassword());
 
-            UserEntity userEntity = userService.findById(jwtApiRequest.getUserId());
-
-            JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(userEntity.getUserId(),
-                    userEntity.getNickname(),
-                    userEntity.getPassword());
+            JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(jwtApiRequest.getUserId(),
+                    jwtApiRequest.getNickname(),
+                    jwtApiRequest.getPassword());
 
             return new JWTResponse(jwtTokenResponse.getAccessToken(),
                     jwtTokenResponse.getExpirationDate().toString());
