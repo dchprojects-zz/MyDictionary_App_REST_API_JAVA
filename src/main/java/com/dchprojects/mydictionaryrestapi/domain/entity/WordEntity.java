@@ -1,6 +1,5 @@
 package com.dchprojects.mydictionaryrestapi.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,42 +10,33 @@ import java.sql.Timestamp;
 @Table(name = "words")
 public class WordEntity {
 
-    @JsonProperty("user_id")
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @JsonProperty("word_id")
     @Column(name = "word_id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long wordId;
 
-    @JsonProperty("course_id")
     @Column(name = "course_id", nullable = false)
     private Long courseId;
 
-    @JsonProperty("language_id")
     @Column(name = "language_id", nullable = false)
     private Long languageId;
 
-    @JsonProperty("word_text")
     @Column(name = "word_text", nullable = false)
     private String wordText;
 
-    @JsonProperty("word_description")
     @Column(name = "word_description", nullable = false)
     private String wordDescription;
 
-    @JsonProperty("language_name")
     @Column(name = "language_name", nullable = false)
     private String languageName;
 
-    @JsonProperty("created_at")
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private Timestamp createdAt;
 
-    @JsonProperty("updated_at")
     @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
     private Timestamp updatedAt;
@@ -65,15 +55,15 @@ public class WordEntity {
                       Timestamp createdAt,
                       Timestamp updatedAt) {
 
-        this.userId = userId;
-        this.wordId = wordId;
-        this.courseId = courseId;
-        this.languageId = languageId;
-        this.wordText = wordText;
-        this.wordDescription = wordDescription;
-        this.languageName = languageName;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.setUserId(userId);
+        this.setWordId(wordId);
+        this.setCourseId(courseId);
+        this.setLanguageId(languageId);
+        this.setWordText(wordText);
+        this.setWordDescription(wordDescription);
+        this.setLanguageName(languageName);
+        this.setCreatedAt(createdAt);
+        this.setUpdatedAt(updatedAt);
 
     }
 

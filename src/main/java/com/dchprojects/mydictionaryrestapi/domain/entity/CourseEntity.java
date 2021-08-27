@@ -1,6 +1,5 @@
 package com.dchprojects.mydictionaryrestapi.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,30 +10,24 @@ import java.sql.Timestamp;
 @Table(name = "courses")
 public class CourseEntity {
 
-    @JsonProperty("user_id")
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @JsonProperty("course_id")
     @Column(name = "course_id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
 
-    @JsonProperty("language_id")
     @Column(name = "language_id", nullable = false)
     private Long languageId;
 
-    @JsonProperty("language_name")
     @Column(name = "language_name", nullable = false)
     private String languageName;
 
-    @JsonProperty("created_at")
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private Timestamp createdAt;
 
-    @JsonProperty("updated_at")
     @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
     private Timestamp updatedAt;
@@ -50,12 +43,12 @@ public class CourseEntity {
                         Timestamp createdAt,
                         Timestamp updatedAt) {
 
-        this.userId = userId;
-        this.courseId = courseId;
-        this.languageId = languageId;
-        this.languageName = languageName;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.setUserId(userId);
+        this.setCourseId(courseId);
+        this.setLanguageId(languageId);
+        this.setLanguageName(languageName);
+        this.setCreatedAt(createdAt);
+        this.setUpdatedAt(updatedAt);
 
     }
 

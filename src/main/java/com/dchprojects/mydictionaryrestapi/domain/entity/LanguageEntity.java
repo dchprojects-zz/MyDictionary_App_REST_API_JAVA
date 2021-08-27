@@ -1,6 +1,5 @@
 package com.dchprojects.mydictionaryrestapi.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,17 +9,14 @@ import java.sql.Timestamp;
 @Table(name = "languages")
 public class LanguageEntity {
 
-    @JsonProperty("language_id")
     @Column(name = "language_id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long languageId;
 
-    @JsonProperty("language_name")
     @Column(name = "language_name", nullable = false)
     private String languageName;
 
-    @JsonProperty("created_at")
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private Timestamp createdAt;
@@ -33,9 +29,9 @@ public class LanguageEntity {
                           String languageName,
                           Timestamp createdAt) {
 
-        this.languageId = languageId;
-        this.languageName = languageName;
-        this.createdAt = createdAt;
+        this.setLanguageId(languageId);
+        this.setLanguageName(languageName);
+        this.setCreatedAt(createdAt);
 
     }
 
