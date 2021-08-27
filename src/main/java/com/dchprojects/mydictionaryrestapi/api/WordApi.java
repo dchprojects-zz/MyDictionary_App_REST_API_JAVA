@@ -2,7 +2,7 @@ package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateWordRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.UpdateWordRequest;
-import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
+import com.dchprojects.mydictionaryrestapi.domain.dto.WordResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.WordService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,12 +27,12 @@ public class WordApi {
     private final WordService wordService;
 
     @GetMapping
-    public List<WordEntity> list() {
+    public List<WordResponse> list() {
         return wordService.listAll();
     }
 
     @PostMapping
-    public ResponseEntity<WordEntity> createWord(@RequestBody @Valid CreateWordRequest createWordRequest) {
+    public ResponseEntity<WordResponse> createWord(@RequestBody @Valid CreateWordRequest createWordRequest) {
         try {
             return new ResponseEntity<>(wordService.create(createWordRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {
@@ -43,7 +43,7 @@ public class WordApi {
     }
 
     @PutMapping
-    public ResponseEntity<WordEntity> udpateWord(@RequestBody @Valid UpdateWordRequest updateWordRequest) {
+    public ResponseEntity<WordResponse> udpateWord(@RequestBody @Valid UpdateWordRequest updateWordRequest) {
         try {
             return new ResponseEntity<>(wordService.update(updateWordRequest), HttpStatus.OK);
         } catch (ValidationException validationException) {
