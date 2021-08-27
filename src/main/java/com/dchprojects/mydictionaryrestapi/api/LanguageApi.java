@@ -1,7 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
 import com.dchprojects.mydictionaryrestapi.domain.dto.LanguageResponse;
-import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -33,8 +33,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public LanguageResponse createLanguage(CreateLanguageRequest createLanguageRequest) {
         try {
-            return EntityConverter
-                    .languageEntityToLanguageResponse(languageService.create(createLanguageRequest));
+            return languageService.create(createLanguageRequest);
         } catch (ValidationException validationException) {
             throw new ValidationException(validationException.getLocalizedMessage());
         }
