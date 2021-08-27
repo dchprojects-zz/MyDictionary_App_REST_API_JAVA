@@ -1,13 +1,13 @@
 package com.dchprojects.mydictionaryrestapi.service.impl;
 
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
+import com.dchprojects.mydictionaryrestapi.domain.dto.UserResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.Role;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleName;
-import com.dchprojects.mydictionaryrestapi.repository.CourseRepository;
+import com.dchprojects.mydictionaryrestapi.entity_converter.EntityConverter;
 import com.dchprojects.mydictionaryrestapi.repository.RoleRepository;
 import com.dchprojects.mydictionaryrestapi.repository.UserRepository;
-import com.dchprojects.mydictionaryrestapi.repository.WordRepository;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +17,7 @@ import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,36 +26,37 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private final CourseRepository courseRepository;
-    private final WordRepository wordRepository;
 
     @Override
-    public List<UserEntity> listAll() {
-        return userRepository.findAll();
+    public List<UserResponse> listAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(EntityConverter::userEntityToUserResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public UserEntity findById(Long userId) {
+    public UserResponse findById(Long userId) {
         Boolean userExists = userRepository.existsByUserId(userId);
         if (userExists) {
-            return userRepository.findById(userId).get();
+            return EntityConverter.userEntityToUserResponse(userRepository.findById(userId).get());
         } else {
             throw new NoSuchElementException("User not found");
         }
     }
 
     @Override
-    public UserEntity findByNickname(String nickname) {
+    public UserResponse findByNickname(String nickname) {
         Boolean userExists = userRepository.existsByNickname(nickname);
         if (userExists) {
-            return userRepository.findByNickname(nickname).get();
+            return EntityConverter.userEntityToUserResponse(userRepository.findByNickname(nickname).get());
         } else {
             throw new NoSuchElementException("User not found!");
         }
     }
 
     @Override
-    public UserEntity createUser(CreateUserRequest createUserRequest) {
+    public UserResponse createUser(CreateUserRequest createUserRequest) {
         Boolean existsByNickname = userRepository.existsByNickname(createUserRequest.getNickname());
         if (existsByNickname) {
             throw new ValidationException("Nickname exists!");
@@ -67,13 +69,12 @@ public class UserServiceImpl implements UserService {
             newUser.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
             newUser.setRoles(roles);
 
-            UserEntity createdUser = userRepository.save(newUser);
-            return createdUser;
+            return EntityConverter.userEntityToUserResponse(userRepository.save(newUser));
         }
     }
 
     @Override
-    public UserEntity createAdmin(CreateUserRequest createUserRequest) {
+    public UserResponse createAdmin(CreateUserRequest createUserRequest) {
         Boolean existsByNickname = userRepository.existsByNickname(createUserRequest.getNickname());
         if (existsByNickname) {
             throw new ValidationException("Nickname exists!");
@@ -86,8 +87,7 @@ public class UserServiceImpl implements UserService {
             newUser.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
             newUser.setRoles(roles);
 
-            UserEntity createdUser = userRepository.save(newUser);
-            return createdUser;
+            return EntityConverter.userEntityToUserResponse(userRepository.save(newUser));
         }
     }
 

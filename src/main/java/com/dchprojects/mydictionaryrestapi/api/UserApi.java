@@ -1,6 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
-import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
+import com.dchprojects.mydictionaryrestapi.domain.dto.UserResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +22,7 @@ public class UserApi {
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserEntity> getUserById(@PathVariable Long userId) {
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
         try {
             return new ResponseEntity<>(userService.findById(userId), HttpStatus.OK);
         } catch (NoSuchElementException noSuchElementException) {
