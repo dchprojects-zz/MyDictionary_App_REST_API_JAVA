@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.domain.dto.LanguageResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
@@ -23,12 +24,12 @@ public class LanguageApi {
     private final LanguageService languageService;
 
     @GetMapping
-    public List<LanguageEntity> list() {
+    public List<LanguageResponse> list() {
         return languageService.listAll();
     }
 
     @GetMapping("/{languageId}")
-    public ResponseEntity<LanguageEntity> getLanguageById(@PathVariable Long languageId) {
+    public ResponseEntity<LanguageResponse> getLanguageById(@PathVariable Long languageId) {
         try {
             return new ResponseEntity<>(languageService.findById(languageId), HttpStatus.OK);
         } catch (NoSuchElementException noSuchElementException) {

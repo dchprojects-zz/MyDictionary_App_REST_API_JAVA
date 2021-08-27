@@ -1,16 +1,16 @@
 package com.dchprojects.mydictionaryrestapi.service;
 
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateLanguageRequest;
-import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
+import com.dchprojects.mydictionaryrestapi.domain.dto.LanguageResponse;
 
 import java.util.List;
 
 public interface LanguageService {
 
-    public List<LanguageEntity> listAll();
+    public List<LanguageResponse> listAll();
 
-    public LanguageEntity findById(Long languageId);
+    public LanguageResponse findById(Long languageId);
 
-    public LanguageEntity create(CreateLanguageRequest createLanguageRequest);
+    public LanguageResponse create(CreateLanguageRequest createLanguageRequest);
 
 }
