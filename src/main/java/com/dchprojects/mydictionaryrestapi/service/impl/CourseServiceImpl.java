@@ -24,7 +24,7 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseResponse> listByUserId(Long userId) {
         return courseRepository.findAllByUserId(userId)
                 .stream()
-                .map(EntityConverter::courseEntityToLanguageResponse)
+                .map(EntityConverter::courseEntityToCourseResponse)
                 .collect(Collectors.toList());
     }
 
@@ -44,7 +44,7 @@ public class CourseServiceImpl implements CourseService {
             newCourse.setLanguageId(createCourseRequest.getLanguageId());
             newCourse.setLanguageName(createCourseRequest.getLanguageName());
 
-            return EntityConverter.courseEntityToLanguageResponse(courseRepository.save(newCourse));
+            return EntityConverter.courseEntityToCourseResponse(courseRepository.save(newCourse));
         }
     }
 

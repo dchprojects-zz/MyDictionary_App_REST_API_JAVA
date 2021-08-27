@@ -25,6 +25,10 @@ public class WordResponse {
     @JsonProperty("language_name")
     private String languageName;
 
+    public WordResponse() {
+
+    }
+
     public WordResponse(Long userId,
                         Long wordId,
                         Long courseId,

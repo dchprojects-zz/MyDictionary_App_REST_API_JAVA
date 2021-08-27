@@ -3,9 +3,11 @@ package com.dchprojects.mydictionaryrestapi.entity_converter;
 import com.dchprojects.mydictionaryrestapi.domain.dto.CourseResponse;
 import com.dchprojects.mydictionaryrestapi.domain.dto.LanguageResponse;
 import com.dchprojects.mydictionaryrestapi.domain.dto.UserResponse;
+import com.dchprojects.mydictionaryrestapi.domain.dto.WordResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.LanguageEntity;
 import com.dchprojects.mydictionaryrestapi.domain.entity.UserEntity;
+import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 
 public class EntityConverter {
 
@@ -27,7 +29,7 @@ public class EntityConverter {
         return languageResponse;
     }
 
-    public static CourseResponse courseEntityToLanguageResponse(CourseEntity courseEntity) {
+    public static CourseResponse courseEntityToCourseResponse(CourseEntity courseEntity) {
         CourseResponse courseResponse = new CourseResponse();
 
         courseResponse.setUserId(courseEntity.getUserId());
@@ -36,6 +38,20 @@ public class EntityConverter {
         courseResponse.setLanguageName(courseEntity.getLanguageName());
 
         return courseResponse;
+    }
+
+    public static WordResponse wordEntityToWordResponse(WordEntity wordEntity) {
+        WordResponse wordResponse = new WordResponse();
+
+        wordResponse.setUserId(wordEntity.getUserId());
+        wordResponse.setWordId(wordEntity.getWordId());
+        wordResponse.setCourseId(wordEntity.getCourseId());
+        wordResponse.setLanguageId(wordEntity.getLanguageId());
+        wordResponse.setWordText(wordEntity.getWordText());
+        wordResponse.setWordDescription(wordEntity.getWordDescription());
+        wordResponse.setLanguageName(wordEntity.getLanguageName());
+
+        return wordResponse;
     }
 
 }
