@@ -10,6 +10,10 @@ public class LanguageResponse {
     @JsonProperty("language_name")
     private String languageName;
 
+    public LanguageResponse() {
+
+    }
+
     public LanguageResponse(Long languageId,
                             String languageName) {
 

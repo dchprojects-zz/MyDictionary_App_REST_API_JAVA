@@ -10,6 +10,10 @@ public class UserResponse {
     @JsonProperty("nickname")
     private String nickname;
 
+    public UserResponse() {
+
+    }
+
     public UserResponse(Long userId,
                         String nickname) {
 
