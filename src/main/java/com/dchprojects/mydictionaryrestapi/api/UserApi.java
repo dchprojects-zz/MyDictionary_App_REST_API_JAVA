@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.api.path.Path;
 import com.dchprojects.mydictionaryrestapi.domain.dto.UserResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
@@ -14,14 +15,16 @@ import java.util.NoSuchElementException;
 
 @Tag(name = "User")
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(Path.REQUEST_PATH_API_USERS)
 @RolesAllowed({RoleNameString.ROLE_USER, RoleNameString.ROLE_ADMIN})
 @RequiredArgsConstructor
 public class UserApi {
 
     private final UserService userService;
 
-    @GetMapping("/{userId}")
+    private static final String REQUEST_PATH_API_USERS_INDIVIDUAL_USER = "/{userId}";
+
+    @GetMapping(REQUEST_PATH_API_USERS_INDIVIDUAL_USER)
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
         try {
             return new ResponseEntity<>(userService.findById(userId), HttpStatus.OK);

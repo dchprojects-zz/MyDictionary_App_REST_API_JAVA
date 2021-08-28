@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.api.path.Path;
 import com.dchprojects.mydictionaryrestapi.domain.dto.LanguageResponse;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
 import com.dchprojects.mydictionaryrestapi.service.LanguageService;
@@ -15,19 +16,21 @@ import java.util.NoSuchElementException;
 
 @Tag(name = "Language")
 @RestController
-@RequestMapping("/api/v1/languages")
+@RequestMapping(Path.REQUEST_PATH_API_LANGUAGES)
 @RolesAllowed({RoleNameString.ROLE_USER, RoleNameString.ROLE_ADMIN})
 @RequiredArgsConstructor
 public class LanguageApi {
 
     private final LanguageService languageService;
 
+    private static final String REQUEST_PATH_API_LANGUAGES_INDIVIDUAL_LANGUAGE = "/{languageId}";
+
     @GetMapping
     public List<LanguageResponse> list() {
         return languageService.listAll();
     }
 
-    @GetMapping("/{languageId}")
+    @GetMapping(REQUEST_PATH_API_LANGUAGES_INDIVIDUAL_LANGUAGE)
     public ResponseEntity<LanguageResponse> getLanguageById(@PathVariable Long languageId) {
         try {
             return new ResponseEntity<>(languageService.findById(languageId), HttpStatus.OK);

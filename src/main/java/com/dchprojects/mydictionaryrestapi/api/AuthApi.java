@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.api.path.Path;
 import com.dchprojects.mydictionaryrestapi.domain.dto.AuthRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.AuthResponse;
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateUserRequest;
@@ -19,13 +20,16 @@ import java.util.NoSuchElementException;
 
 @Tag(name = "Authentication")
 @RestController
-@RequestMapping(path = "/api/v1/auth")
+@RequestMapping(path = Path.REQUEST_PATH_API_AUTH)
 @RequiredArgsConstructor
 public class AuthApi {
 
     private final AuthService authService;
 
-    @PostMapping("/login")
+    private static final String REQUEST_PATH_API_LOGIN = "/login";
+    private static final String REQUEST_PATH_API_REGISTER = "/register";
+
+    @PostMapping(REQUEST_PATH_API_LOGIN)
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest authRequest) {
         try {
             return new ResponseEntity<>(authService.login(authRequest), HttpStatus.OK);
@@ -34,7 +38,7 @@ public class AuthApi {
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping(REQUEST_PATH_API_REGISTER)
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid CreateUserRequest createUserRequest) {
         try {
             return new ResponseEntity<>(authService.register(createUserRequest), HttpStatus.OK);

@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.api.path.Path;
 import com.dchprojects.mydictionaryrestapi.domain.dto.CourseResponse;
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateCourseRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.role.RoleNameString;
@@ -18,14 +19,17 @@ import java.util.NoSuchElementException;
 
 @Tag(name = "Course")
 @RestController
-@RequestMapping("/api/v1/courses")
+@RequestMapping(Path.REQUEST_PATH_API_COURSES)
 @RolesAllowed({RoleNameString.ROLE_USER, RoleNameString.ROLE_ADMIN})
 @RequiredArgsConstructor
 public class CourseApi {
 
     private final CourseService courseService;
 
-    @GetMapping("/userId/{userId}")
+    private static final String REQUEST_PATH_API_COURSES_INDIVIDUAL_USER = "/userId/{userId}";
+    private static final String REQUEST_PATH_API_DELETE_COURSE_INDIVIDUAL_USER_INDIVIDUAL_COURSE = "/userId/{userId}/courseId/{courseId}";
+
+    @GetMapping(REQUEST_PATH_API_COURSES_INDIVIDUAL_USER)
     public ResponseEntity<List<CourseResponse>> listByUserId(@PathVariable Long userId) {
         return new ResponseEntity<>(courseService.listByUserId(userId), HttpStatus.OK);
     }
@@ -39,7 +43,7 @@ public class CourseApi {
         }
     }
 
-    @DeleteMapping("/userId/{userId}/courseId/{courseId}")
+    @DeleteMapping(REQUEST_PATH_API_DELETE_COURSE_INDIVIDUAL_USER_INDIVIDUAL_COURSE)
     public ResponseEntity<?> deleteCourse(@PathVariable Long userId, @PathVariable Long courseId) {
         try {
             courseService.deleteByUserIdAndCourseId(userId, courseId);

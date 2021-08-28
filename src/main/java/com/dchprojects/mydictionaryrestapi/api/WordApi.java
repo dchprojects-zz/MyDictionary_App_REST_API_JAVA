@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.api;
 
+import com.dchprojects.mydictionaryrestapi.api.path.Path;
 import com.dchprojects.mydictionaryrestapi.domain.dto.CreateWordRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.UpdateWordRequest;
 import com.dchprojects.mydictionaryrestapi.domain.dto.WordResponse;
@@ -19,12 +20,14 @@ import java.util.NoSuchElementException;
 
 @Tag(name = "Word")
 @RestController
-@RequestMapping("/api/v1/words")
+@RequestMapping(Path.REQUEST_PATH_API_WORDS)
 @RolesAllowed({RoleNameString.ROLE_USER, RoleNameString.ROLE_ADMIN})
 @RequiredArgsConstructor
 public class WordApi {
 
     private final WordService wordService;
+
+    private static final String REQUEST_PATH_API_DELETE_WORD_INDIVIDUAL_USER_INDIVIDUAL_COURSE_INDIVIDUAL_WORD = "/userId/{userId}/courseId/{courseId}/wordId/{wordId}";
 
     @GetMapping
     public List<WordResponse> list() {
@@ -53,7 +56,7 @@ public class WordApi {
         }
     }
 
-    @DeleteMapping("/userId/{userId}/courseId/{courseId}/wordId/{wordId}")
+    @DeleteMapping(REQUEST_PATH_API_DELETE_WORD_INDIVIDUAL_USER_INDIVIDUAL_COURSE_INDIVIDUAL_WORD)
     public ResponseEntity<?> deleteWord(@PathVariable Long userId, @PathVariable Long courseId, @PathVariable Long wordId) {
         try {
             wordService.deleteByUserIdAndCourseIdAndWordId(userId, courseId, wordId);
