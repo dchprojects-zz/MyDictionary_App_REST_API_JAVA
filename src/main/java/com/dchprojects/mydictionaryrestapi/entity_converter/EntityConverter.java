@@ -16,6 +16,7 @@ public class EntityConverter {
 
         userResponse.setUserId(userEntity.getUserId());
         userResponse.setNickname(userEntity.getNickname());
+        userResponse.setCreatedAt(userEntity.getCreatedAt());
 
         return userResponse;
     }
@@ -36,6 +37,7 @@ public class EntityConverter {
         courseResponse.setCourseId(courseEntity.getCourseId());
         courseResponse.setLanguageId(courseEntity.getLanguageId());
         courseResponse.setLanguageName(courseEntity.getLanguageName());
+        courseResponse.setCreatedAt(courseEntity.getCreatedAt());
 
         return courseResponse;
     }
@@ -50,6 +52,7 @@ public class EntityConverter {
         wordResponse.setWordText(wordEntity.getWordText());
         wordResponse.setWordDescription(wordEntity.getWordDescription());
         wordResponse.setLanguageName(wordEntity.getLanguageName());
+        wordResponse.setCreatedAt(wordEntity.getCreatedAt());
 
         return wordResponse;
     }

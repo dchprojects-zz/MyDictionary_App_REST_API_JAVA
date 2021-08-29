@@ -2,6 +2,8 @@ package com.dchprojects.mydictionaryrestapi.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.sql.Timestamp;
+
 public class WordResponse {
 
     @JsonProperty("user_id")
@@ -25,6 +27,9 @@ public class WordResponse {
     @JsonProperty("language_name")
     private String languageName;
 
+    @JsonProperty("created_at")
+    private Timestamp createdAt;
+
     public WordResponse() {
 
     }
@@ -35,7 +40,8 @@ public class WordResponse {
                         Long languageId,
                         String wordText,
                         String wordDescription,
-                        String languageName) {
+                        String languageName,
+                        Timestamp createdAt) {
 
         this.setUserId(userId);
         this.setWordId(wordId);
@@ -44,6 +50,7 @@ public class WordResponse {
         this.setWordText(wordText);
         this.setWordDescription(wordDescription);
         this.setLanguageName(languageName);
+        this.setCreatedAt(createdAt);
 
     }
 
@@ -75,6 +82,10 @@ public class WordResponse {
         return languageName;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
@@ -101,6 +112,10 @@ public class WordResponse {
 
     public void setWordText(String wordText) {
         this.wordText = wordText;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
 }
