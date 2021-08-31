@@ -1,5 +1,6 @@
 package com.dchprojects.mydictionaryrestapi.configuration.security;
 
+import com.dchprojects.mydictionaryrestapi.api.path.Path;
 import com.dchprojects.mydictionaryrestapi.service.impl.MDUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
 import com.dchprojects.mydictionaryrestapi.service.UserService;
@@ -80,8 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Our public endpoints
                 .antMatchers(format("%s/**", restApiDocPath)).permitAll()
                 .antMatchers(format("%s/**", swaggerPath)).permitAll()
-                .antMatchers("/api/v1/auth/**").permitAll()
-                .antMatchers("/api/v1/jwt/**").permitAll()
+                .antMatchers(Path.REQUEST_PATH_API_AUTH + "/**").permitAll()
+                .antMatchers(Path.REQUEST_PATH_API_JWT + "/**").permitAll()
                 // Our private endpoints
                 .anyRequest().authenticated();
 
