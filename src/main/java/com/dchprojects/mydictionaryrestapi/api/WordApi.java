@@ -27,11 +27,12 @@ public class WordApi {
 
     private final WordService wordService;
 
+    private static final String REQUEST_PATH_API_WORDS_INDIVIDUAL_USER = "/userId/{userId}";
     private static final String REQUEST_PATH_API_DELETE_WORD_INDIVIDUAL_USER_INDIVIDUAL_COURSE_INDIVIDUAL_WORD = "/userId/{userId}/courseId/{courseId}/wordId/{wordId}";
 
-    @GetMapping
-    public List<WordResponse> list() {
-        return wordService.listAll();
+    @GetMapping(REQUEST_PATH_API_WORDS_INDIVIDUAL_USER)
+    public ResponseEntity<List<WordResponse>> listByUserId(@PathVariable Long userId) {
+        return new ResponseEntity<>(wordService.listAllByUserId(userId), HttpStatus.OK);
     }
 
     @PostMapping

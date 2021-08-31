@@ -22,8 +22,9 @@ public class WordServiceImpl implements WordService {
     private final WordRepository wordRepository;
 
     @Override
-    public List<WordResponse> listAll() {
-        return wordRepository.findAll()
+    public List<WordResponse> listAllByUserId(Long userId) {
+        return wordRepository
+                .findAllByUserId(userId)
                 .stream()
                 .map(EntityConverter::wordEntityToWordResponse)
                 .collect(Collectors.toList());

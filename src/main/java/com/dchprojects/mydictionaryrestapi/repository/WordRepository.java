@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface WordRepository extends JpaRepository<WordEntity, Long> {
 
@@ -17,6 +19,8 @@ public interface WordRepository extends JpaRepository<WordEntity, Long> {
                                                                              Long languageId,
                                                                              String languageName,
                                                                              String wordText);
+
+    List<WordEntity> findAllByUserId(Long userId);
 
     @Modifying
     @Transactional

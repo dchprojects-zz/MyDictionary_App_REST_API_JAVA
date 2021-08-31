@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface WordService {
 
-    public List<WordResponse> listAll();
+    public List<WordResponse> listAllByUserId(Long userId);
 
     public WordResponse create(CreateWordRequest createWordRequest);
 
