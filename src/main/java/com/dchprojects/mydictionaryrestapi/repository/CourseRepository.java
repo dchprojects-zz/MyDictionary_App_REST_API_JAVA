@@ -5,6 +5,7 @@ import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +20,14 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     Boolean existsByUserIdAndCourseId(Long userId, Long courseId);
 
-    @Modifying
     @Transactional
-    @Query(value = "delete from CourseEntity course where course.userId = ?1 and course.courseId = ?1")
-    void deleteByUserIdAndCourseId(Long userId, Long courseId);
+    @Modifying
+    @Query(value = "delete from CourseEntity course where course.userId=:#{#userId} and course.courseId=:#{#courseId}")
+    void deleteByUserIdAndCourseId(@Param("userId") Long userId, @Param("courseId") Long courseId);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from CourseEntity course where course.userId = ?1")
-    void deleteAllByUserId(Long userId);
+    @Query(value = "delete from CourseEntity course where course.userId=:#{#userId}")
+    void deleteAllByUserId(@Param("userId") Long userId);
+
 }

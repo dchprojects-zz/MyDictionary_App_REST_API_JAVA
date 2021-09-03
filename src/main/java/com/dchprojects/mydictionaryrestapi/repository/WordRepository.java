@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.dchprojects.mydictionaryrestapi.domain.entity.WordEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +23,16 @@ public interface WordRepository extends JpaRepository<WordEntity, Long> {
 
     List<WordEntity> findAllByUserId(Long userId);
 
-    @Modifying
     @Transactional
-    @Query(value = "delete from WordEntity word where word.userId = ?1 and word.courseId = ?1 and word.wordId = ?1")
-    void deleteByUserIdAndCourseIdAndWordId(Long userId, Long courseId, Long wordId);
+    @Modifying
+    @Query(value = "delete from WordEntity word where word.userId=:#{#userId} and word.courseId=:#{#courseId} and word.wordId=:#{#wordId}")
+    void deleteByUserIdAndCourseIdAndWordId(@Param("userId") Long userId,
+                                            @Param("courseId") Long courseId,
+                                            @Param("wordId") Long wordId);
 
-    @Modifying
     @Transactional
-    @Query(value = "delete from WordEntity word where word.userId = ?1")
-    void deleteAllByUserId(Long userId);
+    @Modifying
+    @Query(value = "delete from WordEntity word where word.userId=:#{#userId}")
+    void deleteAllByUserId(@Param("userId") Long userId);
 
 }
