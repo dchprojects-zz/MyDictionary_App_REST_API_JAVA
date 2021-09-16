@@ -37,20 +37,14 @@ public class JWTServiceImpl implements JWTService {
     @Override
     public JWTResponse jwtResponse(JWTApiRequest jwtApiRequest) {
 
-        if (jwtTokenUtil.validateWithoutCheckExpired(jwtApiRequest.getOldJWT())) {
+        authenticate(jwtApiRequest.getNickname(), jwtApiRequest.getPassword());
 
-            authenticate(jwtApiRequest.getNickname(), jwtApiRequest.getPassword());
+        JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(jwtApiRequest.getUserId(),
+                jwtApiRequest.getNickname(),
+                jwtApiRequest.getPassword());
 
-            JwtTokenResponse jwtTokenResponse = jwtTokenUtil.generateAccessToken(jwtApiRequest.getUserId(),
-                    jwtApiRequest.getNickname(),
-                    jwtApiRequest.getPassword());
-
-            return new JWTResponse(jwtTokenResponse.getAccessToken(),
-                    jwtTokenResponse.getExpirationDate().toString());
-
-        } else {
-            throw new ValidationException("Invalid JWT");
-        }
+        return new JWTResponse(jwtTokenResponse.getAccessToken(),
+                jwtTokenResponse.getExpirationDate().toString());
 
     }
 
