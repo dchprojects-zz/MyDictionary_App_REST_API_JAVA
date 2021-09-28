@@ -11,8 +11,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ValidationException;
-
 @Service
 @RequiredArgsConstructor
 public class JWTServiceImpl implements JWTService {
