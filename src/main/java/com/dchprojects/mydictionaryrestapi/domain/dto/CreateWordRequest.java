@@ -13,10 +13,6 @@ public class CreateWordRequest {
     private Long userId;
 
     @NotBlank
-    @JsonProperty("word_id")
-    private Long wordId;
-
-    @NotBlank
     @JsonProperty("course_id")
     private Long courseId;
 
