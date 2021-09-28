@@ -18,8 +18,4 @@ public class JWTApiRequest {
     @NotNull
     private String password;
 
-    @NotNull
-    @JsonProperty("old_jwt")
-    private String oldJWT;
-
 }
