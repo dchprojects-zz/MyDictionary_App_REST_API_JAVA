@@ -31,6 +31,15 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
+    public List<WordResponse> listAllByCourseId(Long courseId) {
+        return wordRepository
+                .findAllByCourseId(courseId)
+                .stream()
+                .map(EntityConverter::wordEntityToWordResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public WordResponse create(CreateWordRequest createWordRequest) {
         Boolean wordIsExist = wordRepository.existsByUserIdAndCourseIdAndLanguageIdAndLanguageNameAndWordText(
                 createWordRequest.getUserId(),

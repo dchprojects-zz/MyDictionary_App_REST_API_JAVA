@@ -23,6 +23,8 @@ public interface WordRepository extends JpaRepository<WordEntity, Long> {
 
     List<WordEntity> findAllByUserId(Long userId);
 
+    List<WordEntity> findAllByCourseId(Long courseId);
+
     @Transactional
     @Modifying
     @Query(value = "delete from WordEntity word where word.userId=:#{#userId} and word.courseId=:#{#courseId} and word.wordId=:#{#wordId}")

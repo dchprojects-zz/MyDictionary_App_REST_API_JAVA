@@ -28,7 +28,13 @@ public class WordApi {
     private final WordService wordService;
 
     private static final String REQUEST_PATH_API_WORDS_INDIVIDUAL_USER = "/userId/{userId}";
+    private static final String REQUEST_PATH_API_WORDS_INDIVIDUAL_COURSE = "/courseId/{courseId}";
     private static final String REQUEST_PATH_API_DELETE_WORD_INDIVIDUAL_USER_INDIVIDUAL_COURSE_INDIVIDUAL_WORD = "/userId/{userId}/courseId/{courseId}/wordId/{wordId}";
+
+    @GetMapping(REQUEST_PATH_API_WORDS_INDIVIDUAL_COURSE)
+    public ResponseEntity<List<WordResponse>> listByCourseId(@PathVariable Long courseId) {
+        return new ResponseEntity<>(wordService.listAllByCourseId(courseId), HttpStatus.OK);
+    }
 
     @GetMapping(REQUEST_PATH_API_WORDS_INDIVIDUAL_USER)
     public ResponseEntity<List<WordResponse>> listByUserId(@PathVariable Long userId) {

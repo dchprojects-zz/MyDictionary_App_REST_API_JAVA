@@ -10,6 +10,8 @@ public interface WordService {
 
     public List<WordResponse> listAllByUserId(Long userId);
 
+    public List<WordResponse> listAllByCourseId(Long courseId);
+
     public WordResponse create(CreateWordRequest createWordRequest);
 
     public WordResponse update(UpdateWordRequest updateWordRequest);
