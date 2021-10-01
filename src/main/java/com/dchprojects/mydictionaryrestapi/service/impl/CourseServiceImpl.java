@@ -5,6 +5,7 @@ import com.dchprojects.mydictionaryrestapi.domain.dto.CreateCourseRequest;
 import com.dchprojects.mydictionaryrestapi.domain.entity.CourseEntity;
 import com.dchprojects.mydictionaryrestapi.entity_converter.EntityConverter;
 import com.dchprojects.mydictionaryrestapi.repository.CourseRepository;
+import com.dchprojects.mydictionaryrestapi.repository.WordRepository;
 import com.dchprojects.mydictionaryrestapi.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
+    private final WordRepository wordRepository;
 
     @Override
     public List<CourseResponse> listByUserId(Long userId) {
@@ -53,6 +55,7 @@ public class CourseServiceImpl implements CourseService {
         Boolean courseExists = courseRepository.existsByUserIdAndCourseId(userId, courseId);
         if (courseExists) {
             courseRepository.deleteByUserIdAndCourseId(userId, courseId);
+            wordRepository.deleteAllByCourseId(courseId);
         } else {
             throw new NoSuchElementException("Course not found!");
         }
