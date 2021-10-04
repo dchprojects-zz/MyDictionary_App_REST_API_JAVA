@@ -75,14 +75,14 @@ public class WordServiceImpl implements WordService {
         );
 
         if (wordIsExist) {
-            throw new ValidationException("Word exists!");
-        } else {
             WordEntity wordForUpdate = wordRepository.findById(updateWordRequest.getWordId()).get();
 
             wordForUpdate.setWordText(updateWordRequest.getWordText());
             wordForUpdate.setWordDescription(updateWordRequest.getWordDescription());
 
             return EntityConverter.wordEntityToWordResponse(wordRepository.save(wordForUpdate));
+        } else {
+            throw new NoSuchElementException("Word not found!");
         }
     }
 

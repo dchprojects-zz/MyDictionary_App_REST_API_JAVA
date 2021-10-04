@@ -56,8 +56,6 @@ public class WordApi {
     public ResponseEntity<WordResponse> udpateWord(@RequestBody @Valid UpdateWordRequest updateWordRequest) {
         try {
             return new ResponseEntity<>(wordService.update(updateWordRequest), HttpStatus.OK);
-        } catch (ValidationException validationException) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (NoSuchElementException noSuchElementException) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
