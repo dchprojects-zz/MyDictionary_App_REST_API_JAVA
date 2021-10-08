@@ -9,21 +9,28 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WordRepository extends JpaRepository<WordEntity, Long> {
 
-    Boolean existsByWordId(Long wordId);
+    Boolean existsByUserIdAndCourseIdAndWordId(Long userId,
+                                               Long courseId,
+                                               Long wordId);
 
-    Boolean existsByUserIdAndCourseIdAndLanguageIdAndLanguageNameAndWordText(Long userId,
-                                                                             Long courseId,
-                                                                             Long languageId,
-                                                                             String languageName,
-                                                                             String wordText);
+    Boolean existsByUserIdAndCourseIdAndWordText(Long userId,
+                                                 Long courseId,
+                                                 String wordText);
+
+    Optional<WordEntity> findByUserIdAndCourseIdAndWordId(Long userId,
+                                                          Long courseId,
+                                                          Long wordId);
 
     List<WordEntity> findAllByUserId(Long userId);
 
     List<WordEntity> findAllByCourseId(Long courseId);
+
+
 
     @Transactional
     @Modifying

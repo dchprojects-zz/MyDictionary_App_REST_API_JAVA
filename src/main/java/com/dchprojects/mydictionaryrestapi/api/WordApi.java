@@ -58,6 +58,8 @@ public class WordApi {
             return new ResponseEntity<>(wordService.update(updateWordRequest), HttpStatus.OK);
         } catch (NoSuchElementException noSuchElementException) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (ValidationException validationException) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
