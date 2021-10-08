@@ -26,6 +26,10 @@ public interface WordRepository extends JpaRepository<WordEntity, Long> {
                                                           Long courseId,
                                                           Long wordId);
 
+    Optional<WordEntity> findByUserIdAndCourseIdAndWordText(Long userId,
+                                                            Long courseId,
+                                                            String wordText);
+
     List<WordEntity> findAllByUserId(Long userId);
 
     List<WordEntity> findAllByCourseId(Long courseId);

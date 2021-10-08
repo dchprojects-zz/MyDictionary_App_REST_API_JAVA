@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.ValidationException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,30 +73,52 @@ public class WordServiceImpl implements WordService {
                 updateWordRequest.getCourseId(),
                 updateWordRequest.getWordId());
 
-        Boolean existsByUserIdAndCourseIdAndWordText = wordRepository.existsByUserIdAndCourseIdAndWordText(
-                updateWordRequest.getUserId(),
-                updateWordRequest.getCourseId(),
-                updateWordRequest.getWordText()
-        );
-
         if (existsByUserAndCourseAndWordId) {
 
-            if (existsByUserIdAndCourseIdAndWordText) {
-                throw new ValidationException("Word exists!");
+            Optional<WordEntity> findByUserIdAndCourseIdAndWordText = wordRepository.findByUserIdAndCourseIdAndWordText(
+                    updateWordRequest.getUserId(),
+                    updateWordRequest.getCourseId(),
+                    updateWordRequest.getWordText()
+            );
+
+            if (findByUserIdAndCourseIdAndWordText.isPresent()) {
+                if (findByUserIdAndCourseIdAndWordText.get().getWordId().equals(updateWordRequest.getWordId())) {
+                    return updateWordDescription(updateWordRequest);
+                } else {
+                    throw new ValidationException("Word exists!");
+                }
             } else {
-                WordEntity wordForUpdate = wordRepository.findByUserIdAndCourseIdAndWordId(updateWordRequest.getUserId(),
-                        updateWordRequest.getCourseId(),
-                        updateWordRequest.getWordId()).get();
-
-                wordForUpdate.setWordText(updateWordRequest.getWordText());
-                wordForUpdate.setWordDescription(updateWordRequest.getWordDescription());
-
-                return EntityConverter.wordEntityToWordResponse(wordRepository.save(wordForUpdate));
+                return updateWordTextAndDescription(updateWordRequest);
             }
 
         } else {
             throw new NoSuchElementException("Word not found!");
         }
+
+    }
+
+    private WordResponse updateWordTextAndDescription(UpdateWordRequest updateWordRequest) {
+
+        WordEntity wordForUpdate = wordRepository.findByUserIdAndCourseIdAndWordId(updateWordRequest.getUserId(),
+                updateWordRequest.getCourseId(),
+                updateWordRequest.getWordId()).get();
+
+        wordForUpdate.setWordText(updateWordRequest.getWordText());
+        wordForUpdate.setWordDescription(updateWordRequest.getWordDescription());
+
+        return EntityConverter.wordEntityToWordResponse(wordRepository.save(wordForUpdate));
+
+    }
+
+    private WordResponse updateWordDescription(UpdateWordRequest updateWordRequest) {
+
+        WordEntity wordForUpdate = wordRepository.findByUserIdAndCourseIdAndWordId(updateWordRequest.getUserId(),
+                updateWordRequest.getCourseId(),
+                updateWordRequest.getWordId()).get();
+
+        wordForUpdate.setWordDescription(updateWordRequest.getWordDescription());
+
+        return EntityConverter.wordEntityToWordResponse(wordRepository.save(wordForUpdate));
 
     }
 
